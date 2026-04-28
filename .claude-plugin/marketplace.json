@@ -1,0 +1,20 @@
+{
+  "name": "dudu",
+  "description": "VC due diligence plugin marketplace",
+  "owner": {
+    "name": "Ying-Kai Liao",
+    "email": "lykevin890919@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "dudu",
+      "description": "VC due diligence skills for Claude Code",
+      "version": "0.1.0",
+      "source": "./",
+      "author": {
+        "name": "Ying-Kai Liao",
+        "email": "lykevin890919@gmail.com"
+      }
+    }
+  ]
+}

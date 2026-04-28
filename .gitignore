@@ -1,0 +1,8 @@
+# Per-deal artifacts contain VC research and should never be committed
+deals/
+
+# OS / editor cruft
+.DS_Store
+*.swp
+.idea/
+.vscode/
