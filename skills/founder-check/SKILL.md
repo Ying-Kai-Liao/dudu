@@ -9,13 +9,34 @@ Produce a citation-backed dossier on each founder named in the deal. Read `lib/r
 
 ## Inputs
 
-Required (prompt the VC if missing):
-- Deal slug (kebab-case directory name under `deals/`)
-- Founder names (one or more)
+Required:
+- Deal slug (kebab-case directory name under `deals/`). Prompt the VC if missing.
+- Company name. Prompt the VC if missing.
+- Founder names — one or more. **If not supplied, run the Discovery step below before continuing.**
 
 Optional (use if available):
 - Founder LinkedIn URLs (skip the LinkedIn search step if supplied)
-- Pitch deck or company website URL (helps disambiguate the right person)
+- Pitch deck or company website URL (helps disambiguate the right person and seeds Discovery)
+
+## Discovery (when founder names are not supplied)
+
+If founder names were not supplied, attempt to discover them before doing dossier work. Cap at ~5 fetches for this step.
+
+Sources, in priority order:
+
+1. **Pitch deck / company website** — if supplied or findable, fetch the `/about`, `/team`, or `/leadership` page.
+2. **Crunchbase company page** — Playwright with the VC's authenticated session (per `lib/playwright-auth.md`). "Key People" / "Founders" section.
+3. **LinkedIn company page** — Playwright. People section filtered by titles "Founder", "Co-founder", "CEO", "CTO".
+4. **Google search** — `"<company name>" founder OR co-founder OR CEO`. Read the top 5 results.
+5. **News** — recent press releases or funding announcements often name founders explicitly.
+
+Compile the candidate list with one source per name, then ask the VC to confirm before proceeding:
+
+> "I found these likely founders for <company>: <list with one source each>. Should I run founder-check on all of them? Reply with adjustments (add / remove / rename) or 'proceed'."
+
+Wait for the VC's response. Once confirmed, write the final list into `deals/<slug>/manifest.json` `founders` (creating the manifest first if needed), then continue to Pre-flight.
+
+If Discovery returns no candidates after the budget is spent, stop and ask: "I couldn't find any founders for <company> in public sources. Please supply at least one founder name."
 
 ## Pre-flight
 
