@@ -1,0 +1,2 @@
+ERROR: skills/bad/SKILL.md missing required frontmatter field: name
+FAIL: 1 error(s)
