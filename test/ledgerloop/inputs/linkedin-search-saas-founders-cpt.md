@@ -1,0 +1,574 @@
+- generic [ref=e1]:
+  - generic:
+    - region "Toast message":
+      - heading "0 notifications total" [level=2] [ref=e3]
+      - alert
+  - region [ref=e15]
+  - generic [ref=e16]:
+    - generic [ref=e116]:
+      - button "Skip to search" [ref=e117] [cursor=pointer]:
+        - generic [ref=e118]: Skip to search
+      - button "Skip to main content" [ref=e119] [cursor=pointer]:
+        - generic [ref=e120]: Skip to main content
+      - button "Keyboard shortcuts" [ref=e121] [cursor=pointer]:
+        - generic [ref=e122]: Keyboard shortcuts
+      - button "Close jump menu" [ref=e123] [cursor=pointer]:
+        - img [ref=e124]
+        - generic [ref=e126]: Close jump menu
+    - banner "Global Navigation" [ref=e127]:
+      - generic [ref=e128]:
+        - link "LinkedIn" [ref=e129] [cursor=pointer]:
+          - /url: https://www.linkedin.com/feed/?nis=true
+          - img "LinkedIn" [ref=e132]:
+            - img [ref=e133]
+        - generic [ref=e137]:
+          - combobox "Search" [ref=e138]: founder saas cape town
+          - generic:
+            - img
+        - navigation "Primary Navigation" [ref=e139]:
+          - list [ref=e140]:
+            - listitem [ref=e141]:
+              - link "new feed updates notifications Home" [ref=e142] [cursor=pointer]:
+                - /url: https://www.linkedin.com/feed/?nis=true&
+                - generic [ref=e143]:
+                  - generic [ref=e146]: new feed updates notifications
+                  - img [ref=e150]
+                - generic "Home" [ref=e152]
+            - listitem [ref=e153]:
+              - link "2 new network updates notifications My Network" [ref=e154] [cursor=pointer]:
+                - /url: https://www.linkedin.com/mynetwork/?
+                - generic [ref=e155]:
+                  - generic [ref=e156]:
+                    - generic [ref=e157]: "2"
+                    - generic [ref=e158]: 2 new network updates notifications
+                  - img [ref=e162]
+                - generic "My Network" [ref=e164]
+            - listitem [ref=e165]:
+              - link "Jobs" [ref=e166] [cursor=pointer]:
+                - /url: https://www.linkedin.com/jobs/?
+                - img [ref=e170]
+                - generic "Jobs" [ref=e172]
+            - listitem [ref=e173]:
+              - link "Messaging" [ref=e174] [cursor=pointer]:
+                - /url: https://www.linkedin.com/messaging/?
+                - img [ref=e178]
+                - generic "Messaging" [ref=e180]
+            - listitem [ref=e181]:
+              - link "9 new notifications Notifications" [ref=e182] [cursor=pointer]:
+                - /url: https://www.linkedin.com/notifications/?
+                - generic [ref=e183]:
+                  - generic [ref=e184]:
+                    - generic [ref=e185]: "9"
+                    - generic [ref=e186]: 9 new notifications
+                  - img [ref=e190]
+                - generic "Notifications" [ref=e192]
+            - listitem [ref=e193]:
+              - button "Ying-Kai Liao Me" [ref=e195] [cursor=pointer]:
+                - img "Ying-Kai Liao" [ref=e196]
+                - generic [ref=e197]:
+                  - text: Me
+                  - img [ref=e198]
+            - listitem [ref=e200]:
+              - button "For Business" [ref=e202] [cursor=pointer]:
+                - img [ref=e206]
+                - generic "For Business" [ref=e208]:
+                  - text: For Business
+                  - img [ref=e209]
+            - listitem [ref=e211]:
+              - link "Try Premium for A$0" [ref=e213] [cursor=pointer]:
+                - /url: javascript:void(0)
+                - generic [ref=e214]:
+                  - img [ref=e215]
+                  - generic [ref=e217]: Try Premium for A$0
+    - generic [ref=e218]:
+      - navigation "Search filters" [ref=e221]:
+        - generic [ref=e222]:
+          - list [ref=e223]:
+            - listitem [ref=e224]:
+              - 'button "Filter by: People" [ref=e226] [cursor=pointer]':
+                - text: People
+                - img [ref=e227]
+            - listitem [ref=e229]
+            - listitem [ref=e230]:
+              - group "Connections filter" [ref=e232]:
+                - generic [ref=e233]: Connections filter
+                - list [ref=e234]:
+                  - listitem [ref=e235]:
+                    - button "1st" [ref=e236] [cursor=pointer]
+                  - listitem [ref=e237]:
+                    - button "2nd" [ref=e238] [cursor=pointer]
+                  - listitem [ref=e239]:
+                    - button "3rd+" [ref=e240] [cursor=pointer]
+            - listitem [ref=e241]:
+              - button "Locations filter. Clicking this button displays all Locations filter options." [ref=e244] [cursor=pointer]:
+                - text: Locations
+                - img [ref=e245]
+            - listitem [ref=e247]:
+              - button "Current company filter. Clicking this button displays all Current company filter options." [ref=e250] [cursor=pointer]:
+                - text: Current company
+                - img [ref=e251]
+          - button "Show all filters. Clicking this button displays all available filter options." [ref=e256] [cursor=pointer]: All filters
+      - generic [ref=e257]:
+        - generic [ref=e258]:
+          - main [ref=e259]:
+            - heading "Search results for founder saas cape town. There are 10 results. Currently on the page 1 of 36 search result pages." [active] [level=1] [ref=e260]
+            - generic [ref=e262]:
+              - list [ref=e265]:
+                - listitem [ref=e266]:
+                  - generic [ref=e269] [cursor=pointer]:
+                    - link "Spencer Chiguvu" [ref=e272]:
+                      - /url: https://www.linkedin.com/in/spencer-chiguvu-6014163b8?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAGXdbOEBtt8qcrWWUA1ycIGPa555uyRk914
+                      - img "Spencer Chiguvu" [ref=e276]
+                    - generic [ref=e277]:
+                      - generic [ref=e278]:
+                        - generic [ref=e282]:
+                          - link "View Spencer Chiguvu’s profile" [ref=e283]:
+                            - /url: https://www.linkedin.com/in/spencer-chiguvu-6014163b8?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAGXdbOEBtt8qcrWWUA1ycIGPa555uyRk914
+                            - generic [ref=e284]:
+                              - generic [ref=e285]: Spencer Chiguvu
+                              - generic [ref=e286]: View Spencer Chiguvu’s profile
+                          - generic [ref=e289]:
+                            - generic [ref=e290]: • 3rd+
+                            - generic [ref=e291]: 3rd+ degree connection
+                        - generic [ref=e292]: Building cool stuff at KlaroLabs
+                        - generic [ref=e293]: Cape Town
+                      - link "Provides services - Cloud Application Development" [ref=e296]:
+                        - /url: https://www.linkedin.com/in/ACoAAGXdbOEBtt8qcrWWUA1ycIGPa555uyRk914?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAGXdbOEBtt8qcrWWUA1ycIGPa555uyRk914
+                        - strong [ref=e300]: Provides services - Cloud Application Development
+                    - button "Message Spencer Chiguvu" [ref=e304]:
+                      - generic [ref=e305]: Message
+                - listitem [ref=e306]:
+                  - generic [ref=e309] [cursor=pointer]:
+                    - link "John Anstey ✔✔☁☁" [ref=e312]:
+                      - /url: https://www.linkedin.com/in/johnanstey?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAAAPdDwBN3qKz6hp94S9Mnz4-QEAcb4Zlmk
+                      - img "John Anstey ✔✔☁☁" [ref=e316]
+                    - generic [ref=e318]:
+                      - generic [ref=e322]:
+                        - link "View John Anstey ✔✔☁☁’s profile" [ref=e323]:
+                          - /url: https://www.linkedin.com/in/johnanstey?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAAAPdDwBN3qKz6hp94S9Mnz4-QEAcb4Zlmk
+                          - generic [ref=e324]:
+                            - generic [ref=e325]: John Anstey ✔✔☁☁
+                            - generic [ref=e326]: View John Anstey ✔✔☁☁’s profile
+                        - generic [ref=e328]:
+                          - button "Verified member" [ref=e330]:
+                            - img "Verified member" [ref=e333]
+                          - generic [ref=e335]:
+                            - generic [ref=e336]: • 3rd+
+                            - generic [ref=e337]: 3rd+ degree connection
+                      - generic [ref=e338]: Retired. Previously, Founder & CEO. Linkedin Australia Power Profile.
+                      - generic [ref=e339]: Sydney, NSW
+                    - button "Message John Anstey ✔✔☁☁" [ref=e343]:
+                      - generic [ref=e344]: Message
+                - listitem
+                - listitem [ref=e345]:
+                  - generic [ref=e348] [cursor=pointer]:
+                    - link "Jonathan Rubinsztein" [ref=e351]:
+                      - /url: https://www.linkedin.com/in/jonathanrubinsztein?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAAAW0BoBiFgjZzLO1_8i8oaashBGJggGS2Q
+                      - img "Jonathan Rubinsztein" [ref=e355]
+                    - generic [ref=e356]:
+                      - generic [ref=e357]:
+                        - generic [ref=e361]:
+                          - link "View Jonathan Rubinsztein’s profile" [ref=e362]:
+                            - /url: https://www.linkedin.com/in/jonathanrubinsztein?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAAAW0BoBiFgjZzLO1_8i8oaashBGJggGS2Q
+                            - generic [ref=e363]:
+                              - generic [ref=e364]: Jonathan Rubinsztein
+                              - generic [ref=e365]: View Jonathan Rubinsztein’s profile
+                          - generic [ref=e367]:
+                            - img "Premium member" [ref=e370]:
+                              - img [ref=e371]
+                            - generic [ref=e374]:
+                              - generic [ref=e375]: • 2nd
+                              - generic [ref=e376]: 2nd degree connection
+                        - generic [ref=e377]: CEO, NED, Founder, Investor, Philanthropist, Dad
+                        - generic [ref=e378]: Sydney, NSW
+                      - generic [ref=e380]:
+                        - img [ref=e384]
+                        - generic [ref=e387]:
+                          - text: 22K followers •
+                          - link "Dr Rich Lane" [ref=e388]:
+                            - /url: https://www.linkedin.com/in/ACoAAAArEugB-H9NcwPDuswgTkJlBqp4Yc733fg?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAAArEugB-H9NcwPDuswgTkJlBqp4Yc733fg
+                            - strong [ref=e390]: Dr Rich Lane
+                          - text: and
+                          - link "Irfan Malik (MAICD)" [ref=e391]:
+                            - /url: https://www.linkedin.com/in/ACoAAADQzWwB804RQ289RbY7snQ2mw3lOmTPe7s?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAADQzWwB804RQ289RbY7snQ2mw3lOmTPe7s
+                            - strong [ref=e393]: Irfan Malik (MAICD)
+                          - text: are mutual connections
+                    - button "Follow Jonathan Rubinsztein" [ref=e396]:
+                      - generic [ref=e397]: Follow
+                - listitem [ref=e398]:
+                  - generic [ref=e401] [cursor=pointer]:
+                    - link "Adi Hartuv" [ref=e404]:
+                      - /url: https://www.linkedin.com/in/adi-hartuv-6a4500a1?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAABWcD9wBVJrOpnXRzCCgG1WhuW39Cr_egIE
+                      - img "Adi Hartuv" [ref=e408]
+                    - generic [ref=e409]:
+                      - generic [ref=e410]:
+                        - generic [ref=e414]:
+                          - link "View Adi Hartuv’s profile" [ref=e415]:
+                            - /url: https://www.linkedin.com/in/adi-hartuv-6a4500a1?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAABWcD9wBVJrOpnXRzCCgG1WhuW39Cr_egIE
+                            - generic [ref=e416]:
+                              - generic [ref=e417]: Adi Hartuv
+                              - generic [ref=e418]: View Adi Hartuv’s profile
+                          - generic [ref=e421]:
+                            - generic [ref=e422]: • 2nd
+                            - generic [ref=e423]: 2nd degree connection
+                        - generic [ref=e424]: Head of Business Strategy | Management Consultant
+                        - generic [ref=e425]: Cape Town
+                      - generic [ref=e427]:
+                        - img [ref=e431]
+                        - generic [ref=e434]:
+                          - link "Talia Taskin" [ref=e435]:
+                            - /url: https://www.linkedin.com/in/ACoAAA6apOUBFMU0H-aKTUfL9wn-ekQoKoMYGCI?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAA6apOUBFMU0H-aKTUfL9wn-ekQoKoMYGCI
+                            - strong [ref=e437]: Talia Taskin
+                          - text: is a mutual connection
+                    - button "Invite Adi Hartuv to connect" [ref=e440]:
+                      - generic [ref=e441]: Connect
+                - listitem [ref=e442]:
+                  - generic [ref=e445] [cursor=pointer]:
+                    - link "Chris Neville" [ref=e448]:
+                      - /url: https://www.linkedin.com/in/chris-neville-9a886b1?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAABOJdABiT_oNIg1P5BbvJNyqlX11ayaVRI
+                      - img "Chris Neville" [ref=e452]
+                    - generic [ref=e454]:
+                      - generic [ref=e458]:
+                        - link "View Chris Neville’s profile" [ref=e459]:
+                          - /url: https://www.linkedin.com/in/chris-neville-9a886b1?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAABOJdABiT_oNIg1P5BbvJNyqlX11ayaVRI
+                          - generic [ref=e460]:
+                            - generic [ref=e461]: Chris Neville
+                            - generic [ref=e462]: View Chris Neville’s profile
+                        - generic [ref=e465]:
+                          - generic [ref=e466]: • 3rd+
+                          - generic [ref=e467]: 3rd+ degree connection
+                      - generic [ref=e468]: CEO at Vida Gaming
+                      - generic [ref=e469]: Sydney, NS
+                    - button "Message Chris Neville" [ref=e473]:
+                      - generic [ref=e474]: Message
+                - listitem [ref=e475]:
+                  - generic [ref=e478] [cursor=pointer]:
+                    - link "Tai-Lin Chen" [ref=e481]:
+                      - /url: https://www.linkedin.com/in/gregtlchen?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAApEP8wBLJrwIzW7rFP8fN0DA38yM4tIusA
+                      - img "Tai-Lin Chen" [ref=e485]
+                    - generic [ref=e487]:
+                      - generic [ref=e491]:
+                        - link "View Tai-Lin Chen’s profile" [ref=e492]:
+                          - /url: https://www.linkedin.com/in/gregtlchen?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAApEP8wBLJrwIzW7rFP8fN0DA38yM4tIusA
+                          - generic [ref=e493]:
+                            - generic [ref=e494]: Tai-Lin Chen
+                            - generic [ref=e495]: View Tai-Lin Chen’s profile
+                        - generic [ref=e497]:
+                          - button "Verified member" [ref=e499]:
+                            - img "Verified member" [ref=e502]
+                          - generic [ref=e504]:
+                            - generic [ref=e505]: • 3rd+
+                            - generic [ref=e506]: 3rd+ degree connection
+                      - generic [ref=e507]: CEO | Founder | SaaS 🚀
+                      - generic [ref=e508]: Atlanta Metropolitan Area
+                    - button "Message Tai-Lin Chen" [ref=e512]:
+                      - generic [ref=e513]: Message
+                - listitem [ref=e514]:
+                  - generic [ref=e517] [cursor=pointer]:
+                    - link "Daniel Marlin" [ref=e520]:
+                      - /url: https://www.linkedin.com/in/daniel-marlin-112802b3?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAABglXh4BvDmZodRlxDybhLDKfyM7zMzmGx8
+                      - img "Daniel Marlin" [ref=e524]
+                    - generic [ref=e526]:
+                      - generic [ref=e530]:
+                        - link "View Daniel Marlin’s profile" [ref=e531]:
+                          - /url: https://www.linkedin.com/in/daniel-marlin-112802b3?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAABglXh4BvDmZodRlxDybhLDKfyM7zMzmGx8
+                          - generic [ref=e532]:
+                            - generic [ref=e533]: Daniel Marlin
+                            - generic [ref=e534]: View Daniel Marlin’s profile
+                        - generic [ref=e537]:
+                          - generic [ref=e538]: • 3rd+
+                          - generic [ref=e539]: 3rd+ degree connection
+                      - generic [ref=e540]: Building Habitat — cloud ERP for South African manufacturers and industrial wholesalers.
+                      - generic [ref=e541]: Cape Town
+                    - button "Message Daniel Marlin" [ref=e545]:
+                      - generic [ref=e546]: Message
+                - listitem [ref=e547]:
+                  - generic [ref=e550] [cursor=pointer]:
+                    - link "Pierre Kleinhans" [ref=e553]:
+                      - /url: https://www.linkedin.com/in/pierre-kleinhans-4411864?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAAC8vvEBJNchTb9IRH3PZAJ_eSOKxzu8OYA
+                      - img "Pierre Kleinhans" [ref=e557]
+                    - generic [ref=e558]:
+                      - generic [ref=e559]:
+                        - generic [ref=e563]:
+                          - link "View Pierre Kleinhans’ profile" [ref=e564]:
+                            - /url: https://www.linkedin.com/in/pierre-kleinhans-4411864?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAAC8vvEBJNchTb9IRH3PZAJ_eSOKxzu8OYA
+                            - generic [ref=e565]:
+                              - generic [ref=e566]: Pierre Kleinhans
+                              - generic [ref=e567]: View Pierre Kleinhans’ profile
+                          - generic [ref=e569]:
+                            - img "Premium member" [ref=e572]:
+                              - img [ref=e573]
+                            - generic [ref=e576]:
+                              - generic [ref=e577]: • 2nd
+                              - generic [ref=e578]: 2nd degree connection
+                        - generic [ref=e579]: CEO at Tactivion, CTO at Shoretime, CEO at Activitar
+                        - generic [ref=e580]: City of Cape Town
+                      - generic [ref=e581]:
+                        - link "Provides services - SaaS Development, Enterprise Content Management, Information Management, Cloud Application Development" [ref=e583]:
+                          - /url: https://www.linkedin.com/in/ACoAAAC8vvEBJNchTb9IRH3PZAJ_eSOKxzu8OYA?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAAC8vvEBJNchTb9IRH3PZAJ_eSOKxzu8OYA
+                          - strong [ref=e587]: Provides services - SaaS Development, Enterprise Content Management, Information Management, Cloud Application Development
+                        - link "View my services" [ref=e589]:
+                          - /url: https://www.linkedin.com/services/page/a803b43078b198ab67
+                          - strong [ref=e591]: View my services
+                          - generic [ref=e592]: View my services
+                    - button "Invite Pierre Kleinhans to connect" [ref=e595]:
+                      - generic [ref=e596]: Connect
+                - listitem [ref=e597]:
+                  - generic [ref=e600] [cursor=pointer]:
+                    - link "Chris Sohn" [ref=e603]:
+                      - /url: https://www.linkedin.com/in/chris-sohn-35182552?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAAsoBa0BTRvTAlyZNypY1xocX_5xhPejMLc
+                      - img "Chris Sohn" [ref=e607]
+                    - generic [ref=e609]:
+                      - generic [ref=e613]:
+                        - link "View Chris Sohn’s profile" [ref=e614]:
+                          - /url: https://www.linkedin.com/in/chris-sohn-35182552?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAAsoBa0BTRvTAlyZNypY1xocX_5xhPejMLc
+                          - generic [ref=e615]:
+                            - generic [ref=e616]: Chris Sohn
+                            - generic [ref=e617]: View Chris Sohn’s profile
+                        - generic [ref=e619]:
+                          - img "Premium member" [ref=e622]:
+                            - img [ref=e623]
+                          - generic [ref=e626]:
+                            - generic [ref=e627]: • 3rd+
+                            - generic [ref=e628]: 3rd+ degree connection
+                      - generic [ref=e629]: Bachelor of Science - BS at University of Cape Town
+                      - generic [ref=e630]: City of Cape Town
+                    - button "Message Chris Sohn" [ref=e634]:
+                      - generic [ref=e635]: Message
+                - listitem [ref=e636]:
+                  - generic [ref=e639] [cursor=pointer]:
+                    - link "Dr. Mervyn G. Maistry Status is reachable" [ref=e642]:
+                      - /url: https://www.linkedin.com/in/dr-mervyn-g-maistry-65b435?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAAAQSGcBW4__t3T9lOURyaIatgwzna1L3cU
+                      - generic [ref=e645]:
+                        - img "Dr. Mervyn G. Maistry" [ref=e646]
+                        - generic [ref=e648]: Status is reachable
+                    - generic [ref=e649]:
+                      - generic [ref=e650]:
+                        - generic [ref=e654]:
+                          - link "View Dr. Mervyn G. Maistry’s profile" [ref=e655]:
+                            - /url: https://www.linkedin.com/in/dr-mervyn-g-maistry-65b435?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAAAQSGcBW4__t3T9lOURyaIatgwzna1L3cU
+                            - generic [ref=e656]:
+                              - generic [ref=e657]: Dr. Mervyn G. Maistry
+                              - generic [ref=e658]: View Dr. Mervyn G. Maistry’s profile
+                          - generic [ref=e661]:
+                            - generic [ref=e662]: • 2nd
+                            - generic [ref=e663]: 2nd degree connection
+                        - generic [ref=e664]: "Founder: Konfid.io & Kintaro Capital, CEO: TrustedTrucks"
+                        - generic [ref=e665]: Berlin Metropolitan Area
+                      - generic [ref=e667]:
+                        - img [ref=e671]
+                        - generic [ref=e674]:
+                          - link "Karandeep Singh" [ref=e675]:
+                            - /url: https://www.linkedin.com/in/ACoAACuD1zoBVZ8oJMN9JhEDyvow07TRGu1ljGM?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAACuD1zoBVZ8oJMN9JhEDyvow07TRGu1ljGM
+                            - strong [ref=e677]: Karandeep Singh
+                          - text: is a mutual connection
+                    - button "Follow Dr. Mervyn G. Maistry" [ref=e680]:
+                      - generic [ref=e681]: Follow
+              - list [ref=e684]:
+                - listitem [ref=e685]:
+                  - generic [ref=e686]:
+                    - generic [ref=e687]:
+                      - paragraph [ref=e688]: Are these results helpful?
+                      - paragraph [ref=e689]: Your feedback helps us improve search results
+                    - generic [ref=e690]:
+                      - button "Are these results helpful? Yes, these search results are helpful" [ref=e691] [cursor=pointer]:
+                        - img [ref=e692]
+                      - button "Are these results helpful? No, these search results are not helpful" [ref=e695] [cursor=pointer]:
+                        - img [ref=e696]
+              - generic [ref=e701]:
+                - generic [ref=e702]: Page 1 of 36
+                - button "Previous" [disabled] [ref=e703]:
+                  - img
+                  - generic: Previous
+                - list [ref=e704]:
+                  - listitem [ref=e705]:
+                    - button "Page 1" [ref=e706] [cursor=pointer]:
+                      - generic: "1"
+                  - listitem [ref=e707]:
+                    - button "Page 2" [ref=e708] [cursor=pointer]:
+                      - generic: "2"
+                  - listitem [ref=e709]:
+                    - button "Page 3" [ref=e710] [cursor=pointer]:
+                      - generic: "3"
+                  - listitem [ref=e711]:
+                    - button "Page 4" [ref=e712] [cursor=pointer]:
+                      - generic: "4"
+                  - listitem [ref=e713]:
+                    - button "Page 5" [ref=e714] [cursor=pointer]:
+                      - generic: "5"
+                  - listitem [ref=e715]:
+                    - button "Page 6" [ref=e716] [cursor=pointer]:
+                      - generic: "6"
+                  - listitem [ref=e717]:
+                    - button "Page 7" [ref=e718] [cursor=pointer]:
+                      - generic: "7"
+                  - listitem [ref=e719]:
+                    - button "Page 8" [ref=e720] [cursor=pointer]:
+                      - generic: "8"
+                  - listitem [ref=e721]:
+                    - button "Page 9" [ref=e722] [cursor=pointer]:
+                      - generic: …
+                  - listitem [ref=e723]:
+                    - button "Page 36" [ref=e724] [cursor=pointer]:
+                      - generic: "36"
+                - button "Next" [ref=e725] [cursor=pointer]:
+                  - img [ref=e726]
+                  - generic [ref=e728]: Next
+          - complementary "Search suggestions" [ref=e729]:
+            - iframe [ref=e734]:
+              - main "Work With Us Container" [ref=f1e3]:
+                - generic [ref=f1e4]:
+                  - img [ref=f1e6]
+                  - generic [ref=f1e7]:
+                    - img "Ying-Kai" [ref=f1e8]
+                    - link "MRI Software" [ref=f1e9] [cursor=pointer]:
+                      - /url: https://www.linkedin.com/li/tscp/sct?destinationUrl=http%3A%2F%2Fwww.linkedin.com%2Fcompany%2F751259%2Flife&trackingEvent=%5B%7B%22eventInfo%22%3A%7B%22appId%22%3A%22com.linkedin.ads.rendering.d_web%22%2C%22eventName%22%3A%22SponsoredRightRailContentActionEvent%22%2C%22topicName%22%3A%22SponsoredRightRailContentActionEvent%22%7D%2C%22eventBody%22%3A%7B%22sponsoredEventHeader%22%3A%7B%22encryptedTrackingData%22%3A%22CwEAAAGd00Dhj24xjY1ea4V-r4SoKa-ZCNEZCRJjENAgo_6EVlvjG1LmMLlHsZGBG71wxZu2Q6jwBEGhVdDugba5ugjcXWXS9Z0RmO15bXHDR-9QYSlVZkp7GUIdPWO2DXdZfY9iPt_2wPqug3OUszw9fLDCrDc7gn5kgjMnd46bRIqnLyYNuWfJUQVVUTRHQvdrC5wDoLraT3f6T1JjAifx_Txf3-NyBEY1mD2XYMEwS_ImHS6Fz8Y4iDYFKfbBQNBijUnfl8yCaHrStuWyYvF4UFeoo61GY6c4Eoo3jq2PNEhlsVTvgFoekzMvR_DAZJF-J7OyfoiC1MogUo8CL0AROyFQPUza-AGpKVJxxK8yqS--ahHkffu3W7WQchcnndsSUFPav3TvFpJHGp8Te9WvzERH2jOVYPYuIsESt_KD5_8hHnRW8Uz2yONK18L3QT7qTIaNHw7noqDDOv0e5_V8JEqp1wbVTJh37TqPbkPXrTQjqwPB-1-cpgfJF5RfWf-q-YDIHObu7nmc9FtY6SG9nBED4NcaqhDlpuQnU_crabuMVx3dZk_jV2hvphVNRZbXaPAYpS6pEzYeNSq7xDOTQJ68zos6B5kmkD6gs8hI9z3GiaBcsez6E7b-CLzxDcw8uV5jox6vpCT4t2Zedc1GgeHWymE4d_fjPyhDqex6a7RF-4k5arWlR0SzFyh1IeziOoc3VMRWmYoqQ8kKYALKOWs7PicCdLZ1VsRe9J9BNvJTYprxZyIXhXO3xIoyQxdgzNmpFwG0Le7G24kflDGR6AgVAqOyDnCulcYmOv99NaxEQDZEphhsfiVPr7-Pst_dkM1SsWEGopQIaC2Un3yHgK8Z8WwSqubJyuPLdeyRo5XvHZSOjGf2bQP0uH3Ju2haQxZpRlpbzJtA1llIW0bICxRB3XL8sXG849Y-Xq5lzpLQHGP4Z0A_e1TjF3qR41QTx_Pw3sfinv669nUzo_jRu6Bl3OxRVppRswWeqmsksmlZFQZ5vrkAovgU4XWC8rhApcT_he7lRAY4ge-hTHstDIYpS0dhLUtVJWygl_WUGFCcFcsT3x2LTPzKEohJxuNsGtr0yKJm6brKi5lxxg%22%7D%2C%22header%22%3A%7B%22pageInstance%22%3A%7B%22pageUrn%22%3A%22urn%3Ali%3Apage%3Ad_flagship3_search_srp_people%22%2C%22trackingId%22%3A%22b0a57b12-9967-4e57-a7db-e2c2c2726809%22%7D%2C%22time%22%3A1777365737820%2C%22version%22%3A%220.0.0%22%7D%2C%22requestHeader%22%3A%7B%22pageKey%22%3A%22d_flagship3_search_srp_people%22%2C%22interfaceLocale%22%3A%22en-US%22%7D%7D%7D%5D&csrfToken=ajax%3A4754293302675097270
+                      - img "MRI Software" [ref=f1e10]
+                - generic [ref=f1e11]:
+                  - generic [ref=f1e12]:
+                    - paragraph [ref=f1e13]: Ying-Kai, explore relevant opportunities with MRI Software
+                    - paragraph [ref=f1e14]: Get the latest jobs and industry news
+                  - link "Follow" [ref=f1e15] [cursor=pointer]:
+                    - /url: https://www.linkedin.com/li/tscp/sct?destinationUrl=http%3A%2F%2Fwww.linkedin.com%2Fcompany%2F751259%2Flife%3FisFollowingPage%3Dtrue&trackingEvent=%5B%7B%22eventInfo%22%3A%7B%22appId%22%3A%22com.linkedin.ads.rendering.d_web%22%2C%22eventName%22%3A%22SponsoredRightRailContentActionEvent%22%2C%22topicName%22%3A%22SponsoredRightRailContentActionEvent%22%7D%2C%22eventBody%22%3A%7B%22sponsoredEventHeader%22%3A%7B%22encryptedTrackingData%22%3A%22CwEAAAGd00Dhj_sK2_ltQKjb4qA_c53CmNIbstOv_dAj4fMokqXk6qfR1j5haKY3ZQ6mKdGjjXclnzEU3yRNLTRhkEKifRpIwCqzcr4G2kESDVDCchVS4u7Sb5roBXBeAYBZmVve_OA_sMzG3qMekTwmmofZtmwf9ijfutm3G7FqLIoJoxzeX5M6yljRjvKPOWRPJV2HvmHPVdrp13AVFYgP57ndoh5DKdx9XqnhwPuyl_HzJiDtWlHO_FlILCzbdGY6cP1et-1NJsvfFr72q8WijbDL9uNb9XhImafaGd_Z46LFH4TVqfdJtLI3CS2Z6XqSuodLza4_88Nqo4ViU138wCKbM_z2Rk9vM0oOauI6qpOEWw_3VGPdvrL7-U_ULnHuZ9Q5EOkEQWaEdiZLBZrZFjgs0PyZjmhZSrika91kcE2qWduQ9w-x5BarnTVYPrsovjKh2RtJrQyo8gdDq3yNldeG1Wd40jKqfPwwGDNAW2x3IegztANyS16BECtS5CBlERgFIuDZQy9WGNGc2o9rAdhtLUVycYpIE_YQbAZTypUoJbAq9usv7eOF8O0Zn4cjZK9yz0OX7ptMXCbuQQ6mNlLIh2_dagij3z_De67RlNG2i_M5Bb5g4dchmj4wnjcU6krWZHhQzV9HPe7abjvRRKlf3t_ZX7MvP7kzaBy8rtkeQR24x7y-FY5JuMgSuCYVvOjJahrw5xa5QEShh6xKOd7a8JvWWWtqWeGVSk9t5HvQhF6haodP65N8mpc8mAiys0yvYr-TjLvstGfFDi3HaHR8qS9G8lw8e0pVUP72CfUDTTJC-i3KmauIFEhV3BNTlgvhsnWm0T-Uyhc5Isc0Sp7kT0WHMMeJRsojWF9D8cBxKeu_ITG-hN3XBZ3kWeQqgdrEwQ5KZN_AaZPibI6KN-YuJnmWiVrCFMXBajqdMA52q2Lszq16SKShzIgkkl-EaNJt3phLPAbfP30nJ46TG01su3mrBurBwhkt4tKl9k7fhZZz2udGs8MZebC4sAULD5InIDoHj_bDo-87DC5j0nN5QBiJRvy4YMqyyNEGBxS9HWCmukUr0vFTBrO_pjS8mCYdl_Yn4Ll1pZOBC1lJbA4Vl533legT8E-DCWjI2HNzu-8EEXZuyNtR82A%22%7D%2C%22header%22%3A%7B%22pageInstance%22%3A%7B%22pageUrn%22%3A%22urn%3Ali%3Apage%3Ad_flagship3_search_srp_people%22%2C%22trackingId%22%3A%22d6ee16e9-aacb-4a35-b579-e1e915aeb1ee%22%7D%2C%22time%22%3A1777365737820%2C%22version%22%3A%220.0.0%22%7D%2C%22requestHeader%22%3A%7B%22pageKey%22%3A%22d_flagship3_search_srp_people%22%2C%22interfaceLocale%22%3A%22en-US%22%7D%7D%7D%5D&csrfToken=ajax%3A4754293302675097270
+                - generic [ref=f1e16]:
+                  - paragraph [ref=f1e17]: Promoted
+                  - button "Ad Options" [ref=f1e18] [cursor=pointer]:
+                    - img [ref=f1e19]
+                    - generic [ref=f1e23]: Ad Options
+        - contentinfo [ref=e736]:
+          - generic [ref=e738]:
+            - generic [ref=e739]:
+              - navigation [ref=e740]:
+                - list [ref=e741]:
+                  - listitem [ref=e742]:
+                    - link "About" [ref=e743] [cursor=pointer]:
+                      - /url: https://about.linkedin.com/
+                  - listitem [ref=e744]:
+                    - link "Accessibility" [ref=e745] [cursor=pointer]:
+                      - /url: https://www.linkedin.com/accessibility
+                  - listitem [ref=e746]:
+                    - link "Talent Solutions" [ref=e747] [cursor=pointer]:
+                      - /url: https://www.linkedin.com/talent/post-a-job?trk=footer_jobs_home&src=li-footer
+                  - listitem [ref=e748]:
+                    - link "Professional Community Policies" [ref=e749] [cursor=pointer]:
+                      - /url: https://www.linkedin.com/legal/professional-community-policies
+                  - listitem [ref=e750]:
+                    - link "Careers" [ref=e751] [cursor=pointer]:
+                      - /url: https://careers.linkedin.com/
+                  - listitem [ref=e752]:
+                    - link "Marketing Solutions" [ref=e753] [cursor=pointer]:
+                      - /url: https://business.linkedin.com/marketing-solutions?trk=n_nav_lms_f&src=li-footer
+                  - listitem [ref=e754]:
+                    - button "Privacy & Terms" [ref=e756] [cursor=pointer]:
+                      - generic [ref=e758]:
+                        - text: Privacy & Terms
+                        - img [ref=e759]
+                  - listitem [ref=e761]:
+                    - link "Ad Choices" [ref=e762] [cursor=pointer]:
+                      - /url: https://www.linkedin.com/help/linkedin/answer/62931
+                  - listitem [ref=e763]:
+                    - link "Advertising" [ref=e764] [cursor=pointer]:
+                      - /url: https://business.linkedin.com/marketing-solutions/ads?trk=n_nav_ads_f
+                  - listitem [ref=e765]:
+                    - link "Sales Solutions" [ref=e766] [cursor=pointer]:
+                      - /url: https://business.linkedin.com/sales-solutions?trk=flagship_nav&veh=li-footer-lss-control&src=li-footer
+                  - listitem [ref=e767]:
+                    - link "Mobile" [ref=e768] [cursor=pointer]:
+                      - /url: https://mobile.linkedin.com/
+                  - listitem [ref=e769]:
+                    - link "Small Business" [ref=e770] [cursor=pointer]:
+                      - /url: https://smallbusiness.linkedin.com?&src=li-footer
+                  - listitem [ref=e771]:
+                    - link "Safety Center" [ref=e772] [cursor=pointer]:
+                      - /url: https://safety.linkedin.com
+              - generic [ref=e774]:
+                - list [ref=e775]:
+                  - listitem [ref=e776]:
+                    - img [ref=e777]
+                    - generic [ref=e779]:
+                      - link "Questions? Visit our Help Center." [ref=e780] [cursor=pointer]:
+                        - /url: https://www.linkedin.com/help/linkedin?trk=d_flagship3_search_srp_people
+                        - text: Questions?
+                      - paragraph [ref=e781]: Visit our Help Center.
+                  - listitem [ref=e782]:
+                    - img [ref=e783]
+                    - generic [ref=e785]:
+                      - link "Manage your account and privacy Go to your Settings." [ref=e786] [cursor=pointer]:
+                        - /url: https://www.linkedin.com/psettings/
+                        - text: Manage your account and privacy
+                      - paragraph [ref=e787]: Go to your Settings.
+                  - listitem [ref=e788]:
+                    - img [ref=e789]
+                    - generic [ref=e791]:
+                      - link "Recommendation transparency Learn more about Recommended Content." [ref=e792] [cursor=pointer]:
+                        - /url: https://www.linkedin.com/help/linkedin/answer/a1339724
+                        - text: Recommendation transparency
+                      - paragraph [ref=e793]: Learn more about Recommended Content.
+                - generic [ref=e794]:
+                  - generic [ref=e795]: Select Language
+                  - combobox "Select Language" [ref=e796]:
+                    - option "العربية (Arabic)"
+                    - option "বাংলা (Bangla)"
+                    - option "Čeština (Czech)"
+                    - option "Dansk (Danish)"
+                    - option "Deutsch (German)"
+                    - option "Ελληνικά (Greek)"
+                    - option "English (English)" [selected]
+                    - option "Español (Spanish)"
+                    - option "فارسی (Persian)"
+                    - option "Suomi (Finnish)"
+                    - option "Français (French)"
+                    - option "हिंदी (Hindi)"
+                    - option "Magyar (Hungarian)"
+                    - option "Bahasa Indonesia (Indonesian)"
+                    - option "Italiano (Italian)"
+                    - option "עברית (Hebrew)"
+                    - option "日本語 (Japanese)"
+                    - option "한국어 (Korean)"
+                    - option "मराठी (Marathi)"
+                    - option "Bahasa Malaysia (Malay)"
+                    - option "Nederlands (Dutch)"
+                    - option "Norsk (Norwegian)"
+                    - option "ਪੰਜਾਬੀ (Punjabi)"
+                    - option "Polski (Polish)"
+                    - option "Português (Portuguese)"
+                    - option "Română (Romanian)"
+                    - option "Русский (Russian)"
+                    - option "Svenska (Swedish)"
+                    - option "తెలుగు (Telugu)"
+                    - option "ภาษาไทย (Thai)"
+                    - option "Tagalog (Tagalog)"
+                    - option "Türkçe (Turkish)"
+                    - option "Українська (Ukrainian)"
+                    - option "Tiếng Việt (Vietnamese)"
+                    - option "简体中文 (Chinese (Simplified))"
+                    - option "正體中文 (Chinese (Traditional))"
+            - paragraph [ref=e797]: LinkedIn Corporation © 2026
+    - generic:
+      - generic:
+        - complementary:
+          - generic [ref=e798]:
+            - generic [ref=e799]:
+              - generic [ref=e801] [cursor=pointer]:
+                - generic [ref=e802]:
+                  - img "Ying-Kai Liao" [ref=e803]
+                  - generic [ref=e805]: Status is online
+                - button "You are on the messaging overlay. Press enter to open the list of conversations." [ref=e806]:
+                  - generic [ref=e807]:
+                    - generic [ref=e808]: Messaging
+                    - generic [ref=e809]: You are on the messaging overlay. Press enter to open the list of conversations.
+              - generic [ref=e810]:
+                - button "Open messenger dropdown menu" [ref=e812] [cursor=pointer]:
+                  - img "Open messenger dropdown menu" [ref=e813]
+                - button "Compose message" [ref=e816] [cursor=pointer]:
+                  - img [ref=e817]
+                  - generic [ref=e819]: Compose message
+                - button "You are on the messaging overlay. Press enter to open the list of conversations." [ref=e820] [cursor=pointer]:
+                  - img [ref=e821]
+                  - generic [ref=e823]: You are on the messaging overlay. Press enter to open the list of conversations.
+            - link "Pemo Tech Co.,Ltd. picture Pemo Tech Co.,Ltd." [ref=e824] [cursor=pointer]:
+              - /url: https://www.linkedin.com/company/104805537/admin/inbox
+              - img "Pemo Tech Co.,Ltd. picture" [ref=e825]
+              - generic [ref=e826]: Pemo Tech Co.,Ltd.
+              - img [ref=e827]
+        - complementary "AI-powered assistant to get help with your career, jobs etc"
