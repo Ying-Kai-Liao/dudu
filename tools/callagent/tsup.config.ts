@@ -7,4 +7,5 @@ export default defineConfig({
   clean: true,
   banner: { js: "#!/usr/bin/env node" },
   target: "node20",
+  outExtension: () => ({ js: ".cjs" }),
 });
