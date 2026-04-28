@@ -34,7 +34,7 @@ Run the full dudu workflow end-to-end on one deal. Read `lib/deal.md`, `lib/play
    Stop. Do not proceed.
 
 4. **On re-invocation**, detect that prep is done and inputs exist:
-   - If `customer-discovery-prep.md` exists AND `inputs/` has at least one new file AND `customer-discovery.md` does not exist → run `dudu:customer-discovery debrief`, then continue to step 5.
+   - If `customer-discovery-prep.md` exists AND `inputs/` contains at least one file AND `customer-discovery.md` does not exist → run `dudu:customer-discovery debrief`, then continue to step 5.
    - If everything is done → skip straight to step 5.
 
 5. **Stitch `MEMO.md`.** Read every artifact under `deals/<slug>/` and produce `deals/<slug>/MEMO.md`:
@@ -88,7 +88,7 @@ Run the full dudu workflow end-to-end on one deal. Read `lib/deal.md`, `lib/play
 - market-sizing.md
 ```
 
-6. **Update manifest** to record completion of orchestration.
+6. **Verify manifest completeness.** All six sub-skill keys in `skills_completed` should now be non-null (`founder-check`, `market-problem`, `customer-discovery-prep`, `customer-discovery-debrief`, `competitive-landscape`, `market-sizing`). Do not invent additional keys; the orchestrator's completion is implicit in those six.
 
 7. **Print** the path to `MEMO.md`.
 

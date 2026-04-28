@@ -5,7 +5,7 @@ description: Build a bottom-up TAM model from scratch, anchored on a clearly def
 
 # Market sizing
 
-Produce a defensible bottom-up TAM. Read `lib/research-protocol.md` first. Cap at ~30 fetches.
+Produce a defensible bottom-up TAM. Read `lib/research-protocol.md` and `lib/playwright-auth.md` first. Cap at ~30 fetches.
 
 ## Critical rule
 
