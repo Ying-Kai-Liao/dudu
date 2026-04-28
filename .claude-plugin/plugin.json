@@ -1,0 +1,16 @@
+{
+  "name": "dudu",
+  "description": "VC due diligence skills for Claude Code: founder checks, market/problem persona self-play, customer discovery, competitive landscape, and market sizing.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Ying-Kai Liao",
+    "email": "lykevin890919@gmail.com"
+  },
+  "license": "MIT",
+  "keywords": [
+    "vc",
+    "venture-capital",
+    "due-diligence",
+    "skills"
+  ]
+}
