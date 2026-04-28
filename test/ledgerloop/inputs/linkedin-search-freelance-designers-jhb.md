@@ -1,0 +1,522 @@
+- generic [ref=e1]:
+  - generic:
+    - region "Toast message":
+      - heading "0 notifications total" [level=2] [ref=e3]
+      - alert
+  - generic [ref=e15]:
+    - generic [ref=e116]:
+      - button "Skip to search" [ref=e117] [cursor=pointer]:
+        - generic [ref=e118]: Skip to search
+      - button "Skip to main content" [ref=e119] [cursor=pointer]:
+        - generic [ref=e120]: Skip to main content
+      - button "Keyboard shortcuts" [ref=e121] [cursor=pointer]:
+        - generic [ref=e122]: Keyboard shortcuts
+      - button "Close jump menu" [ref=e123] [cursor=pointer]:
+        - img [ref=e124]
+        - generic [ref=e126]: Close jump menu
+    - banner "Global Navigation" [ref=e127]:
+      - generic [ref=e128]:
+        - link "LinkedIn" [ref=e129] [cursor=pointer]:
+          - /url: https://www.linkedin.com/feed/?nis=true
+          - img "LinkedIn" [ref=e132]:
+            - img [ref=e133]
+        - generic [ref=e137]:
+          - combobox "Search" [ref=e138]: freelance designer johannesburg
+          - generic:
+            - img
+        - navigation "Primary Navigation" [ref=e139]:
+          - list [ref=e140]:
+            - listitem [ref=e141]:
+              - link "new feed updates notifications Home" [ref=e142] [cursor=pointer]:
+                - /url: https://www.linkedin.com/feed/?nis=true&
+                - generic [ref=e143]:
+                  - generic [ref=e146]: new feed updates notifications
+                  - img [ref=e150]
+                - generic "Home" [ref=e152]
+            - listitem [ref=e153]:
+              - link "2 new network updates notifications My Network" [ref=e154] [cursor=pointer]:
+                - /url: https://www.linkedin.com/mynetwork/?
+                - generic [ref=e155]:
+                  - generic [ref=e156]:
+                    - generic [ref=e157]: "2"
+                    - generic [ref=e158]: 2 new network updates notifications
+                  - img [ref=e162]
+                - generic "My Network" [ref=e164]
+            - listitem [ref=e165]:
+              - link "Jobs" [ref=e166] [cursor=pointer]:
+                - /url: https://www.linkedin.com/jobs/?
+                - img [ref=e170]
+                - generic "Jobs" [ref=e172]
+            - listitem [ref=e173]:
+              - link "Messaging" [ref=e174] [cursor=pointer]:
+                - /url: https://www.linkedin.com/messaging/?
+                - img [ref=e178]
+                - generic "Messaging" [ref=e180]
+            - listitem [ref=e181]:
+              - link "9 new notifications Notifications" [ref=e182] [cursor=pointer]:
+                - /url: https://www.linkedin.com/notifications/?
+                - generic [ref=e183]:
+                  - generic [ref=e184]:
+                    - generic [ref=e185]: "9"
+                    - generic [ref=e186]: 9 new notifications
+                  - img [ref=e190]
+                - generic "Notifications" [ref=e192]
+            - listitem [ref=e193]:
+              - button "Ying-Kai Liao Me" [ref=e195] [cursor=pointer]:
+                - img "Ying-Kai Liao" [ref=e196]
+                - generic [ref=e197]:
+                  - text: Me
+                  - img [ref=e198]
+            - listitem [ref=e200]:
+              - button "For Business" [ref=e202] [cursor=pointer]:
+                - img [ref=e206]
+                - generic "For Business" [ref=e208]:
+                  - text: For Business
+                  - img [ref=e209]
+            - listitem [ref=e211]:
+              - link "Try Premium for A$0" [ref=e213] [cursor=pointer]:
+                - /url: javascript:void(0)
+                - generic [ref=e214]:
+                  - img [ref=e215]
+                  - generic [ref=e217]: Try Premium for A$0
+    - generic [ref=e218]:
+      - navigation "Search filters" [ref=e221]:
+        - generic [ref=e222]:
+          - list [ref=e223]:
+            - listitem [ref=e224]:
+              - 'button "Filter by: People" [ref=e226] [cursor=pointer]':
+                - text: People
+                - img [ref=e227]
+            - listitem [ref=e229]
+            - listitem [ref=e230]:
+              - group "Connections filter" [ref=e232]:
+                - generic [ref=e233]: Connections filter
+                - list [ref=e234]:
+                  - listitem [ref=e235]:
+                    - button "1st" [ref=e236] [cursor=pointer]
+                  - listitem [ref=e237]:
+                    - button "2nd" [ref=e238] [cursor=pointer]
+                  - listitem [ref=e239]:
+                    - button "3rd+" [ref=e240] [cursor=pointer]
+            - listitem [ref=e241]:
+              - button "Locations filter. Clicking this button displays all Locations filter options." [ref=e244] [cursor=pointer]:
+                - text: Locations
+                - img [ref=e245]
+            - listitem [ref=e247]:
+              - button "Current company filter. Clicking this button displays all Current company filter options." [ref=e250] [cursor=pointer]:
+                - text: Current company
+                - img [ref=e251]
+          - button "Show all filters. Clicking this button displays all available filter options." [ref=e256] [cursor=pointer]: All filters
+      - generic [ref=e257]:
+        - generic [ref=e258]:
+          - main [ref=e259]:
+            - heading "Search results for freelance designer johannesburg. There are 10 results. Currently on the page 1 of 95 search result pages." [active] [level=1] [ref=e260]
+            - generic [ref=e262]:
+              - list [ref=e265]:
+                - listitem [ref=e266]:
+                  - generic [ref=e269] [cursor=pointer]:
+                    - link "Sumaiyah Dhorat is open to work" [ref=e272]:
+                      - /url: https://www.linkedin.com/in/sumaiyah-dhorat-07b835117?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAB0iJR8BerLnyqggEhtRX7IZ2tHU5nIL0dA
+                      - img "Sumaiyah Dhorat is open to work" [ref=e276]
+                    - generic [ref=e278]:
+                      - generic [ref=e282]:
+                        - link "View Sumaiyah Dhorat’s profile" [ref=e283]:
+                          - /url: https://www.linkedin.com/in/sumaiyah-dhorat-07b835117?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAB0iJR8BerLnyqggEhtRX7IZ2tHU5nIL0dA
+                          - generic [ref=e284]:
+                            - generic [ref=e285]: Sumaiyah Dhorat
+                            - generic [ref=e286]: View Sumaiyah Dhorat’s profile
+                        - generic [ref=e288]:
+                          - button "Verified member" [ref=e290]:
+                            - img "Verified member" [ref=e293]
+                          - generic [ref=e295]:
+                            - generic [ref=e296]: • 3rd+
+                            - generic [ref=e297]: 3rd+ degree connection
+                      - generic [ref=e298]: Graduate from University of Johannesburg
+                      - generic [ref=e299]: Johannesburg Metropolitan Area
+                    - button "Message Sumaiyah Dhorat" [ref=e303]:
+                      - generic [ref=e304]: Message
+                - listitem [ref=e305]:
+                  - generic [ref=e308] [cursor=pointer]:
+                    - link "Megan Venter" [ref=e311]:
+                      - /url: https://www.linkedin.com/in/megan-venter-a4b012109?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAABs7dFsB0WN6UOCDnu2iY-cy8y6qTSkNRIU
+                      - img "Megan Venter" [ref=e315]
+                    - generic [ref=e317]:
+                      - generic [ref=e321]:
+                        - link "View Megan Venter’s profile" [ref=e322]:
+                          - /url: https://www.linkedin.com/in/megan-venter-a4b012109?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAABs7dFsB0WN6UOCDnu2iY-cy8y6qTSkNRIU
+                          - generic [ref=e323]:
+                            - generic [ref=e324]: Megan Venter
+                            - generic [ref=e325]: View Megan Venter’s profile
+                        - generic [ref=e327]:
+                          - button "Verified member" [ref=e329]:
+                            - img "Verified member" [ref=e332]
+                          - generic [ref=e334]:
+                            - generic [ref=e335]: • 2nd
+                            - generic [ref=e336]: 2nd degree connection
+                      - generic [ref=e337]: Senior Product Designer at Entelect | Rightmove ⚡️
+                      - generic [ref=e338]: City of Cape Town
+                    - button "Invite Megan Venter to connect" [ref=e341]:
+                      - generic [ref=e342]: Connect
+                - listitem
+                - listitem [ref=e343]:
+                  - generic [ref=e346] [cursor=pointer]:
+                    - link "Keletso Moagi" [ref=e349]:
+                      - /url: https://www.linkedin.com/in/keletso-moagi?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAB5OgWkBrVD-IZVIJaa1tYRffTWfFzoGxZM
+                      - img "Keletso Moagi" [ref=e353]
+                    - generic [ref=e355]:
+                      - generic [ref=e359]:
+                        - link "View Keletso Moagi’s profile" [ref=e360]:
+                          - /url: https://www.linkedin.com/in/keletso-moagi?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAB5OgWkBrVD-IZVIJaa1tYRffTWfFzoGxZM
+                          - generic [ref=e361]:
+                            - generic [ref=e362]: Keletso Moagi
+                            - generic [ref=e363]: View Keletso Moagi’s profile
+                        - generic [ref=e365]:
+                          - button "Verified member" [ref=e367]:
+                            - img "Verified member" [ref=e370]
+                          - generic [ref=e372]:
+                            - generic [ref=e373]: • 3rd+
+                            - generic [ref=e374]: 3rd+ degree connection
+                      - generic [ref=e375]: UX Designer | Product Designer
+                      - generic [ref=e376]: City of Johannesburg
+                    - button "Message Keletso Moagi" [ref=e380]:
+                      - generic [ref=e381]: Message
+                - listitem [ref=e382]:
+                  - generic [ref=e385] [cursor=pointer]:
+                    - link [ref=e388]:
+                      - /url: https://www.linkedin.com/search/results/people/headless?origin=GLOBAL_SEARCH_HEADER&keywords=freelance%20designer%20johannesburg
+                    - generic [ref=e393]:
+                      - link "LinkedIn Member" [ref=e398]:
+                        - /url: https://www.linkedin.com/search/results/people/headless?origin=GLOBAL_SEARCH_HEADER&keywords=freelance%20designer%20johannesburg
+                      - generic [ref=e399]: Industrial Design Student at University of Johannesburg
+                      - generic [ref=e400]: Gauteng, South Africa
+                - listitem [ref=e402]:
+                  - generic [ref=e405] [cursor=pointer]:
+                    - link [ref=e408]:
+                      - /url: https://www.linkedin.com/search/results/people/headless?origin=GLOBAL_SEARCH_HEADER&keywords=freelance%20designer%20johannesburg
+                    - generic [ref=e413]:
+                      - link "LinkedIn Member" [ref=e418]:
+                        - /url: https://www.linkedin.com/search/results/people/headless?origin=GLOBAL_SEARCH_HEADER&keywords=freelance%20designer%20johannesburg
+                      - generic [ref=e419]: Graduate at University of Johannesburg
+                      - generic [ref=e420]: Johannesburg
+                - listitem [ref=e422]:
+                  - generic [ref=e425] [cursor=pointer]:
+                    - link "Christopher Grant" [ref=e428]:
+                      - /url: https://www.linkedin.com/in/digitalaltruist?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAAAOUoMBGxqJJ8HyiTjXm_i5FbQ6Zo0iLac
+                      - img "Christopher Grant" [ref=e432]
+                    - generic [ref=e433]:
+                      - generic [ref=e434]:
+                        - generic [ref=e438]:
+                          - link "View Christopher Grant’s profile" [ref=e439]:
+                            - /url: https://www.linkedin.com/in/digitalaltruist?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAAAOUoMBGxqJJ8HyiTjXm_i5FbQ6Zo0iLac
+                            - generic [ref=e440]:
+                              - generic [ref=e441]: Christopher Grant
+                              - generic [ref=e442]: View Christopher Grant’s profile
+                          - generic [ref=e444]:
+                            - button "Verified member" [ref=e446]:
+                              - img "Verified member" [ref=e449]
+                            - generic [ref=e451]:
+                              - generic [ref=e452]: • 2nd
+                              - generic [ref=e453]: 2nd degree connection
+                        - generic [ref=e454]: Design Director @ Docplanner
+                        - generic [ref=e455]: Greater Barcelona Metropolitan Area
+                      - generic [ref=e457]:
+                        - img [ref=e461]
+                        - generic [ref=e464]: 5K followers
+                    - button "Follow Christopher Grant" [ref=e467]:
+                      - generic [ref=e468]: Follow
+                - listitem [ref=e469]:
+                  - generic [ref=e472] [cursor=pointer]:
+                    - link "Izabela McHarg" [ref=e475]:
+                      - /url: https://www.linkedin.com/in/izabela-mcharg-228b8919b?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAC77egABKLaG4lx3V6qP5tNQ0OEJ3m8df7A
+                      - img "Izabela McHarg" [ref=e479]
+                    - generic [ref=e480]:
+                      - generic [ref=e481]:
+                        - generic [ref=e485]:
+                          - link "View Izabela McHarg’s profile" [ref=e486]:
+                            - /url: https://www.linkedin.com/in/izabela-mcharg-228b8919b?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAC77egABKLaG4lx3V6qP5tNQ0OEJ3m8df7A
+                            - generic [ref=e487]:
+                              - generic [ref=e488]: Izabela McHarg
+                              - generic [ref=e489]: View Izabela McHarg’s profile
+                          - generic [ref=e492]:
+                            - generic [ref=e493]: • 3rd+
+                            - generic [ref=e494]: 3rd+ degree connection
+                        - generic [ref=e495]: Interior Designer | Bachelor's in Interior Design
+                        - generic [ref=e496]: Johannesburg Metropolitan Area
+                      - link "Provides services - 3D Design, Interior Design, Architecture" [ref=e499]:
+                        - /url: https://www.linkedin.com/in/ACoAAC77egABKLaG4lx3V6qP5tNQ0OEJ3m8df7A?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAC77egABKLaG4lx3V6qP5tNQ0OEJ3m8df7A
+                        - strong [ref=e503]: Provides services - 3D Design, Interior Design, Architecture
+                    - button "Follow Izabela McHarg" [ref=e506]:
+                      - generic [ref=e507]: Follow
+                - listitem [ref=e508]:
+                  - generic [ref=e511] [cursor=pointer]:
+                    - link "Devorah (Hodes) Segal" [ref=e514]:
+                      - /url: https://www.linkedin.com/in/devorah-hodes-segal-a2aaa1272?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAEK5joIBT41iGUFC8EPurAiLIKEpTEmDRSc
+                      - img "Devorah (Hodes) Segal" [ref=e518]
+                    - generic [ref=e520]:
+                      - generic [ref=e524]:
+                        - link "View Devorah (Hodes) Segal’s profile" [ref=e525]:
+                          - /url: https://www.linkedin.com/in/devorah-hodes-segal-a2aaa1272?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAEK5joIBT41iGUFC8EPurAiLIKEpTEmDRSc
+                          - generic [ref=e526]:
+                            - generic [ref=e527]: Devorah (Hodes) Segal
+                            - generic [ref=e528]: View Devorah (Hodes) Segal’s profile
+                        - generic [ref=e530]:
+                          - button "Verified member" [ref=e532]:
+                            - img "Verified member" [ref=e535]
+                          - generic [ref=e537]:
+                            - generic [ref=e538]: • 3rd+
+                            - generic [ref=e539]: 3rd+ degree connection
+                      - generic [ref=e540]: "VATIT Stream | UX/UI Designer/Digital Marketing Specialist | Multimedia-Digital Design (Honours): Experience Design (IXD) | University of Johannesburg"
+                      - generic [ref=e541]: City of Johannesburg
+                    - button "Message Devorah (Hodes) Segal" [ref=e545]:
+                      - generic [ref=e546]: Message
+                - listitem [ref=e547]:
+                  - generic [ref=e550] [cursor=pointer]:
+                    - link "Themba Tsotetsi" [ref=e553]:
+                      - /url: https://www.linkedin.com/in/themba-tsotetsi-ab6581188?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAACw5EOoB5epVNBdEbXH91L3YMi6ffghl2Ms
+                      - img "Themba Tsotetsi" [ref=e557]
+                    - generic [ref=e559]:
+                      - generic [ref=e563]:
+                        - link "View Themba Tsotetsi’s profile" [ref=e564]:
+                          - /url: https://www.linkedin.com/in/themba-tsotetsi-ab6581188?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAACw5EOoB5epVNBdEbXH91L3YMi6ffghl2Ms
+                          - generic [ref=e565]:
+                            - generic [ref=e566]: Themba Tsotetsi
+                            - generic [ref=e567]: View Themba Tsotetsi’s profile
+                        - generic [ref=e570]:
+                          - generic [ref=e571]: • 3rd+
+                          - generic [ref=e572]: 3rd+ degree connection
+                      - generic [ref=e573]: Architectural Designer, Builder and Built Environment Consultant.
+                      - generic [ref=e574]: Johannesburg Metropolitan Area
+                    - button "Message Themba Tsotetsi" [ref=e578]:
+                      - generic [ref=e579]: Message
+                - listitem [ref=e580]:
+                  - generic [ref=e583] [cursor=pointer]:
+                    - link "Kudzai Mudiriza" [ref=e586]:
+                      - /url: https://www.linkedin.com/in/traviseest?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAACOKcr8BXO-sq63ifmRcX13bkfxaa7rnvLk
+                      - img "Kudzai Mudiriza" [ref=e590]
+                    - generic [ref=e591]:
+                      - generic [ref=e592]:
+                        - generic [ref=e596]:
+                          - link "View Kudzai Mudiriza’s profile" [ref=e597]:
+                            - /url: https://www.linkedin.com/in/traviseest?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAACOKcr8BXO-sq63ifmRcX13bkfxaa7rnvLk
+                            - generic [ref=e598]:
+                              - generic [ref=e599]: Kudzai Mudiriza
+                              - generic [ref=e600]: View Kudzai Mudiriza’s profile
+                          - generic [ref=e603]:
+                            - generic [ref=e604]: • 3rd+
+                            - generic [ref=e605]: 3rd+ degree connection
+                        - generic [ref=e606]: UX/UI & Graphic Designer | Co-Founder of Lutra Studio | African Youth Panelist | Certified in Accounting | Broadcasting Engineer | Skilled in Electronic Communication Systems | DJ/Presenter
+                        - generic [ref=e607]: City of Johannesburg
+                      - link "Provides services - Graphic Design, Brand Design, Logo Design, User Experience Design (UED), UX Research, Print Design, Packaging Design, Web Design, Visual Design, Email Marketing" [ref=e610]:
+                        - /url: https://www.linkedin.com/in/ACoAACOKcr8BXO-sq63ifmRcX13bkfxaa7rnvLk?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAACOKcr8BXO-sq63ifmRcX13bkfxaa7rnvLk
+                        - strong [ref=e614]: Provides services - Graphic Design, Brand Design, Logo Design, User Experience Design (UED), UX Research, Print Design, Packaging Design, Web Design, Visual Design, Email Marketing
+                    - button "Message Kudzai Mudiriza" [ref=e618]:
+                      - generic [ref=e619]: Message
+              - list [ref=e622]:
+                - listitem [ref=e623]:
+                  - generic [ref=e624]:
+                    - generic [ref=e625]:
+                      - paragraph [ref=e626]: Are these results helpful?
+                      - paragraph [ref=e627]: Your feedback helps us improve search results
+                    - generic [ref=e628]:
+                      - button "Are these results helpful? Yes, these search results are helpful" [ref=e629] [cursor=pointer]:
+                        - img [ref=e630]
+                      - button "Are these results helpful? No, these search results are not helpful" [ref=e633] [cursor=pointer]:
+                        - img [ref=e634]
+              - generic [ref=e639]:
+                - generic [ref=e640]: Page 1 of 95
+                - button "Previous" [disabled] [ref=e641]:
+                  - img
+                  - generic: Previous
+                - list [ref=e642]:
+                  - listitem [ref=e643]:
+                    - button "Page 1" [ref=e644] [cursor=pointer]:
+                      - generic: "1"
+                  - listitem [ref=e645]:
+                    - button "Page 2" [ref=e646] [cursor=pointer]:
+                      - generic: "2"
+                  - listitem [ref=e647]:
+                    - button "Page 3" [ref=e648] [cursor=pointer]:
+                      - generic: "3"
+                  - listitem [ref=e649]:
+                    - button "Page 4" [ref=e650] [cursor=pointer]:
+                      - generic: "4"
+                  - listitem [ref=e651]:
+                    - button "Page 5" [ref=e652] [cursor=pointer]:
+                      - generic: "5"
+                  - listitem [ref=e653]:
+                    - button "Page 6" [ref=e654] [cursor=pointer]:
+                      - generic: "6"
+                  - listitem [ref=e655]:
+                    - button "Page 7" [ref=e656] [cursor=pointer]:
+                      - generic: "7"
+                  - listitem [ref=e657]:
+                    - button "Page 8" [ref=e658] [cursor=pointer]:
+                      - generic: "8"
+                  - listitem [ref=e659]:
+                    - button "Page 9" [ref=e660] [cursor=pointer]:
+                      - generic: …
+                  - listitem [ref=e661]:
+                    - button "Page 95" [ref=e662] [cursor=pointer]:
+                      - generic: "95"
+                - button "Next" [ref=e663] [cursor=pointer]:
+                  - img [ref=e664]
+                  - generic [ref=e666]: Next
+          - complementary "Search suggestions" [ref=e667]:
+            - iframe [ref=e672]:
+              - main "Work With Us Container" [ref=f12e3]:
+                - generic [ref=f12e4]:
+                  - img [ref=f12e6]
+                  - generic [ref=f12e7]:
+                    - img "Ying-Kai" [ref=f12e8]
+                    - link "Swinburne" [ref=f12e9] [cursor=pointer]:
+                      - /url: https://www.linkedin.com/li/tscp/sct?destinationUrl=http%3A%2F%2Fwww.linkedin.com%2Fcompany%2F8987%2Flife&trackingEvent=%5B%7B%22eventInfo%22%3A%7B%22appId%22%3A%22com.linkedin.ads.rendering.d_web%22%2C%22eventName%22%3A%22SponsoredRightRailContentActionEvent%22%2C%22topicName%22%3A%22SponsoredRightRailContentActionEvent%22%7D%2C%22eventBody%22%3A%7B%22sponsoredEventHeader%22%3A%7B%22encryptedTrackingData%22%3A%22CwEAAAGd00F805MGnUevmPFcaWMTKoC1YVvSwEs59GubUAWNGkLDhB5FvMnk6Z5kdb13nvCDFsvHu3Ef_5ycmNLTUsdhO0Wf05OQOCqnaj8OFd6QT3zSdUVTERT7VnGlpwpbBBZCANcpr3MOXpbY5CpL2vZneG5Y6I4KW20ftyBmYdosLoIpYRvkY64mu6qMUi7l0bpCBo5QXWuaur6RbBHbq1I54Dbl6sr9lvtWqcOnKO6M8yJo-3ZX1P_E_bJmIEeNoA_Sj1ZhGCKTXtsS-L7E-8Sqlb12G3tJXoLfkkqozsS6Um0KCfW1cWWBm5N5jb2mQectL2jnadCoG5kJpiassNKWckoZPJUYwNxIZbomTzjCq6YC35GUDakju8NdcvygsEOf7XaadcFRfLfMoWz9gWjaixyQphC5Xj1PhVlpLEUyle7Qb3h8sqIFQT3eiNob_mr5xAVXSVApW6FdsjJkr_-47bD0p6YkeUOYzWtMzuGjgYZEIOfqUMs0Vsi0NV93P3qm89XDyM4AdNfXNCcCeq0-Qe0-qRX3QvF3GVodRGLUnaLgZOrpyA0Z5lRuliEW04WWsdtA-a8FzMm63qt9f_T1x4wf8KdIO14zFbrwW41ELDNR3gk4aoqsbP76O68ydHa6C6R4rF_0g8JvF2b8UwDHASKZgtKH16O3zJjV46RcZllpD332InczRnC7vyWlpnWSvKwZaSDHAAzeyyXbeErKiXMEm1vvod4UFYOzeIC0pEcKMpokSnPOkPJsEbVPYcSsO_MW7H6xXSJDV0lxsy42SiMJZK4n52I-GCuEnI97jTkWlpsqUsDy3xdh_99LHOkfMKHbjwP1vwdZK6uLOAg75NhyLYAo1HE6hHYKPiJKqGHpMoSCBG41cKVzn3aZIcWS6HSGDhTxZqT6UMviIpwny2QwamqXOpPf1A52cIGegbneetoQFwYigwGpRqUzeU_KLcX35cbO95S5jkHQGr9nMgFyDFfFz_JhxIIhZedTFRPFcwoonwRAzZaG82jQFhZMRbueGoxeF4L550Ghwj5LsYLGkHcRu-gS1An73VEcPHucScW7-lhM2coKqqE1agcbzhYp361VzelZaev57wIPhb-gkUWm6bi8KmTbLZKU6-jvm5iwCeW2HewA6nMbKAQ5OYwx38cDCl8wr7qFUR9U3yqPbEyPJLNDoLdmJHVq-tuJKrz_OM-4ENUqr_gvaurENOg%22%7D%2C%22header%22%3A%7B%22pageInstance%22%3A%7B%22pageUrn%22%3A%22urn%3Ali%3Apage%3Ad_flagship3_search_srp_people%22%2C%22trackingId%22%3A%2248b7aeaa-a710-424a-b3f7-d14730c48c6a%22%7D%2C%22time%22%3A1777365777565%2C%22version%22%3A%220.0.0%22%7D%2C%22requestHeader%22%3A%7B%22pageKey%22%3A%22d_flagship3_search_srp_people%22%2C%22interfaceLocale%22%3A%22en-US%22%7D%7D%7D%5D&csrfToken=ajax%3A4754293302675097270
+                      - img "Swinburne" [ref=f12e10]
+                - generic [ref=f12e11]:
+                  - generic [ref=f12e12]:
+                    - paragraph [ref=f12e13]: Ying-Kai, explore relevant opportunities with Swinburne
+                    - paragraph [ref=f12e14]: Get the latest jobs and industry news
+                  - link "Follow" [ref=f12e15] [cursor=pointer]:
+                    - /url: https://www.linkedin.com/li/tscp/sct?destinationUrl=http%3A%2F%2Fwww.linkedin.com%2Fcompany%2F8987%2Flife%3FisFollowingPage%3Dtrue&trackingEvent=%5B%7B%22eventInfo%22%3A%7B%22appId%22%3A%22com.linkedin.ads.rendering.d_web%22%2C%22eventName%22%3A%22SponsoredRightRailContentActionEvent%22%2C%22topicName%22%3A%22SponsoredRightRailContentActionEvent%22%7D%2C%22eventBody%22%3A%7B%22sponsoredEventHeader%22%3A%7B%22encryptedTrackingData%22%3A%22CwEAAAGd00F800zCmN1QBgtPcPPaJYea0X_7xz_LniTtqlfQVCAGbqtp3TKNy_-I9DbzfBEfYiVmR4AhQoaol9u1GJnN64jjd56M2osfesZQ_GW72lb8rI7BzNl218MtYDf5mEGt4A3XILTudAqxlnUTP8hlEy872N1JYlX6CYFQwLnpcrDv1yfStOFNkuI-LW4Fg8v8gWdm8Khlnbi2Z6KdX-rOwVrUtcdD0OKfOfnyCR6auBEebDr8eireNOpsBGLsal7U_nwdbXvPTjY8J0T-cPCUg70yZbwcxm1BPHnO2F4JLfRXHKwKWXIbkf9eTvnMtSkLVzynLOJLibaOBbHXIxwhR4QDw4aZmCLf3_9GJ0g_VnCHb7CtTTj7t7g6VT4EpATcJCEqXQJcjTxnAM8wEppA9SJSCqAggY7XQRsjXDo-Nkagw8K1imXXeIqRjZic8GsDxqHLz9-z9G1dJscCKG9FSbqmZcvrlF4F3UJT7c22sUxLPnSQ14UV9MLL7hpgjOBFJHi0UkadY7LoFzZZNGQbk--RqOF45TmiqHdqnFph2U4LM48KX6ZCQYyNIwSs4J_X_MHs-QJ2nKewBcHbVluElwNxvIb0JfbTb1-isHqL-xJjvbpU1UXhTd2D282iwwzkxUi7Z77p0UvnG2OFX4AAOORdGLdhsGs2HrwM1Ypn1bBiXP-D78EKVzWAUsqbOFsLbRM3do5daZ_a_WI4NEYL62KK9kdB34fhDgb2g644vPRQIIrTqibehyz4-rnbkTe7VKundKMmVOAiRpoTqW2V2zHfEoINUg1GLGWevLemf1CIRaMekNydjdrToIQ9JlCMgELyDI1td-O7fZSha4K2HaGlx0aKqVIGoxzFqDn4hJwpX2JFcczKqcAT3iqYOsFd-dNpKTKntoo5vMgFuNaqKGPw0WITGNyMA5dovQ7_nCOQRUVWa1SDEUeKWmzeLiWNVAA10TDRN7B_W40HC_NdugcSiP-QUtFQEtJ6HoyJlMDuIXa_FGnbJsRc9VeOZwG0-JnUNEekT3FbUx1efFRKK67BWAMIAiat3IjYksxdXH8JSkXvRMEo058X8l270Z0_hFo_Iy7qeOCc0oZ96cQKT9MV_WLOaFskOw1b0ZJ1mnLm8mtyKZBaA1Ugwe4OgBntg-adM5xDFiZjIK82LsLqyxIV1WtKs0VSMwcG-eIzPv5GM8ha7otvKsaYWh2TQZDnMqjnYb9qtB_kP0440j5LjYtBGyywcMqIEF8CIBWlHg%22%7D%2C%22header%22%3A%7B%22pageInstance%22%3A%7B%22pageUrn%22%3A%22urn%3Ali%3Apage%3Ad_flagship3_search_srp_people%22%2C%22trackingId%22%3A%22b4d59104-eb3d-42e6-846c-ae93fe8b9483%22%7D%2C%22time%22%3A1777365777565%2C%22version%22%3A%220.0.0%22%7D%2C%22requestHeader%22%3A%7B%22pageKey%22%3A%22d_flagship3_search_srp_people%22%2C%22interfaceLocale%22%3A%22en-US%22%7D%7D%7D%5D&csrfToken=ajax%3A4754293302675097270
+                - generic [ref=f12e16]:
+                  - paragraph [ref=f12e17]: Promoted
+                  - button "Ad Options" [ref=f12e18] [cursor=pointer]:
+                    - img [ref=f12e19]
+                    - generic [ref=f12e23]: Ad Options
+        - contentinfo [ref=e674]:
+          - generic [ref=e676]:
+            - generic [ref=e677]:
+              - navigation [ref=e678]:
+                - list [ref=e679]:
+                  - listitem [ref=e680]:
+                    - link "About" [ref=e681] [cursor=pointer]:
+                      - /url: https://about.linkedin.com/
+                  - listitem [ref=e682]:
+                    - link "Accessibility" [ref=e683] [cursor=pointer]:
+                      - /url: https://www.linkedin.com/accessibility
+                  - listitem [ref=e684]:
+                    - link "Talent Solutions" [ref=e685] [cursor=pointer]:
+                      - /url: https://www.linkedin.com/talent/post-a-job?trk=footer_jobs_home&src=li-footer
+                  - listitem [ref=e686]:
+                    - link "Professional Community Policies" [ref=e687] [cursor=pointer]:
+                      - /url: https://www.linkedin.com/legal/professional-community-policies
+                  - listitem [ref=e688]:
+                    - link "Careers" [ref=e689] [cursor=pointer]:
+                      - /url: https://careers.linkedin.com/
+                  - listitem [ref=e690]:
+                    - link "Marketing Solutions" [ref=e691] [cursor=pointer]:
+                      - /url: https://business.linkedin.com/marketing-solutions?trk=n_nav_lms_f&src=li-footer
+                  - listitem [ref=e692]:
+                    - button "Privacy & Terms" [ref=e694] [cursor=pointer]:
+                      - generic [ref=e696]:
+                        - text: Privacy & Terms
+                        - img [ref=e697]
+                  - listitem [ref=e699]:
+                    - link "Ad Choices" [ref=e700] [cursor=pointer]:
+                      - /url: https://www.linkedin.com/help/linkedin/answer/62931
+                  - listitem [ref=e701]:
+                    - link "Advertising" [ref=e702] [cursor=pointer]:
+                      - /url: https://business.linkedin.com/marketing-solutions/ads?trk=n_nav_ads_f
+                  - listitem [ref=e703]:
+                    - link "Sales Solutions" [ref=e704] [cursor=pointer]:
+                      - /url: https://business.linkedin.com/sales-solutions?trk=flagship_nav&veh=li-footer-lss-control&src=li-footer
+                  - listitem [ref=e705]:
+                    - link "Mobile" [ref=e706] [cursor=pointer]:
+                      - /url: https://mobile.linkedin.com/
+                  - listitem [ref=e707]:
+                    - link "Small Business" [ref=e708] [cursor=pointer]:
+                      - /url: https://smallbusiness.linkedin.com?&src=li-footer
+                  - listitem [ref=e709]:
+                    - link "Safety Center" [ref=e710] [cursor=pointer]:
+                      - /url: https://safety.linkedin.com
+              - generic [ref=e712]:
+                - list [ref=e713]:
+                  - listitem [ref=e714]:
+                    - img [ref=e715]
+                    - generic [ref=e717]:
+                      - link "Questions? Visit our Help Center." [ref=e718] [cursor=pointer]:
+                        - /url: https://www.linkedin.com/help/linkedin?trk=d_flagship3_search_srp_people
+                        - text: Questions?
+                      - paragraph [ref=e719]: Visit our Help Center.
+                  - listitem [ref=e720]:
+                    - img [ref=e721]
+                    - generic [ref=e723]:
+                      - link "Manage your account and privacy Go to your Settings." [ref=e724] [cursor=pointer]:
+                        - /url: https://www.linkedin.com/psettings/
+                        - text: Manage your account and privacy
+                      - paragraph [ref=e725]: Go to your Settings.
+                  - listitem [ref=e726]:
+                    - img [ref=e727]
+                    - generic [ref=e729]:
+                      - link "Recommendation transparency Learn more about Recommended Content." [ref=e730] [cursor=pointer]:
+                        - /url: https://www.linkedin.com/help/linkedin/answer/a1339724
+                        - text: Recommendation transparency
+                      - paragraph [ref=e731]: Learn more about Recommended Content.
+                - generic [ref=e732]:
+                  - generic [ref=e733]: Select Language
+                  - combobox "Select Language" [ref=e734]:
+                    - option "العربية (Arabic)"
+                    - option "বাংলা (Bangla)"
+                    - option "Čeština (Czech)"
+                    - option "Dansk (Danish)"
+                    - option "Deutsch (German)"
+                    - option "Ελληνικά (Greek)"
+                    - option "English (English)" [selected]
+                    - option "Español (Spanish)"
+                    - option "فارسی (Persian)"
+                    - option "Suomi (Finnish)"
+                    - option "Français (French)"
+                    - option "हिंदी (Hindi)"
+                    - option "Magyar (Hungarian)"
+                    - option "Bahasa Indonesia (Indonesian)"
+                    - option "Italiano (Italian)"
+                    - option "עברית (Hebrew)"
+                    - option "日本語 (Japanese)"
+                    - option "한국어 (Korean)"
+                    - option "मराठी (Marathi)"
+                    - option "Bahasa Malaysia (Malay)"
+                    - option "Nederlands (Dutch)"
+                    - option "Norsk (Norwegian)"
+                    - option "ਪੰਜਾਬੀ (Punjabi)"
+                    - option "Polski (Polish)"
+                    - option "Português (Portuguese)"
+                    - option "Română (Romanian)"
+                    - option "Русский (Russian)"
+                    - option "Svenska (Swedish)"
+                    - option "తెలుగు (Telugu)"
+                    - option "ภาษาไทย (Thai)"
+                    - option "Tagalog (Tagalog)"
+                    - option "Türkçe (Turkish)"
+                    - option "Українська (Ukrainian)"
+                    - option "Tiếng Việt (Vietnamese)"
+                    - option "简体中文 (Chinese (Simplified))"
+                    - option "正體中文 (Chinese (Traditional))"
+            - paragraph [ref=e735]: LinkedIn Corporation © 2026
+    - generic:
+      - generic:
+        - complementary:
+          - generic [ref=e736]:
+            - generic [ref=e737]:
+              - generic [ref=e739] [cursor=pointer]:
+                - generic [ref=e740]:
+                  - img "Ying-Kai Liao" [ref=e741]
+                  - generic [ref=e743]: Status is online
+                - button "You are on the messaging overlay. Press enter to open the list of conversations." [ref=e744]:
+                  - generic [ref=e745]:
+                    - generic [ref=e746]: Messaging
+                    - generic [ref=e747]: You are on the messaging overlay. Press enter to open the list of conversations.
+              - generic [ref=e748]:
+                - button "Open messenger dropdown menu" [ref=e750] [cursor=pointer]:
+                  - img "Open messenger dropdown menu" [ref=e751]
+                - button "Compose message" [ref=e754] [cursor=pointer]:
+                  - img [ref=e755]
+                  - generic [ref=e757]: Compose message
+                - button "You are on the messaging overlay. Press enter to open the list of conversations." [ref=e758] [cursor=pointer]:
+                  - img [ref=e759]
+                  - generic [ref=e761]: You are on the messaging overlay. Press enter to open the list of conversations.
+            - link "Pemo Tech Co.,Ltd. picture Pemo Tech Co.,Ltd." [ref=e762] [cursor=pointer]:
+              - /url: https://www.linkedin.com/company/104805537/admin/inbox
+              - img "Pemo Tech Co.,Ltd. picture" [ref=e763]
+              - generic [ref=e764]: Pemo Tech Co.,Ltd.
+              - img [ref=e765]
+        - complementary "AI-powered assistant to get help with your career, jobs etc"
+  - region [ref=e114]

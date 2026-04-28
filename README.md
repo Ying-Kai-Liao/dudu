@@ -1,17 +1,8 @@
 # dudu
 
-VC due diligence skills for Claude Code and OpenAI Codex. Six skills + an orchestrator that produce citation-backed markdown artifacts under a per-deal directory.
+> Built for the **OpenAI Codex hackathon**. Turns "research a deal" from days into a few hours of supervised agent work.
 
-## Install for Claude Code
-
-In a Claude Code session:
-
-```
-/plugin marketplace add /Users/ykliao/Workspace/dudu
-/plugin install dudu@dudu
-```
-
-(Substitute the actual path on your machine. Once published, this becomes a git URL.)
+Six skills + an orchestrator that take a one-line pitch and produce a citation-backed investment memo. Founder dossiers, persona self-play interviews, your-own customer discovery, competitive landscape, and bottom-up market sizing — every claim cited, every gap explicit.
 
 ## Install for Codex
 
@@ -23,7 +14,36 @@ mkdir -p ~/.agents/skills
 ln -s ~/.codex/dudu/skills ~/.agents/skills/dudu
 ```
 
-Restart Codex to discover the skills. Full Codex install guide (Windows, troubleshooting, updating) is in `.codex/INSTALL.md`.
+Restart Codex to discover the skills. Full Codex install guide (Windows junction variant, troubleshooting, updating) is in `.codex/INSTALL.md`.
+
+If the repo is still private, use `gh repo clone Ying-Kai-Liao/dudu ~/.codex/dudu` instead.
+
+## Demo
+
+`test/ledgerloop/` contains a complete dudu run against a real Cape Town company (LedgerLoop, founder Dylan Martens), produced from a Codex session.
+
+What's in there:
+
+- `founder-dylan-martens.md` — public-web + LinkedIn dossier
+- `personas/` — context bundle + 3 personas + 6 self-play conversation rounds
+- `market-problem.md` — cross-round synthesis with patterns, contradictions, and questions for real interviews
+- `competitive-landscape.md` — direct/indirect competitors + incumbent threat verdict + moat analysis
+- `market-sizing.md` — bottom-up TAM, anchored on a defined ICP and reachable population
+- `customer-discovery-prep.md` — target list (LinkedIn searches in `inputs/`), outreach templates, interview script
+- `manifest.json` — five of six skills completed; `customer-discovery-debrief` is null because no real interviews were run for the demo
+
+Notable moment: founder-check caught a pitch/footprint mismatch — the supplied pitch said "embedded working capital for Southeast Asian wholesalers" but the founder's actual public footprint is a South African accounting practice. The VC reframed the deal mid-run rather than continuing on a wrong premise. See `manifest.json` `pitch_reframe_note`.
+
+## Install for Claude Code
+
+In a Claude Code session:
+
+```
+/plugin marketplace add /Users/ykliao/Workspace/dudu
+/plugin install dudu@dudu
+```
+
+(Substitute the actual path on your machine. Once published, this becomes a git URL.)
 
 ## Prerequisites
 
@@ -69,6 +89,7 @@ skills/                six SKILL.md files (read by both harnesses)
 lib/                   shared procedural docs (deal schema, Playwright UX, research protocol)
 scripts/lint-skills.sh frontmatter + lib-reference linter
 tests/lint/            linter test fixtures and runner
+test/ledgerloop/       hackathon demo run (committed; see Demo section)
 docs/superpowers/      design spec and implementation plan
 deals/                 per-deal artifacts (gitignored)
 ```

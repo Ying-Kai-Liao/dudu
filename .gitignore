@@ -1,6 +1,9 @@
 # Per-deal artifacts contain VC research and should never be committed
 deals/
 
+# Playwright MCP runtime logs and page snapshots — tool output, not source
+.playwright-mcp/
+
 # OS / editor cruft
 .DS_Store
 *.swp
