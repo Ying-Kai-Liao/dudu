@@ -1,0 +1,8 @@
+{
+  "type": "object",
+  "properties": {
+    "pain_intensity": { "type": "integer", "minimum": 1, "maximum": 10 },
+    "pain_quote": { "type": "string" }
+  },
+  "required": ["pain_intensity", "pain_quote"]
+}
