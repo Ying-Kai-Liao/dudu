@@ -17,6 +17,10 @@ deals/<slug>/
 ├── manifest.json
 ├── inputs/                       # artifacts the VC supplied (deck, notes, transcripts)
 ├── founder-<name>.md             # one per founder; <name> is kebab-case of the founder name
+├── idea-validation.md            # optional; written by `dudu:idea-validation`
+├── candidates/                   # optional; one file per candidate persona/segment
+│   ├── candidate-1.md
+│   └── candidate-2.md
 ├── market-problem.md
 ├── personas/
 │   ├── _context.md
@@ -52,6 +56,8 @@ deals/<slug>/
 ```
 
 Every skill that produces an artifact MUST update `skills_completed[<skill-key>]` with the current ISO-8601 UTC timestamp. If the skill aborts, it leaves the value as `null`.
+
+Optional skills (e.g. `idea-validation`) may add their own key on completion. They are not required by the `dudu:diligence` orchestrator and need not be listed in the initial schema.
 
 ## Idempotency
 

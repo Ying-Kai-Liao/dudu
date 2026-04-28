@@ -56,12 +56,13 @@ In a Claude Code session:
 |-------|--------------|--------|
 | `dudu:diligence` | Orchestrates the full workflow on one deal | `deals/<slug>/MEMO.md` |
 | `dudu:founder-check` | Public-web + LinkedIn dossier per founder | `deals/<slug>/founder-<name>.md` |
+| `dudu:idea-validation` | Compare 2–5 candidate ICPs head-to-head, recommend a wedge (optional, idea-stage only) | `deals/<slug>/idea-validation.md` |
 | `dudu:market-problem` | Deep context + persona self-play (rehearsal) | `deals/<slug>/market-problem.md` |
 | `dudu:customer-discovery` | `prep` builds target list + scripts; `debrief` synthesizes real interviews | `deals/<slug>/customer-discovery*.md` |
 | `dudu:competitive-landscape` | Competitor matrix, incumbent threat, moat analysis | `deals/<slug>/competitive-landscape.md` |
 | `dudu:market-sizing` | Bottom-up TAM ignoring founder claims | `deals/<slug>/market-sizing.md` |
 
-Each skill can be invoked standalone, or run all together via the orchestrator.
+Each skill can be invoked standalone, or run all together via the orchestrator. `idea-validation` is optional and not part of the orchestrated flow — use it before `market-problem` when the wedge ICP is unclear.
 
 ## Typical workflow
 
