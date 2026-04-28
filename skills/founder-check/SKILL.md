@@ -26,7 +26,7 @@ Sources, in priority order:
 
 1. **Pitch deck / company website** — if supplied or findable, fetch the `/about`, `/team`, or `/leadership` page.
 2. **Crunchbase company page** — Playwright with the VC's authenticated session (per `lib/playwright-auth.md`). "Key People" / "Founders" section.
-3. **LinkedIn company page** — Playwright. People section filtered by titles "Founder", "Co-founder", "CEO", "CTO".
+3. **LinkedIn company page** — Playwright with the VC's authenticated session (per `lib/playwright-auth.md`). Navigate to `https://www.linkedin.com/company/<slug>/people/`, filter the People section by titles "Founder", "Co-founder", "CEO", "CTO". If the company slug isn't known, search LinkedIn for the company name first and follow the profile link.
 4. **Google search** — `"<company name>" founder OR co-founder OR CEO`. Read the top 5 results.
 5. **News** — recent press releases or funding announcements often name founders explicitly.
 
