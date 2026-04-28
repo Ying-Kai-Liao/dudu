@@ -1,0 +1,3 @@
+ERROR: skills/a/SKILL.md name 'same' does not match directory 'a'
+ERROR: skills/b/SKILL.md name 'same' does not match directory 'b'
+FAIL: 2 error(s)
