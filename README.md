@@ -1,8 +1,8 @@
 # dudu
 
-VC due diligence skills for Claude Code. Six skills + an orchestrator that produce citation-backed markdown artifacts under a per-deal directory.
+VC due diligence skills for Claude Code and OpenAI Codex. Six skills + an orchestrator that produce citation-backed markdown artifacts under a per-deal directory.
 
-## Install
+## Install for Claude Code
 
 In a Claude Code session:
 
@@ -12,6 +12,18 @@ In a Claude Code session:
 ```
 
 (Substitute the actual path on your machine. Once published, this becomes a git URL.)
+
+## Install for Codex
+
+Clone the repo and symlink the skills directory:
+
+```bash
+git clone https://github.com/Ying-Kai-Liao/dudu.git ~/.codex/dudu
+mkdir -p ~/.agents/skills
+ln -s ~/.codex/dudu/skills ~/.agents/skills/dudu
+```
+
+Restart Codex to discover the skills. Full Codex install guide (Windows, troubleshooting, updating) is in `.codex/INSTALL.md`.
 
 ## Prerequisites
 
@@ -50,8 +62,10 @@ Each skill can be invoked standalone, or run all together via the orchestrator.
 ## Repository layout
 
 ```
-.claude-plugin/        plugin and marketplace manifests
-skills/                six SKILL.md files
+.claude-plugin/        Claude Code plugin + marketplace manifests
+.codex-plugin/         Codex plugin manifest
+.codex/INSTALL.md      Codex install guide (clone + symlink)
+skills/                six SKILL.md files (read by both harnesses)
 lib/                   shared procedural docs (deal schema, Playwright UX, research protocol)
 scripts/lint-skills.sh frontmatter + lib-reference linter
 tests/lint/            linter test fixtures and runner

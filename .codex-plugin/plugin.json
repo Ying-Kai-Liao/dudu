@@ -1,0 +1,35 @@
+{
+  "name": "dudu",
+  "version": "0.1.0",
+  "description": "VC due diligence skills: founder checks, market/problem persona self-play, customer discovery, competitive landscape, and market sizing.",
+  "author": {
+    "name": "Ying-Kai Liao",
+    "email": "lykevin890919@gmail.com"
+  },
+  "homepage": "https://github.com/Ying-Kai-Liao/dudu",
+  "repository": "https://github.com/Ying-Kai-Liao/dudu",
+  "license": "MIT",
+  "keywords": [
+    "vc",
+    "venture-capital",
+    "due-diligence",
+    "skills"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "dudu",
+    "shortDescription": "VC due diligence workflow for early-stage deals",
+    "longDescription": "Run end-to-end early-stage diligence on a deal: founder checks (with optional discovery), market/product/problem persona self-play, your-own customer discovery prep and debrief, competitive landscape, and bottom-up market sizing. Each skill produces a citation-backed markdown artifact under deals/<slug>/, stitched into a final investment memo.",
+    "developerName": "Ying-Kai Liao",
+    "category": "Research",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "I'm evaluating a new deal. Help me run dudu:diligence on it.",
+      "Run dudu:founder-check on the founders of this company."
+    ]
+  }
+}
