@@ -1,0 +1,1242 @@
+- generic [ref=e2]:
+  - heading "0 notifications" [level=2] [ref=e3]
+  - generic [ref=e4]:
+    - generic:
+      - button [ref=e5] [cursor=pointer]:
+        - generic [ref=e7]: Skip to main content
+      - button [ref=e8] [cursor=pointer]:
+        - img [ref=e10]
+    - generic [ref=e12]:
+      - banner [ref=e14]:
+        - generic [ref=e17]:
+          - button "LinkedIn" [ref=e18] [cursor=pointer]:
+            - img "LinkedIn" [ref=e19]
+          - generic [ref=e21]:
+            - status [ref=e22]
+            - search [ref=e23]:
+              - generic [ref=e24]:
+                - img [ref=e26]
+                - textbox "Search" [ref=e28]
+          - generic [ref=e30]:
+            - figure [ref=e35]
+            - navigation [ref=e38]:
+              - list [ref=e39]:
+                - listitem [ref=e40]:
+                  - button "Home, 1 new notification" [ref=e41] [cursor=pointer]:
+                    - img [ref=e43]
+                    - generic [ref=e47]: Home
+                - listitem [ref=e48]:
+                  - link "My Network, 2 new notifications" [ref=e49] [cursor=pointer]:
+                    - /url: https://www.linkedin.com/mynetwork
+                    - generic [ref=e50]:
+                      - img [ref=e51]
+                      - generic [ref=e53]: "2"
+                    - generic [ref=e55]: My Network
+                - listitem [ref=e56]:
+                  - link "Jobs, 0 new notifications" [ref=e57] [cursor=pointer]:
+                    - /url: https://www.linkedin.com/jobs/
+                    - img [ref=e59]
+                    - generic [ref=e62]: Jobs
+                - listitem [ref=e63]:
+                  - link "Messaging, 0 new notifications" [ref=e64] [cursor=pointer]:
+                    - /url: https://www.linkedin.com/messaging/
+                    - img [ref=e66]
+                    - generic [ref=e69]: Messaging
+                - listitem [ref=e70]:
+                  - link "Notifications, 9 new notifications" [ref=e71] [cursor=pointer]:
+                    - /url: https://www.linkedin.com/notifications/
+                    - generic [ref=e72]:
+                      - img [ref=e73]
+                      - generic [ref=e75]: "9"
+                    - generic [ref=e77]: Notifications
+                - listitem [ref=e78]:
+                  - button "Me" [ref=e79] [cursor=pointer]:
+                    - figure [ref=e81]
+                    - generic [ref=e83]:
+                      - text: Me
+                      - img [ref=e84]
+            - generic [ref=e87]:
+              - navigation [ref=e88]:
+                - list [ref=e89]:
+                  - listitem [ref=e90]:
+                    - button "For Business" [ref=e91] [cursor=pointer]:
+                      - img [ref=e93]
+                      - generic [ref=e96]:
+                        - text: For Business
+                        - img [ref=e97]
+              - link "Try Premium for A$0" [ref=e100] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/dylan-martens/
+                - generic [ref=e101]:
+                  - img [ref=e102]
+                  - paragraph [ref=e106]: Try Premium for A$0
+      - main [ref=e107]:
+        - generic [ref=e108]:
+          - toolbar [ref=e109]:
+            - generic [ref=e113]:
+              - link "Dylan Martens CA(SA)" [ref=e114] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/dylan-martens/
+                - generic "Dylan Martens CA(SA)" [ref=e115]:
+                  - figure [ref=e116]
+                  - generic [ref=e117]:
+                    - paragraph [ref=e118]: Dylan Martens CA(SA)
+                    - paragraph [ref=e120]: LucroTech CEO | LedgerLoop Founder | Chartered Accountant
+              - generic [ref=e121]:
+                - button "More" [ref=e123] [cursor=pointer]:
+                  - img [ref=e125]
+                - button "Follow Dylan Martens CA(SA)" [ref=e130] [cursor=pointer]:
+                  - generic [ref=e131]:
+                    - img [ref=e132]
+                    - generic [ref=e135]: Follow
+                - link "Message" [ref=e137] [cursor=pointer]:
+                  - /url: /messaging/compose/?profileUrn=urn%3Ali%3Afsd_profile%3AACoAAA1BkvwB3phBVPuAqyGSrzagjnLhodyoswQ&recipient=ACoAAA1BkvwB3phBVPuAqyGSrzagjnLhodyoswQ&screenContext=NON_SELF_PROFILE_VIEW&interop=msgOverlay
+                  - generic [ref=e138]:
+                    - img [ref=e139]
+                    - generic [ref=e141]: Message
+          - main [ref=e142]:
+            - generic [ref=e144]:
+              - generic [ref=e147]:
+                - generic [ref=e152]:
+                  - generic [ref=e153]:
+                    - link [ref=e156] [cursor=pointer]:
+                      - /url: https://www.linkedin.com/in/dylan-martens/overlay/background-photo/
+                      - figure [ref=e157]:
+                        - img "Cover photo" [ref=e158]
+                    - link "Profile photo" [ref=e159] [cursor=pointer]:
+                      - /url: https://www.linkedin.com/in/dylan-martens/
+                      - generic "Profile photo" [ref=e160]:
+                        - figure [ref=e161]
+                  - generic [ref=e162]:
+                    - generic [ref=e163]:
+                      - generic [ref=e165]:
+                        - generic [ref=e166]:
+                          - link "Dylan Martens CA(SA)" [ref=e168] [cursor=pointer]:
+                            - /url: https://www.linkedin.com/in/dylan-martens/
+                            - heading "Dylan Martens CA(SA)" [level=2] [ref=e170]
+                          - paragraph [ref=e171]: · 3rd
+                        - paragraph [ref=e172]: LucroTech CEO | LedgerLoop Founder | Chartered Accountant
+                        - generic [ref=e173]:
+                          - paragraph [ref=e174]: City of Cape Town, Western Cape, South Africa
+                          - paragraph [ref=e175]: ·
+                          - paragraph [ref=e176]:
+                            - link "Contact info" [ref=e177] [cursor=pointer]:
+                              - /url: https://www.linkedin.com/in/dylan-martens/overlay/contact-info/
+                      - generic [ref=e179]:
+                        - button "LucroTech" [ref=e180] [cursor=pointer]:
+                          - generic [ref=e181]:
+                            - figure [ref=e182]
+                            - paragraph [ref=e186]: LucroTech
+                        - button "University of Cape Town" [ref=e187] [cursor=pointer]:
+                          - generic [ref=e188]:
+                            - figure [ref=e189]
+                            - paragraph [ref=e193]: University of Cape Town
+                    - generic [ref=e194]:
+                      - paragraph [ref=e195]: "422"
+                      - paragraph [ref=e196]: connections
+                    - generic [ref=e200]:
+                      - link "Message" [ref=e202] [cursor=pointer]:
+                        - /url: /messaging/compose/?profileUrn=urn%3Ali%3Afsd_profile%3AACoAAA1BkvwB3phBVPuAqyGSrzagjnLhodyoswQ&recipient=ACoAAA1BkvwB3phBVPuAqyGSrzagjnLhodyoswQ&screenContext=NON_SELF_PROFILE_VIEW&interop=msgOverlay
+                        - generic [ref=e203]:
+                          - img [ref=e204]
+                          - generic [ref=e206]: Message
+                      - button "Follow Dylan Martens CA(SA)" [ref=e210] [cursor=pointer]:
+                        - generic [ref=e211]:
+                          - img [ref=e212]
+                          - generic [ref=e215]: Follow
+                      - button "More" [ref=e217] [cursor=pointer]:
+                        - img [ref=e219]
+                - generic [ref=e228]:
+                  - heading "About" [level=2] [ref=e230]
+                  - generic [ref=e231]:
+                    - paragraph [ref=e232]:
+                      - generic [ref=e233]:
+                        - text: Results-driven CA(SA) from a Big 4 audit firm with deep experience at the intersection of finance, product innovation, and blockchain technology. As CEO of LucroTech, I lead ERP innovation for SMEs—integrating accounting, eCommerce, inventory, and POS—while also designing and deploying bespoke AI and IT solutions to address unique client needs. I am also the Founder of LedgerLoop, a modern accounting and tax practice leveraging automation to optimize compliance and efficiency for freelancers and startups. My career spans traditional accounting, DeFi product leadership, and blockchain platforms, including a memecoin exchange that reached 6,000+ users and $3M+ in trading volume during beta phase.
+                        - button:
+                          - generic [ref=e235] [cursor=pointer]: … more
+                    - generic [ref=e238]:
+                      - generic [ref=e239]:
+                        - img [ref=e240]
+                        - generic [ref=e242]:
+                          - paragraph [ref=e243]: Top skills
+                          - paragraph [ref=e244]: Financial Accounting • Financial Analysis • Risk Management • Cryptocurrency • Business Strategy
+                      - link "Show top skills" [ref=e245] [cursor=pointer]:
+                        - /url: https://www.linkedin.com/in/dylan-martens/overlay/top-skills-details/
+                        - img [ref=e247]
+                - generic [ref=e254]:
+                  - generic [ref=e255]:
+                    - generic [ref=e256]:
+                      - heading "Activity" [level=2] [ref=e257]
+                      - paragraph [ref=e259]: 433 followers
+                    - button "Follow Dylan Martens CA(SA)" [ref=e262] [cursor=pointer]:
+                      - generic [ref=e263]:
+                        - img [ref=e264]
+                        - generic [ref=e267]: Follow
+                  - generic [ref=e268]:
+                    - radio "Posts" [checked] [ref=e269] [cursor=pointer]:
+                      - generic [ref=e270]:
+                        - checkbox "Posts" [checked]
+                        - generic [ref=e271]: Posts
+                    - radio "Comments" [ref=e272] [cursor=pointer]:
+                      - generic [ref=e273]:
+                        - checkbox "Comments"
+                        - generic [ref=e274]: Comments
+                  - generic [ref=e276]:
+                    - list [ref=e283]:
+                      - list [ref=e284]:
+                        - listitem [ref=e285]:
+                          - listitem [ref=e287]:
+                            - generic [ref=e288]:
+                              - generic [ref=e289]:
+                                - link [ref=e290] [cursor=pointer]:
+                                  - /url: https://www.linkedin.com/in/dylan-martens/
+                                  - figure [ref=e291]:
+                                    - img "View Dylan Martens CA(SA)’s profile" [ref=e292]
+                                - 'link "Dylan Martens CA(SA) 3rd+ LucroTech CEO | LedgerLoop Founder | Chartered Accountant 8mo • Visibility: Global" [ref=e293] [cursor=pointer]':
+                                  - /url: https://www.linkedin.com/in/dylan-martens/
+                                  - generic [ref=e294]:
+                                    - generic "Dylan Martens CA(SA) 3rd+" [ref=e295]:
+                                      - paragraph [ref=e298]: Dylan Martens CA(SA)
+                                      - paragraph [ref=e300]: • 3rd+
+                                    - paragraph [ref=e302]: LucroTech CEO | LedgerLoop Founder | Chartered Accountant
+                                    - paragraph [ref=e304]:
+                                      - text: 8mo •
+                                      - 'img "Visibility: Global" [ref=e305]'
+                                - button "Open control menu for post by Dylan Martens CA(SA)" [ref=e307] [cursor=pointer]:
+                                  - img [ref=e309]
+                              - link "I’m happy to share that I’m starting a new position as Chief Executive Officer at LucroTech!" [ref=e311] [cursor=pointer]:
+                                - /url: https://www.linkedin.com/feed/update/urn:li:activity:7365824518247854080/
+                                - paragraph [ref=e312]:
+                                  - generic [ref=e313]:
+                                    - text: I’m happy to share that I’m starting a new position as Chief Executive Officer at
+                                    - link "LucroTech" [ref=e314]:
+                                      - /url: https://www.linkedin.com/company/lucrotechsolutions/
+                                      - strong [ref=e316]: LucroTech
+                                    - text: "!"
+                              - generic [ref=e317]:
+                                - link [ref=e318] [cursor=pointer]:
+                                  - /url: https://www.linkedin.com/in/dylan-martens/
+                                  - figure [ref=e319]:
+                                    - img "View celebration image" [ref=e320]
+                                - link "Starting a new position" [ref=e321] [cursor=pointer]:
+                                  - /url: https://www.linkedin.com/feed/update/urn:li:activity:7365824518247854080/
+                                  - paragraph [ref=e322]: Starting a new position
+                            - generic [ref=e323]:
+                              - generic [ref=e324]:
+                                - link "35 reactions" [ref=e325] [cursor=pointer]:
+                                  - /url: https://www.linkedin.com/in/dylan-martens/
+                                  - generic [ref=e326]:
+                                    - img [ref=e327]
+                                    - img [ref=e333]
+                                    - img [ref=e347]
+                                    - paragraph [ref=e354]:
+                                      - generic [ref=e355]: 35 reactions
+                                      - text: "35"
+                                - link "7 comments" [ref=e357] [cursor=pointer]:
+                                  - /url: https://www.linkedin.com/feed/update/urn:li:activity:7365824518247854080/
+                                  - paragraph [ref=e358]:
+                                    - generic [ref=e359]: 7 comments
+                                    - generic [ref=e360]: 7 comments
+                              - generic [ref=e361]:
+                                - generic [ref=e362]:
+                                  - 'button "Reaction button state: no reaction" [ref=e365] [cursor=pointer]':
+                                    - generic [ref=e366]:
+                                      - img [ref=e367]
+                                      - generic [ref=e369]: Like
+                                  - button "Open reactions menu":
+                                    - img [ref=e371] [cursor=pointer]
+                                - link "Comment" [ref=e373] [cursor=pointer]:
+                                  - /url: https://www.linkedin.com/feed/update/urn:li:activity:7365824518247854080/
+                                  - generic [ref=e374]:
+                                    - img [ref=e375]
+                                    - generic [ref=e377]: Comment
+                                - button "Repost" [ref=e378] [cursor=pointer]:
+                                  - generic [ref=e379]:
+                                    - img [ref=e380]
+                                    - generic [ref=e382]: Repost
+                                - link "Send" [ref=e383] [cursor=pointer]:
+                                  - /url: https://www.linkedin.com/in/dylan-martens/
+                                  - generic [ref=e384]:
+                                    - img [ref=e385]
+                                    - generic [ref=e387]: Send
+                        - listitem [ref=e388]:
+                          - listitem [ref=e390]:
+                            - generic [ref=e391]:
+                              - generic [ref=e392]:
+                                - generic [ref=e393]:
+                                  - link [ref=e394] [cursor=pointer]:
+                                    - /url: https://www.linkedin.com/in/dylan-martens/
+                                    - figure [ref=e395]:
+                                      - img "View Dylan Martens CA(SA)’s profile" [ref=e396]
+                                  - paragraph [ref=e398]:
+                                    - link "Dylan Martens CA(SA)" [ref=e399] [cursor=pointer]:
+                                      - /url: https://www.linkedin.com/in/dylan-martens/
+                                      - strong [ref=e400]: Dylan Martens CA(SA)
+                                    - text: reposted this
+                                - button "Open control menu for post by LucroTech" [ref=e401] [cursor=pointer]:
+                                  - img [ref=e403]
+                              - generic [ref=e405]:
+                                - link [ref=e406] [cursor=pointer]:
+                                  - /url: https://www.linkedin.com/company/lucrotechsolutions/posts/
+                                  - figure [ref=e407]:
+                                    - 'img "View company: LucroTech" [ref=e408]'
+                                - 'link "LucroTech 8mo • Visibility: Global" [ref=e409] [cursor=pointer]':
+                                  - /url: https://www.linkedin.com/company/lucrotechsolutions/posts/
+                                  - generic [ref=e410]:
+                                    - generic "LucroTech" [ref=e411]:
+                                      - paragraph [ref=e414]: LucroTech
+                                    - paragraph [ref=e416]:
+                                      - text: 8mo •
+                                      - 'img "Visibility: Global" [ref=e417]'
+                              - link [ref=e419] [cursor=pointer]:
+                                - /url: https://www.linkedin.com/feed/update/urn:li:activity:7365821372381507585/
+                                - paragraph [ref=e420]:
+                                  - generic [ref=e421]:
+                                    - text: LucroTech is pleased to announce the appointment of
+                                    - link "Dylan Martens CA(SA)" [ref=e422]:
+                                      - /url: https://www.linkedin.com/in/dylan-martens/
+                                      - strong [ref=e424]: Dylan Martens CA(SA)
+                                    - text: as Chief Executive Officer.
+                                    - text: Dylan is a Chartered Accountant (SA) who began his career at
+                                    - link "KPMG" [ref=e425]:
+                                      - /url: https://www.linkedin.com/company/kpmg/
+                                      - strong [ref=e427]: KPMG
+                                    - text: ", where he gained significant experience in audit, advisory, and blockchain-related solutions. He has since built a career spanning finance, consulting, fintech, and cryptocurrency, including founding"
+                                    - link "LedgerLoop Accountants" [ref=e428]:
+                                      - /url: https://www.linkedin.com/company/ledgerloop-accountants/
+                                      - strong [ref=e430]: LedgerLoop Accountants
+                                    - text: to bring innovative financial management solutions to businesses.
+                                    - text: With a strong background in both traditional finance and emerging technologies, Dylan is well positioned to lead
+                                    - link "LucroTech" [ref=e431]:
+                                      - /url: https://www.linkedin.com/company/lucrotechsolutions/
+                                      - strong [ref=e433]: LucroTech
+                                    - text: into its next phase of growth and innovation. His expertise in combining financial discipline with cutting-edge blockchain and crypto applications aligns with our vision of delivering transformative technology solutions to our clients.
+                                    - text: We welcome Dylan to LucroTech and look forward to his leadership in driving our strategic objectives.
+                                    - button:
+                                      - generic [ref=e435]: … more
+                            - generic [ref=e436]:
+                              - generic [ref=e437]:
+                                - link "9 reactions" [ref=e438] [cursor=pointer]:
+                                  - /url: https://www.linkedin.com/in/dylan-martens/
+                                  - generic [ref=e439]:
+                                    - img [ref=e440]
+                                    - img [ref=e446]
+                                    - paragraph [ref=e461]:
+                                      - generic [ref=e462]: 9 reactions
+                                      - text: "9"
+                                - generic [ref=e463]:
+                                  - link "2 comments" [ref=e464] [cursor=pointer]:
+                                    - /url: https://www.linkedin.com/feed/update/urn:li:activity:7365821372381507585/
+                                    - paragraph [ref=e465]:
+                                      - generic [ref=e466]: 2 comments
+                                      - generic [ref=e467]: 2 comments
+                                  - paragraph [ref=e468]: •
+                                  - link "2 reposts" [ref=e469] [cursor=pointer]:
+                                    - /url: https://www.linkedin.com/in/dylan-martens/
+                                    - paragraph [ref=e470]:
+                                      - generic [ref=e471]: 2 reposts
+                                      - generic [ref=e472]: 2 reposts
+                              - generic [ref=e473]:
+                                - generic [ref=e474]:
+                                  - 'button "Reaction button state: no reaction" [ref=e477] [cursor=pointer]':
+                                    - generic [ref=e478]:
+                                      - img [ref=e479]
+                                      - generic [ref=e481]: Like
+                                  - button "Open reactions menu":
+                                    - img [ref=e483] [cursor=pointer]
+                                - link "Comment" [ref=e485] [cursor=pointer]:
+                                  - /url: https://www.linkedin.com/feed/update/urn:li:activity:7365821372381507585/
+                                  - generic [ref=e486]:
+                                    - img [ref=e487]
+                                    - generic [ref=e489]: Comment
+                                - button "Repost" [ref=e490] [cursor=pointer]:
+                                  - generic [ref=e491]:
+                                    - img [ref=e492]
+                                    - generic [ref=e494]: Repost
+                                - link "Send" [ref=e495] [cursor=pointer]:
+                                  - /url: https://www.linkedin.com/in/dylan-martens/
+                                  - generic [ref=e496]:
+                                    - img [ref=e497]
+                                    - generic [ref=e499]: Send
+                    - link "Show all" [ref=e501] [cursor=pointer]:
+                      - /url: https://www.linkedin.com/in/dylan-martens/recent-activity/all/
+                      - generic [ref=e502]:
+                        - img [ref=e503]
+                        - generic [ref=e505]: Show all
+                - generic [ref=e508]:
+                  - generic [ref=e513]:
+                    - heading "Experience" [level=2] [ref=e515]
+                    - generic [ref=e516]:
+                      - generic [ref=e521]:
+                        - link [ref=e522] [cursor=pointer]:
+                          - /url: https://www.linkedin.com/company/70903239/
+                          - figure [ref=e523]:
+                            - img "LucroTech logo" [ref=e524]
+                        - generic [ref=e525]:
+                          - link "Chief Executive Officer LucroTech · Full-time Aug 2025 - Present · 9 mos South Africa · Hybrid" [ref=e526] [cursor=pointer]:
+                            - /url: https://www.linkedin.com/company/70903239/
+                            - generic [ref=e527]:
+                              - generic [ref=e529]:
+                                - paragraph [ref=e530]: Chief Executive Officer
+                                - paragraph [ref=e531]: LucroTech · Full-time
+                              - paragraph [ref=e532]: Aug 2025 - Present · 9 mos
+                              - paragraph [ref=e533]: South Africa · Hybrid
+                          - paragraph [ref=e535]:
+                            - generic [ref=e536]:
+                              - text: "As CEO of LucroTech, I'm part of a team that empowers businesses with a range of sophisticated and user-friendly ERP tools—from CRM and eCommerce to accounting, inventory, point-of-sale, digital marketing solutions and everything in between. Furthermore, these tools are often integrated into custom developed solution specifically tailored to clients needs. Our mission is simple - to enable seamless business operations in order to allow our clients to grow rapidly. Taking advantage of AI and digital transformation strategies, we seek to empower our clients to focus on growth while we handle the complexity. Key duties and responsibilities: • Strategic leadership: Set LucroTech's strategic direction, ensuring our product suite (CRM, eCommerce, accounting, inventory, POS, AI) continues to address evolving business needs and harness emerging technologies like AI and Web3 for client engagements. • Growth & product innovation: Spearhead product development and go-to-market strategies that expand our ERP tool ecosystem, emphasizing seamless integration and scalability. We deliver turnkey solutions—powerful and cost-effective—to meet diverse client workflows. • Bespoke IT & AI Solutions: Design and deploy tailored technology solutions for clients—from digitisation strategies to enterprise-wide chatbots—leveraging AI and automation to streamline operations, improve decision-making, and create long-term value. • Operational excellence: Oversee people and processes to ensure seamless delivery of LucroTech’s solutions—ERP modules, AI, CRM, and marketing tools—across all operational areas, maintaining high quality and responsiveness. • Financial management: Set and manage budget, financial forecasts, and P&L to drive sustainable growth, profitability, and margin-focused performance."
+                              - button:
+                                - generic [ref=e538] [cursor=pointer]: … more
+                          - paragraph [ref=e539]:
+                            - link "Business Consulting, Management Consulting and +3 skills" [ref=e540] [cursor=pointer]:
+                              - /url: https://www.linkedin.com/in/dylan-martens/overlay/2711020919/skill-associations-details/
+                              - img [ref=e542]
+                              - text: Business Consulting, Management Consulting and +3 skills
+                      - generic [ref=e548]:
+                        - link [ref=e549] [cursor=pointer]:
+                          - /url: https://www.linkedin.com/company/108657123/
+                          - figure [ref=e550]:
+                            - img "LedgerLoop Accountants logo" [ref=e551]
+                        - generic [ref=e552]:
+                          - link "Founder LedgerLoop Accountants · Full-time Jun 2025 - Present · 11 mos City of Cape Town, Western Cape, South Africa · On-site" [ref=e553] [cursor=pointer]:
+                            - /url: https://www.linkedin.com/company/108657123/
+                            - generic [ref=e554]:
+                              - generic [ref=e556]:
+                                - paragraph [ref=e557]: Founder
+                                - paragraph [ref=e558]: LedgerLoop Accountants · Full-time
+                              - paragraph [ref=e559]: Jun 2025 - Present · 11 mos
+                              - paragraph [ref=e560]: City of Cape Town, Western Cape, South Africa · On-site
+                          - paragraph [ref=e562]:
+                            - generic [ref=e563]:
+                              - text: "LedgerLoop was founded to simplify some of the business challenges I faced myself. Accounting can be time-consuming and often times, frustrating. LedgerLoop was founded to allow small business owners to focus on their business, not their books. With that in mind, I perform a number of duties to assist clients with the growth and scale. Key duties and responsibilities: • Client centric: Oversee end-to-end delivery of accounting, tax, and compliance services to a portfolio of SMEs, freelancers, and startups across South Africa. • Financial advisory: Lead monthly client engagements, providing financial insight and advisory on cash flow, budgeting, and tax efficiency. • Technical accounting & compliance: Review and sign off on financial statements, bookkeeping, payroll, income tax and VAT to ensure quality and compliance with regulators. • Process automation & workflow design: Develop internal systems and workflows using a range of tools to automate routine tasks. • Stakeholder management: Liaise directly with clients and regulators to resolve queries, disputes, and ensure timely filings. • Regulatory awareness: Stay updated on legislative changes in tax and financial reporting to provide proactive advice to clients."
+                              - button:
+                                - generic [ref=e565] [cursor=pointer]: … more
+                          - paragraph [ref=e566]:
+                            - link "Financial Accounting, Tax Accounting and +3 skills" [ref=e567] [cursor=pointer]:
+                              - /url: https://www.linkedin.com/in/dylan-martens/overlay/2681655633/skill-associations-details/
+                              - img [ref=e569]
+                              - text: Financial Accounting, Tax Accounting and +3 skills
+                      - generic [ref=e571]:
+                        - generic [ref=e574]:
+                          - figure [ref=e575]:
+                            - img "Bull & Bear Markets logo" [ref=e576]
+                          - generic [ref=e583]:
+                            - generic [ref=e585]:
+                              - paragraph [ref=e586]: Bull & Bear Markets
+                              - paragraph [ref=e587]: Full-time · 3 yrs 7 mos
+                            - paragraph [ref=e588]: Remote · Remote
+                        - list [ref=e589]:
+                          - listitem [ref=e590]:
+                            - generic [ref=e593]:
+                              - generic [ref=e594]:
+                                - paragraph [ref=e595]: Co-Product Lead & Chief Financial Officer
+                                - paragraph [ref=e596]: Mar 2024 - Aug 2025 · 1 yr 6 mos
+                              - generic [ref=e597]:
+                                - paragraph [ref=e598]:
+                                  - generic [ref=e599]:
+                                    - text: "As Co-Product Lead and CFO at Bull & Bear Markets, I define and execute the product strategy for a decentralized finance platform, overseeing the entire product lifecycle from research to development. I manage cross-functional teams to successfully ship and manage products, ensuring alignment between customer needs and business goals. Additionally, I oversee all financial aspects of the business, including risk management, to drive sustainable growth in a rapidly evolving Web3 space. Key duties and responsibilities: • Product strategy & execution: Direct product strategy for a DeFi trading platform, leading 23 team members across development, marketing and sales departments. • Product development: Launched a leveraged memecoin trading platform achieving 6,000+ users, 75,000+ trades, and $3M+ in volume during beta, all without any marketing spend. • Innovative solutions: Designed a unique risk management engine and oracle for leveraged long-tail asset trading. Additionally, developed a blockchain-based life insurance MVP to demonstrate the potential of DeFi insurance solutions. • Market & user research: Conducted competitor and market analysis to understand overall user trends and market direction. • Agile implementation: Employed agile methodologies to manage developer workload and test marketing strategies, driving user acquisition and engagement. Established and monitored team and individual KPIs to measure what matters. • Stakeholder engagement & leadership: Maintained regular tokenholder engagements via investor reports and calls. Provided team leadership through bi-daily team standup meetings and regular communication and reports. • Tool proficiency: Managed projects using JIRA, Dune Analytics, Python and MS Excel."
+                                    - button:
+                                      - generic [ref=e601] [cursor=pointer]: … more
+                                - paragraph [ref=e602]:
+                                  - link "Product Management, C Level Management and +3 skills" [ref=e603] [cursor=pointer]:
+                                    - /url: https://www.linkedin.com/in/dylan-martens/overlay/2586073965/skill-associations-details/
+                                    - img [ref=e605]
+                                    - text: Product Management, C Level Management and +3 skills
+                          - listitem [ref=e607]:
+                            - generic [ref=e610]:
+                              - generic [ref=e611]:
+                                - paragraph [ref=e612]: Product Manager
+                                - paragraph [ref=e613]: Feb 2022 - Feb 2024 · 2 yrs 1 mo
+                              - generic [ref=e614]:
+                                - paragraph [ref=e615]:
+                                  - generic [ref=e616]:
+                                    - text: "As a Product Manager, my responsibilities included overseeing product development & management, collaborating with marketing and development teams, analyzing market trends, and defining product roadmaps. Ensured alignment between customer needs and business goals, leading to successful product launches and increased user engagement. I was promoted to Co-Product Lead & CFO in March 2024. Key duties and responsibilities: • Product management: Developed an iterative product strategy and roadmap for a $17M+ protocol. Designed and monitored product KPIs to assess performance and user activity. • Product development: Utilized agile methodologies to align product strategy with market trends, ensuring successful product launches. • Technical documentation: Drafted technical documentation for 40+ products and features, and in partnership with the scrum master, developed detailed user stories and developer tickets. • Tokenomics design: Designed a sustainable tokenomics model for 4000+ tokenholders, which balanced protocol solvency while rewarding early adopters. • Stakeholder engagement: Fostered relationships with new and existing partners through regular in-person engagements."
+                                    - button:
+                                      - generic [ref=e618] [cursor=pointer]: … more
+                                - paragraph [ref=e619]:
+                                  - link "Product Management, Product Development and +4 skills" [ref=e620] [cursor=pointer]:
+                                    - /url: https://www.linkedin.com/in/dylan-martens/overlay/2586077529/skill-associations-details/
+                                    - img [ref=e622]
+                                    - text: Product Management, Product Development and +4 skills
+                      - generic [ref=e628]:
+                        - link [ref=e629] [cursor=pointer]:
+                          - /url: https://www.linkedin.com/company/33200573/
+                          - figure [ref=e630]:
+                            - img "Self Employed logo" [ref=e631]
+                        - generic [ref=e632]:
+                          - link "Cryptocurrency Algorithmic Trader Self Employed · Part-time Mar 2020 - Jan 2022 · 1 yr 11 mos Cape Town, Western Cape, South Africa · Remote" [ref=e633] [cursor=pointer]:
+                            - /url: https://www.linkedin.com/company/33200573/
+                            - generic [ref=e634]:
+                              - generic [ref=e636]:
+                                - paragraph [ref=e637]: Cryptocurrency Algorithmic Trader
+                                - paragraph [ref=e638]: Self Employed · Part-time
+                              - paragraph [ref=e639]: Mar 2020 - Jan 2022 · 1 yr 11 mos
+                              - paragraph [ref=e640]: Cape Town, Western Cape, South Africa · Remote
+                          - paragraph [ref=e642]:
+                            - generic [ref=e643]:
+                              - text: "Developed and implemented strategies to capitalize on market inefficiencies. Focusing on data analysis, and executing automated trades across multiple exchanges, ensuring optimal performance and risk management in volatile markets. Key duties and responsibilities: • Strategy & research: Developed and executed strategies to capitalize on market inefficiencies, using thorough data analysis and testing to refine trading parameters. • Algorithm development & automation: Engineered a Python-based arbitrage scanner across 100+ exchanges with Pandas and NumPy, automating trade execution when profitable price discrepancies were detected. • System optimization: Continuously optimized trading algorithms to maximize profitability while managing risks in volatile market conditions. • Real-time monitoring: Created dashboards and a Telegram bot to track PnL and trade statistics, ensuring constant insight into the strategy’s performance."
+                              - button:
+                                - generic [ref=e645] [cursor=pointer]: … more
+                          - paragraph [ref=e646]:
+                            - link "Strategy, Risk Management and +3 skills" [ref=e647] [cursor=pointer]:
+                              - /url: https://www.linkedin.com/in/dylan-martens/overlay/2070166651/skill-associations-details/
+                              - img [ref=e649]
+                              - text: Strategy, Risk Management and +3 skills
+                      - generic [ref=e655]:
+                        - figure [ref=e656]:
+                          - img "Laur Financial Services logo" [ref=e657]
+                        - generic [ref=e663]:
+                          - generic [ref=e664]:
+                            - generic [ref=e666]:
+                              - paragraph [ref=e667]: Founder
+                              - paragraph [ref=e668]: Laur Financial Services · Part-time
+                            - paragraph [ref=e669]: Mar 2020 - Jan 2022 · 1 yr 11 mos
+                            - paragraph [ref=e670]: Cape Town · On-site
+                          - paragraph [ref=e672]:
+                            - generic [ref=e673]:
+                              - text: "Founded a digital financial advice business which provided tools and automated processes to assist in-person financial advisers to scale their businesses. Funding challenges unfortunately necessitated the closure of the business. Key duties and responsibilities: • User research: Interviewed successful financial advisers to understand their scaling challenges and identify tools that would improve their operations. • Product strategy & analysis: Conducted deep analysis to design fit-for-purpose financial products based on direct user feedback. • Quantitative modeling: Developed financial tools and quantitative models using Python and Matlab, including Monte Carlo simulations for portfolio risk assessments. • App development: Created a web-based client and adviser application using Bubble.io which integrated with AWS cloud services. • Regulatory compliance: Worked closely with compliance officers to ensure full adherence to regulatory Financial Adviser and Intermediary requirements."
+                              - button:
+                                - generic [ref=e675] [cursor=pointer]: … more
+                          - paragraph [ref=e676]:
+                            - link "Financial Modeling, Start-up Ventures and +1 skill" [ref=e677] [cursor=pointer]:
+                              - /url: https://www.linkedin.com/in/dylan-martens/overlay/2596615284/skill-associations-details/
+                              - img [ref=e679]
+                              - text: Financial Modeling, Start-up Ventures and +1 skill
+                    - link "Show all experiences" [ref=e682] [cursor=pointer]:
+                      - /url: https://www.linkedin.com/in/dylan-martens/details/experience/
+                      - generic [ref=e683]:
+                        - img [ref=e684]
+                        - generic [ref=e686]: Show all
+                  - generic [ref=e691]:
+                    - heading "Education" [level=2] [ref=e693]
+                    - generic [ref=e695]:
+                      - generic [ref=e700]:
+                        - link [ref=e701] [cursor=pointer]:
+                          - /url: https://www.linkedin.com/school/7936/
+                          - figure [ref=e702]:
+                            - img "University of Cape Town logo" [ref=e703]
+                        - link "University of Cape Town Post-Gaduate Diploma in Accounting (PGDA), Accounting and Related Services 2009 – 2009" [ref=e705] [cursor=pointer]:
+                          - /url: https://www.linkedin.com/school/7936/
+                          - generic [ref=e706]:
+                            - generic [ref=e708]:
+                              - paragraph [ref=e709]: University of Cape Town
+                              - paragraph [ref=e710]: Post-Gaduate Diploma in Accounting (PGDA), Accounting and Related Services
+                            - paragraph [ref=e711]: 2009 – 2009
+                      - generic [ref=e716]:
+                        - link [ref=e717] [cursor=pointer]:
+                          - /url: https://www.linkedin.com/school/7936/
+                          - figure [ref=e718]:
+                            - img "University of Cape Town logo" [ref=e719]
+                        - generic [ref=e720]:
+                          - link "University of Cape Town Bachelor of Business Scient (B.Bus.Sci.), Accounting and Finance 2005 – 2008" [ref=e721] [cursor=pointer]:
+                            - /url: https://www.linkedin.com/school/7936/
+                            - generic [ref=e722]:
+                              - generic [ref=e724]:
+                                - paragraph [ref=e725]: University of Cape Town
+                                - paragraph [ref=e726]: Bachelor of Business Scient (B.Bus.Sci.), Accounting and Finance
+                              - paragraph [ref=e727]: 2005 – 2008
+                          - paragraph [ref=e728]: "Activities and societies: Investment Society"
+                  - generic [ref=e733]:
+                    - heading "Licenses & certifications" [level=2] [ref=e735]
+                    - generic [ref=e741]:
+                      - link [ref=e742] [cursor=pointer]:
+                        - /url: https://www.linkedin.com/school/15110591/
+                        - figure [ref=e743]:
+                          - img "The South African Institute of Chartered Accountants (SAICA) logo" [ref=e744]
+                      - generic [ref=e745]:
+                        - generic [ref=e746]:
+                          - generic [ref=e748]:
+                            - paragraph [ref=e749]: Chartered Accountant
+                            - paragraph [ref=e750]: The South African Institute of Chartered Accountants (SAICA)
+                          - paragraph [ref=e751]: Issued Mar 2013
+                          - paragraph [ref=e752]: Credential ID CA(SA)
+                        - paragraph [ref=e753]:
+                          - link "Financial Analysis, Financial Modeling and +2 skills" [ref=e754] [cursor=pointer]:
+                            - /url: https://www.linkedin.com/in/dylan-martens/overlay/1474964406/skill-associations-details/
+                            - img [ref=e756]
+                            - text: Financial Analysis, Financial Modeling and +2 skills
+                - generic [ref=e765]:
+                  - heading "Skills" [level=2] [ref=e767]
+                  - generic [ref=e768]:
+                    - generic [ref=e769]:
+                      - generic [ref=e773]:
+                        - paragraph [ref=e776]: Management Consulting
+                        - list [ref=e778]:
+                          - listitem [ref=e779]:
+                            - figure [ref=e780]
+                            - paragraph [ref=e782]: Chief Executive Officer at LucroTech
+                      - generic [ref=e787]:
+                        - paragraph [ref=e790]: Data Analytics
+                        - list [ref=e792]:
+                          - listitem [ref=e793]:
+                            - figure [ref=e794]
+                            - paragraph [ref=e796]: Chief Executive Officer at LucroTech
+                    - link "Show all skills" [ref=e798] [cursor=pointer]:
+                      - /url: https://www.linkedin.com/in/dylan-martens/details/skills/
+                      - generic [ref=e799]:
+                        - img [ref=e800]
+                        - generic [ref=e802]: Show all
+                - generic [ref=e810]:
+                  - heading "Courses" [level=2] [ref=e812]
+                  - generic [ref=e818]:
+                    - paragraph [ref=e819]: CFA
+                    - paragraph [ref=e820]: Level 1
+                - generic [ref=e826]:
+                  - heading "Interests" [level=2] [ref=e828]
+                  - generic [ref=e829]:
+                    - generic [ref=e830]:
+                      - radio "Top Voices" [checked] [ref=e831] [cursor=pointer]:
+                        - generic [ref=e832]:
+                          - checkbox "Top Voices" [checked]
+                          - generic [ref=e833]: Top Voices
+                      - radio "Companies" [ref=e834] [cursor=pointer]:
+                        - generic [ref=e835]:
+                          - checkbox "Companies"
+                          - generic [ref=e836]: Companies
+                      - radio "Groups" [ref=e837] [cursor=pointer]:
+                        - generic [ref=e838]:
+                          - checkbox "Groups"
+                          - generic [ref=e839]: Groups
+                      - radio "Newsletters" [ref=e840] [cursor=pointer]:
+                        - generic [ref=e841]:
+                          - checkbox "Newsletters"
+                          - generic [ref=e842]: Newsletters
+                      - radio "Schools" [ref=e843] [cursor=pointer]:
+                        - generic [ref=e844]:
+                          - checkbox "Schools"
+                          - generic [ref=e845]: Schools
+                    - generic [ref=e847]:
+                      - generic [ref=e850]:
+                        - link "Sundar Pichai Executive Top Voice · 3rd+ CEO at Google 4,226,941 followers Follow Sundar Pichai" [ref=e854] [cursor=pointer]:
+                          - /url: https://www.linkedin.com/in/sundarpichai/
+                          - generic [ref=e855]:
+                            - figure [ref=e856]
+                            - generic [ref=e857]:
+                              - generic [ref=e858]:
+                                - paragraph [ref=e860]:
+                                  - link "Sundar Pichai Executive Top Voice" [ref=e861]:
+                                    - /url: https://www.linkedin.com/in/sundarpichai/
+                                    - text: Sundar Pichai
+                                    - img "Executive Top Voice" [ref=e862]:
+                                      - img [ref=e863]
+                                - paragraph [ref=e865]: · 3rd+
+                              - paragraph [ref=e866]: CEO at Google
+                              - paragraph [ref=e867]: 4,226,941 followers
+                              - button "Follow Sundar Pichai" [ref=e871]:
+                                - generic [ref=e872]:
+                                  - img [ref=e873]
+                                  - generic [ref=e876]: Follow
+                        - link "Zaheer Anwari Executive Top Voice · 3rd I share more stock charts than selfies as I’d rather see you make money than fall in love | Fund Manager | Mentor | Get The Stock Market Blueprint & Newsletter in my featured section 12,820 followers Follow Zaheer Anwari" [ref=e880] [cursor=pointer]:
+                          - /url: https://www.linkedin.com/in/zaheeranwari/
+                          - generic [ref=e881]:
+                            - figure [ref=e882]
+                            - generic [ref=e883]:
+                              - generic [ref=e884]:
+                                - paragraph [ref=e886]:
+                                  - link "Zaheer Anwari Executive Top Voice" [ref=e887]:
+                                    - /url: https://www.linkedin.com/in/zaheeranwari/
+                                    - text: Zaheer Anwari
+                                    - img "Executive Top Voice" [ref=e888]:
+                                      - img [ref=e889]
+                                - paragraph [ref=e891]: · 3rd
+                              - paragraph [ref=e892]: I share more stock charts than selfies as I’d rather see you make money than fall in love | Fund Manager | Mentor | Get The Stock Market Blueprint & Newsletter in my featured section
+                              - paragraph [ref=e893]: 12,820 followers
+                              - button "Follow Zaheer Anwari" [ref=e897]:
+                                - generic [ref=e898]:
+                                  - img [ref=e899]
+                                  - generic [ref=e902]: Follow
+                      - link "Show all interests" [ref=e904] [cursor=pointer]:
+                        - /url: https://www.linkedin.com/in/dylan-martens/details/interests/?initialTabId=interest_top_voices
+                        - generic [ref=e905]:
+                          - img [ref=e906]
+                          - generic [ref=e908]: Show all
+              - generic [ref=e910]:
+                - generic [ref=e911]:
+                  - iframe [ref=e914]:
+                    - generic [ref=f61e2]:
+                      - generic [ref=f61e3]: Ad
+                      - img "overflow-web-small" [ref=f61e6] [cursor=pointer]
+                      - link "Google Workspace" [ref=f61e10] [cursor=pointer]:
+                        - /url: https://www.linkedin.com/li/tscp/sct?destinationUrl=https%3A%2F%2Fad.doubleclick.net%2Fddm%2Ftrackclk%2FN5295.466581LINKEDIN.COM%2FB33083239.414658384%3Bdc_trk_aid%3D607121766%3Bdc_trk_cid%3D230642697%3Bdc_lat%3D%3Bdc_rdid%3D%3Btag_for_child_directed_treatment%3D%3Btfua%3D%3Bltd%3D%3Bdc_tdv%3D1%3Futm_medium%3Dpaid-social%26utm_id%3D556258166%26utm_source%3Dlinkedin&trackingEvent=%5B%7B%22eventInfo%22%3A%7B%22appId%22%3A%22com.linkedin.ads.rendering.d_web%22%2C%22eventName%22%3A%22SponsoredRightRailContentActionEvent%22%2C%22topicName%22%3A%22SponsoredRightRailContentActionEvent%22%7D%2C%22eventBody%22%3A%7B%22sponsoredEventHeader%22%3A%7B%22encryptedTrackingData%22%3A%22CwEAAAGd0ywq52AJJAS6M65nOrDSQNwjHbFj5xF5i4n6glUEYyTpWuqGXbC8M9lJb20pOVlSwG9WtseLzUfVXhBeJAYOYMqHN7CWNxj_H1d7BiZIeIpSPp2b-lxkhVfQBNRcqdHOfLW6Gu__5hYn9lv0CO669vphNXto_agRohgFj6PZzKpy2JptxV4EQsSAw0To3SC4Wf1-_vMvD822WUPWR3o5SdUdCC5I4NHjnnT0Ip66BJfz0G9w04_j9DOHgZzOTxVS4RP3EYw25NvRP6v6boV8JneVu-Jkv-Wav6eAmd61HUKGBjEw9G3-gOucDC3JCgYRnXqVkGtBiiNm_3nV7DhQvJ2je3cJ_r4ecFvQe3jY-g-1oQeXEvUlJ0oKMTI7amWj2leZOXtXXclIa_vsSZZw_pLT_YemnnzArTQj_mCBkqjTz9K9OHqWzM5APd7HiZyB_qiMXqiY2s09nduTJACzL6zVFMv8R2HyLi82az11dYwwYUaNAzejAMY6vYAcTECQU80WnXUeg5dAGPcLU7pM3yxP51MFs2fUVG06E3gVMB0eF4DjxcbF6HzeFW4HPHnNjuS9a9fswl0Qr9FzKnztBZdIBIfmeeR-u-6ADYgyNUcfSu9XY5TQsxIauWdeFlmPtpooR39s43aWWg_IzULZUVqDOBGFTePOMvCFBJ8KHxig_JyjXADYfxSJyVaONnSa54vuRU2JFL3obL65yzqW-nnAHrDvqidhbcD1mgVlN1SX95835bnGrI4b94ssyoQils2x0Bl-fzlIsZ1OMtcZpkULe2s1PQrqtfzuMdXthxE9P3VhpPlvlfdFFK1zpPzGuNUjVJA2TYQ_Az0JQdcxCGOPaqibuLSfxBfzXKKWpFdAYY4M4eGFHqYYmJpOhYpAyWD1MTdoWaRvZHS1CBDApevUeWhIenguF6xtlQFD2oW4P4qnxbx_0DB9XJU0Yv3FpbotARYQzKIGhPHNk839i1SUvc-4YHkL5Akv3vj2Ch667BpaC8HcSbHlbKhAmWPmp1pnitlvHUi8G_T9jwSZxgRvGyD9i5MYaB79OcGbwSJSHJyhn2W2pDgDW0b7QZNPtj1jA2CUYZo4PMKmAtXNX236lljSLmgWtuXWFsvZHtc9vUH8ET1aESlwaRe5dfw1jc5l5tBa%22%7D%2C%22header%22%3A%7B%22pageInstance%22%3A%7B%22pageUrn%22%3A%22urn%3Ali%3Apage%3Ad_flagship3_profile_view_base%22%2C%22trackingId%22%3A%22d95224b7-7c90-4d1c-99fa-b2c5fb1870c9%22%7D%2C%22time%22%3A1777364380343%2C%22version%22%3A%220.0.0%22%7D%2C%22requestHeader%22%3A%7B%22pageKey%22%3A%22d_flagship3_profile_view_base%22%2C%22interfaceLocale%22%3A%22en-US%22%7D%7D%7D%5D&csrfToken=ajax%3A4754293302675097270
+                      - generic [ref=f61e11]:
+                        - heading "Drive lets you easily search your files from wherever you are." [level=2] [ref=f61e14]
+                        - generic [ref=f61e16]:
+                          - img "Ying-Kai" [ref=f61e17]
+                          - generic [ref=f61e18]:
+                            - link "Google Workspace" [ref=f61e19] [cursor=pointer]:
+                              - /url: https://www.linkedin.com/li/tscp/sct?destinationUrl=https%3A%2F%2Fad.doubleclick.net%2Fddm%2Ftrackclk%2FN5295.466581LINKEDIN.COM%2FB33083239.414658384%3Bdc_trk_aid%3D607121766%3Bdc_trk_cid%3D230642697%3Bdc_lat%3D%3Bdc_rdid%3D%3Btag_for_child_directed_treatment%3D%3Btfua%3D%3Bltd%3D%3Bdc_tdv%3D1%3Futm_medium%3Dpaid-social%26utm_id%3D556258166%26utm_source%3Dlinkedin&trackingEvent=%5B%7B%22eventInfo%22%3A%7B%22appId%22%3A%22com.linkedin.ads.rendering.d_web%22%2C%22eventName%22%3A%22SponsoredRightRailContentActionEvent%22%2C%22topicName%22%3A%22SponsoredRightRailContentActionEvent%22%7D%2C%22eventBody%22%3A%7B%22sponsoredEventHeader%22%3A%7B%22encryptedTrackingData%22%3A%22CwEAAAGd0ywq52AJJAS6M65nOrDSQNwjHbFj5xF5i4n6glUEYyTpWuqGXbC8M9lJb20pOVlSwG9WtseLzUfVXhBeJAYOYMqHN7CWNxj_H1d7BiZIeIpSPp2b-lxkhVfQBNRcqdHOfLW6Gu__5hYn9lv0CO669vphNXto_agRohgFj6PZzKpy2JptxV4EQsSAw0To3SC4Wf1-_vMvD822WUPWR3o5SdUdCC5I4NHjnnT0Ip66BJfz0G9w04_j9DOHgZzOTxVS4RP3EYw25NvRP6v6boV8JneVu-Jkv-Wav6eAmd61HUKGBjEw9G3-gOucDC3JCgYRnXqVkGtBiiNm_3nV7DhQvJ2je3cJ_r4ecFvQe3jY-g-1oQeXEvUlJ0oKMTI7amWj2leZOXtXXclIa_vsSZZw_pLT_YemnnzArTQj_mCBkqjTz9K9OHqWzM5APd7HiZyB_qiMXqiY2s09nduTJACzL6zVFMv8R2HyLi82az11dYwwYUaNAzejAMY6vYAcTECQU80WnXUeg5dAGPcLU7pM3yxP51MFs2fUVG06E3gVMB0eF4DjxcbF6HzeFW4HPHnNjuS9a9fswl0Qr9FzKnztBZdIBIfmeeR-u-6ADYgyNUcfSu9XY5TQsxIauWdeFlmPtpooR39s43aWWg_IzULZUVqDOBGFTePOMvCFBJ8KHxig_JyjXADYfxSJyVaONnSa54vuRU2JFL3obL65yzqW-nnAHrDvqidhbcD1mgVlN1SX95835bnGrI4b94ssyoQils2x0Bl-fzlIsZ1OMtcZpkULe2s1PQrqtfzuMdXthxE9P3VhpPlvlfdFFK1zpPzGuNUjVJA2TYQ_Az0JQdcxCGOPaqibuLSfxBfzXKKWpFdAYY4M4eGFHqYYmJpOhYpAyWD1MTdoWaRvZHS1CBDApevUeWhIenguF6xtlQFD2oW4P4qnxbx_0DB9XJU0Yv3FpbotARYQzKIGhPHNk839i1SUvc-4YHkL5Akv3vj2Ch667BpaC8HcSbHlbKhAmWPmp1pnitlvHUi8G_T9jwSZxgRvGyD9i5MYaB79OcGbwSJSHJyhn2W2pDgDW0b7QZNPtj1jA2CUYZo4PMKmAtXNX236lljSLmgWtuXWFsvZHtc9vUH8ET1aESlwaRe5dfw1jc5l5tBa%22%7D%2C%22header%22%3A%7B%22pageInstance%22%3A%7B%22pageUrn%22%3A%22urn%3Ali%3Apage%3Ad_flagship3_profile_view_base%22%2C%22trackingId%22%3A%22d95224b7-7c90-4d1c-99fa-b2c5fb1870c9%22%7D%2C%22time%22%3A1777364380343%2C%22version%22%3A%220.0.0%22%7D%2C%22requestHeader%22%3A%7B%22pageKey%22%3A%22d_flagship3_profile_view_base%22%2C%22interfaceLocale%22%3A%22en-US%22%7D%7D%7D%5D&csrfToken=ajax%3A4754293302675097270
+                              - img "Google Workspace" [ref=f61e20]
+                            - tooltip "Google Workspace" [ref=f61e21]
+                        - generic [ref=f61e22]:
+                          - heading "Try Google Workspace at no cost for 14 days." [level=2] [ref=f61e25]
+                          - link "Sign Up" [ref=f61e27] [cursor=pointer]:
+                            - /url: https://www.linkedin.com/li/tscp/sct?destinationUrl=https%3A%2F%2Fad.doubleclick.net%2Fddm%2Ftrackclk%2FN5295.466581LINKEDIN.COM%2FB33083239.414658384%3Bdc_trk_aid%3D607121766%3Bdc_trk_cid%3D230642697%3Bdc_lat%3D%3Bdc_rdid%3D%3Btag_for_child_directed_treatment%3D%3Btfua%3D%3Bltd%3D%3Bdc_tdv%3D1%3Futm_medium%3Dpaid-social%26utm_id%3D556258166%26utm_source%3Dlinkedin&trackingEvent=%5B%7B%22eventInfo%22%3A%7B%22appId%22%3A%22com.linkedin.ads.rendering.d_web%22%2C%22eventName%22%3A%22SponsoredRightRailContentActionEvent%22%2C%22topicName%22%3A%22SponsoredRightRailContentActionEvent%22%7D%2C%22eventBody%22%3A%7B%22sponsoredEventHeader%22%3A%7B%22encryptedTrackingData%22%3A%22CwEAAAGd0ywq52AJJAS6M65nOrDSQNwjHbFj5xF5i4n6glUEYyTpWuqGXbC8M9lJb20pOVlSwG9WtseLzUfVXhBeJAYOYMqHN7CWNxj_H1d7BiZIeIpSPp2b-lxkhVfQBNRcqdHOfLW6Gu__5hYn9lv0CO669vphNXto_agRohgFj6PZzKpy2JptxV4EQsSAw0To3SC4Wf1-_vMvD822WUPWR3o5SdUdCC5I4NHjnnT0Ip66BJfz0G9w04_j9DOHgZzOTxVS4RP3EYw25NvRP6v6boV8JneVu-Jkv-Wav6eAmd61HUKGBjEw9G3-gOucDC3JCgYRnXqVkGtBiiNm_3nV7DhQvJ2je3cJ_r4ecFvQe3jY-g-1oQeXEvUlJ0oKMTI7amWj2leZOXtXXclIa_vsSZZw_pLT_YemnnzArTQj_mCBkqjTz9K9OHqWzM5APd7HiZyB_qiMXqiY2s09nduTJACzL6zVFMv8R2HyLi82az11dYwwYUaNAzejAMY6vYAcTECQU80WnXUeg5dAGPcLU7pM3yxP51MFs2fUVG06E3gVMB0eF4DjxcbF6HzeFW4HPHnNjuS9a9fswl0Qr9FzKnztBZdIBIfmeeR-u-6ADYgyNUcfSu9XY5TQsxIauWdeFlmPtpooR39s43aWWg_IzULZUVqDOBGFTePOMvCFBJ8KHxig_JyjXADYfxSJyVaONnSa54vuRU2JFL3obL65yzqW-nnAHrDvqidhbcD1mgVlN1SX95835bnGrI4b94ssyoQils2x0Bl-fzlIsZ1OMtcZpkULe2s1PQrqtfzuMdXthxE9P3VhpPlvlfdFFK1zpPzGuNUjVJA2TYQ_Az0JQdcxCGOPaqibuLSfxBfzXKKWpFdAYY4M4eGFHqYYmJpOhYpAyWD1MTdoWaRvZHS1CBDApevUeWhIenguF6xtlQFD2oW4P4qnxbx_0DB9XJU0Yv3FpbotARYQzKIGhPHNk839i1SUvc-4YHkL5Akv3vj2Ch667BpaC8HcSbHlbKhAmWPmp1pnitlvHUi8G_T9jwSZxgRvGyD9i5MYaB79OcGbwSJSHJyhn2W2pDgDW0b7QZNPtj1jA2CUYZo4PMKmAtXNX236lljSLmgWtuXWFsvZHtc9vUH8ET1aESlwaRe5dfw1jc5l5tBa%22%7D%2C%22header%22%3A%7B%22pageInstance%22%3A%7B%22pageUrn%22%3A%22urn%3Ali%3Apage%3Ad_flagship3_profile_view_base%22%2C%22trackingId%22%3A%22d95224b7-7c90-4d1c-99fa-b2c5fb1870c9%22%7D%2C%22time%22%3A1777364380343%2C%22version%22%3A%220.0.0%22%7D%2C%22requestHeader%22%3A%7B%22pageKey%22%3A%22d_flagship3_profile_view_base%22%2C%22interfaceLocale%22%3A%22en-US%22%7D%7D%7D%5D&csrfToken=ajax%3A4754293302675097270
+                  - generic [ref=e919]:
+                    - heading "More profiles for you" [level=3] [ref=e923]
+                    - generic [ref=e925]:
+                      - generic [ref=e927]:
+                        - link "Ian Jones · 3rd CEO at FUNDHOUSE" [ref=e930] [cursor=pointer]:
+                          - /url: https://www.linkedin.com/in/ian-jones-a4b05a17/
+                          - generic [ref=e931]:
+                            - figure [ref=e932]
+                            - generic [ref=e933]:
+                              - generic [ref=e934]:
+                                - paragraph [ref=e936]:
+                                  - link "Ian Jones" [ref=e937]:
+                                    - /url: https://www.linkedin.com/in/ian-jones-a4b05a17/
+                                - paragraph [ref=e938]: · 3rd
+                              - paragraph [ref=e940]: CEO at FUNDHOUSE
+                        - link "Message Ian Jones" [ref=e944] [cursor=pointer]:
+                          - /url: /messaging/compose/?profileUrn=urn%3Ali%3Afsd_profile%3AACoAAANjjlsBEl3Kz4cKdLl1tVZT3TGURZAadHM&recipient=ACoAAANjjlsBEl3Kz4cKdLl1tVZT3TGURZAadHM&screenContext=NON_SELF_PROFILE_VIEW&interop=msgOverlay
+                          - generic [ref=e945]:
+                            - img [ref=e946]
+                            - generic [ref=e948]: Message
+                      - generic [ref=e950]:
+                        - link "Saman Andishmand Premium · 3rd CEO and founder @ Genomain AB" [ref=e953] [cursor=pointer]:
+                          - /url: https://www.linkedin.com/in/saman-andishmand/
+                          - generic [ref=e954]:
+                            - figure [ref=e955]
+                            - generic [ref=e956]:
+                              - generic [ref=e957]:
+                                - paragraph [ref=e959]:
+                                  - link "Saman Andishmand Premium" [ref=e960]:
+                                    - /url: https://www.linkedin.com/in/saman-andishmand/
+                                    - text: Saman Andishmand
+                                    - img "Premium" [ref=e961]:
+                                      - img [ref=e962]
+                                - paragraph [ref=e964]: · 3rd
+                              - paragraph [ref=e966]: CEO and founder @ Genomain AB
+                        - button "Follow Saman Andishmand" [ref=e972] [cursor=pointer]:
+                          - generic [ref=e973]:
+                            - img [ref=e974]
+                            - generic [ref=e977]: Follow
+                      - generic [ref=e979]:
+                        - link "Werner Koegelenberg · 3rd Insight • Innovation • Automation • Data • Artificial Intelligence • LinkedIn Top Voice (AI)" [ref=e982] [cursor=pointer]:
+                          - /url: https://www.linkedin.com/in/wernerkoegelenberg/
+                          - generic [ref=e983]:
+                            - figure [ref=e984]
+                            - generic [ref=e985]:
+                              - generic [ref=e986]:
+                                - paragraph [ref=e988]:
+                                  - link "Werner Koegelenberg" [ref=e989]:
+                                    - /url: https://www.linkedin.com/in/wernerkoegelenberg/
+                                - paragraph [ref=e990]: · 3rd
+                              - paragraph [ref=e992]: Insight • Innovation • Automation • Data • Artificial Intelligence • LinkedIn Top Voice (AI)
+                        - button "Follow Werner Koegelenberg" [ref=e998] [cursor=pointer]:
+                          - generic [ref=e999]:
+                            - img [ref=e1000]
+                            - generic [ref=e1003]: Follow
+                      - generic [ref=e1005]:
+                        - link "Janine Schlodder (Smith) · 3rd+ Managing Director of Griffin Solutions" [ref=e1008] [cursor=pointer]:
+                          - /url: https://www.linkedin.com/in/janine-schlodder-smith-b88ba356/
+                          - generic [ref=e1009]:
+                            - figure [ref=e1010]:
+                              - img [ref=e1011]
+                            - generic [ref=e1017]:
+                              - generic [ref=e1018]:
+                                - paragraph [ref=e1020]:
+                                  - link "Janine Schlodder (Smith)" [ref=e1021]:
+                                    - /url: https://www.linkedin.com/in/janine-schlodder-smith-b88ba356/
+                                - paragraph [ref=e1022]: · 3rd+
+                              - paragraph [ref=e1024]: Managing Director of Griffin Solutions
+                        - link "Message Janine Schlodder (Smith)" [ref=e1028] [cursor=pointer]:
+                          - /url: /messaging/compose/?profileUrn=urn%3Ali%3Afsd_profile%3AACoAAAvsKNgBbXZdAgSrpuZGbZy2QpCI2vqWYTU&recipient=ACoAAAvsKNgBbXZdAgSrpuZGbZy2QpCI2vqWYTU&screenContext=NON_SELF_PROFILE_VIEW&interop=msgOverlay
+                          - generic [ref=e1029]:
+                            - img [ref=e1030]
+                            - generic [ref=e1032]: Message
+                      - generic [ref=e1034]:
+                        - link "Anneke Odendaal · 3rd+ Professional accountant at APO Auditors and Accountants" [ref=e1037] [cursor=pointer]:
+                          - /url: https://www.linkedin.com/in/anneke-odendaal-b3253467/
+                          - generic [ref=e1038]:
+                            - figure [ref=e1039]:
+                              - img [ref=e1040]
+                            - generic [ref=e1046]:
+                              - generic [ref=e1047]:
+                                - paragraph [ref=e1049]:
+                                  - link "Anneke Odendaal" [ref=e1050]:
+                                    - /url: https://www.linkedin.com/in/anneke-odendaal-b3253467/
+                                - paragraph [ref=e1051]: · 3rd+
+                              - paragraph [ref=e1053]: Professional accountant at APO Auditors and Accountants
+                        - link "Message Anneke Odendaal" [ref=e1057] [cursor=pointer]:
+                          - /url: /messaging/compose/?profileUrn=urn%3Ali%3Afsd_profile%3AACoAAA4jgFYBAm2EvehbZ1V7Uxt_6rD2H032hX8&recipient=ACoAAA4jgFYBAm2EvehbZ1V7Uxt_6rD2H032hX8&screenContext=NON_SELF_PROFILE_VIEW&interop=msgOverlay
+                          - generic [ref=e1058]:
+                            - img [ref=e1059]
+                            - generic [ref=e1061]: Message
+                    - link "Show all more profiles for you" [ref=e1063] [cursor=pointer]:
+                      - /url: https://www.linkedin.com/in/dylan-martens/overlay/browsemap-recommendations/
+                      - generic [ref=e1064]:
+                        - img [ref=e1065]
+                        - generic [ref=e1067]: Show all
+                  - generic [ref=e1070]:
+                    - heading "Explore Premium profiles" [level=2] [ref=e1072]
+                    - generic [ref=e1074]:
+                      - generic [ref=e1076]:
+                        - link "Kim Tapper Premium · 3rd Founder & Creative Director Älskar Golf" [ref=e1079] [cursor=pointer]:
+                          - /url: https://www.linkedin.com/in/kim-tapper-93896715a/
+                          - generic [ref=e1080]:
+                            - figure [ref=e1081]
+                            - generic [ref=e1082]:
+                              - generic [ref=e1083]:
+                                - paragraph [ref=e1085]:
+                                  - link "Kim Tapper Premium" [ref=e1086]:
+                                    - /url: https://www.linkedin.com/in/kim-tapper-93896715a/
+                                    - text: Kim Tapper
+                                    - img "Premium" [ref=e1087]:
+                                      - img [ref=e1088]
+                                - paragraph [ref=e1090]: · 3rd
+                              - paragraph [ref=e1092]: Founder & Creative Director Älskar Golf
+                        - link "Message Kim Tapper" [ref=e1096] [cursor=pointer]:
+                          - /url: /messaging/compose/?profileUrn=urn%3Ali%3Afsd_profile%3AACoAACY6pnwBvR1PdwchC6bOprVRxSfmcvI7coI&recipient=ACoAACY6pnwBvR1PdwchC6bOprVRxSfmcvI7coI&screenContext=NON_SELF_PROFILE_VIEW&interop=msgOverlay
+                          - generic [ref=e1097]:
+                            - img [ref=e1098]
+                            - generic [ref=e1100]: Message
+                      - generic [ref=e1102]:
+                        - link "Liban Jama Premium · 3rd+ Founder | Kenyan Green Coffee Supplier" [ref=e1105] [cursor=pointer]:
+                          - /url: https://www.linkedin.com/in/libanajama/
+                          - generic [ref=e1106]:
+                            - figure [ref=e1107]
+                            - generic [ref=e1108]:
+                              - generic [ref=e1109]:
+                                - paragraph [ref=e1111]:
+                                  - link "Liban Jama Premium" [ref=e1112]:
+                                    - /url: https://www.linkedin.com/in/libanajama/
+                                    - text: Liban Jama
+                                    - img "Premium" [ref=e1113]:
+                                      - img [ref=e1114]
+                                - paragraph [ref=e1116]: · 3rd+
+                              - paragraph [ref=e1118]: Founder | Kenyan Green Coffee Supplier
+                        - button "Invite Liban Jama to connect" [ref=e1124] [cursor=pointer]:
+                          - generic [ref=e1125]:
+                            - img [ref=e1126]
+                            - generic [ref=e1129]: Connect
+                      - generic [ref=e1131]:
+                        - link "Jae Yeon Lee Premium · 3rd Founder @ Cardi | Registered Nurse in 🇰🇷🇦🇺" [ref=e1134] [cursor=pointer]:
+                          - /url: https://www.linkedin.com/in/jaeyeonchristina/
+                          - generic [ref=e1135]:
+                            - figure [ref=e1136]
+                            - generic [ref=e1137]:
+                              - generic [ref=e1138]:
+                                - paragraph [ref=e1140]:
+                                  - link "Jae Yeon Lee Premium" [ref=e1141]:
+                                    - /url: https://www.linkedin.com/in/jaeyeonchristina/
+                                    - text: Jae Yeon Lee
+                                    - img "Premium" [ref=e1142]:
+                                      - img [ref=e1143]
+                                - paragraph [ref=e1145]: · 3rd
+                              - paragraph [ref=e1147]: Founder @ Cardi | Registered Nurse in 🇰🇷🇦🇺
+                        - button "Invite Jae Yeon Lee to connect" [ref=e1153] [cursor=pointer]:
+                          - generic [ref=e1154]:
+                            - img [ref=e1155]
+                            - generic [ref=e1158]: Connect
+                      - generic [ref=e1160]:
+                        - link "Saba Asad Premium · 3rd “PhD in Computational Science | Data Analyst skilled in Python, R, Power BI, SQL, & Tableau | Machine Learning & AI Enthusiast”" [ref=e1163] [cursor=pointer]:
+                          - /url: https://www.linkedin.com/in/saba-asad-74034715b/
+                          - generic [ref=e1164]:
+                            - figure [ref=e1165]
+                            - generic [ref=e1166]:
+                              - generic [ref=e1167]:
+                                - paragraph [ref=e1169]:
+                                  - link "Saba Asad Premium" [ref=e1170]:
+                                    - /url: https://www.linkedin.com/in/saba-asad-74034715b/
+                                    - text: Saba Asad
+                                    - img "Premium" [ref=e1171]:
+                                      - img [ref=e1172]
+                                - paragraph [ref=e1174]: · 3rd
+                              - paragraph [ref=e1176]: “PhD in Computational Science | Data Analyst skilled in Python, R, Power BI, SQL, & Tableau | Machine Learning & AI Enthusiast”
+                        - link "Message Saba Asad" [ref=e1180] [cursor=pointer]:
+                          - /url: /messaging/compose/?profileUrn=urn%3Ali%3Afsd_profile%3AACoAACZQy2ABljo6sawy6D5e0gE4-KWQpeR058Y&recipient=ACoAACZQy2ABljo6sawy6D5e0gE4-KWQpeR058Y&screenContext=NON_SELF_PROFILE_VIEW&interop=msgOverlay
+                          - generic [ref=e1181]:
+                            - img [ref=e1182]
+                            - generic [ref=e1184]: Message
+                  - generic [ref=e1188]:
+                    - heading "People you may know" [level=2] [ref=e1191]
+                    - generic [ref=e1193]:
+                      - generic [ref=e1195]:
+                        - link "Sy K. Verified · 2nd Master's Student in CS at USYD | Data & ML | Ex-Data Engineer & Data Platform Engineer" [ref=e1197] [cursor=pointer]:
+                          - /url: https://www.linkedin.com/in/sy-k-161910333/
+                          - generic [ref=e1198]:
+                            - figure [ref=e1199]:
+                              - img [ref=e1200]
+                            - generic [ref=e1206]:
+                              - generic [ref=e1207]:
+                                - paragraph [ref=e1209]:
+                                  - link "Sy K. Verified" [ref=e1210]:
+                                    - /url: https://www.linkedin.com/in/sy-k-161910333/
+                                    - text: Sy K.
+                                    - img "Verified" [ref=e1211]:
+                                      - img [ref=e1212]
+                                - paragraph [ref=e1214]: · 2nd
+                              - paragraph [ref=e1216]: Master's Student in CS at USYD | Data & ML | Ex-Data Engineer & Data Platform Engineer
+                        - button "Invite Sy K. to connect" [ref=e1222] [cursor=pointer]:
+                          - generic [ref=e1223]:
+                            - img [ref=e1224]
+                            - generic [ref=e1227]: Connect
+                      - generic [ref=e1229]:
+                        - link "KEKE CHEN · 2nd 2nd Prize – International Software Competition | NT Government Scholarship Awardee（2026）" [ref=e1231] [cursor=pointer]:
+                          - /url: https://www.linkedin.com/in/keke-chen-ab47bb401/
+                          - generic [ref=e1232]:
+                            - figure [ref=e1233]
+                            - generic [ref=e1234]:
+                              - generic [ref=e1235]:
+                                - paragraph [ref=e1237]:
+                                  - link "KEKE CHEN" [ref=e1238]:
+                                    - /url: https://www.linkedin.com/in/keke-chen-ab47bb401/
+                                - paragraph [ref=e1239]: · 2nd
+                              - paragraph [ref=e1241]: 2nd Prize – International Software Competition | NT Government Scholarship Awardee（2026）
+                        - button "Invite KEKE CHEN to connect" [ref=e1247] [cursor=pointer]:
+                          - generic [ref=e1248]:
+                            - img [ref=e1249]
+                            - generic [ref=e1252]: Connect
+                      - generic [ref=e1254]:
+                        - link "Sanija Nethaka Premium · 2nd AI Engineer | Final Year Computer Science Student (Honours) @ UTS | LLMs • Machine Learning | Built AI Restaurant Assistant & Road Damage Detection Systems" [ref=e1256] [cursor=pointer]:
+                          - /url: https://www.linkedin.com/in/s-nethaka/
+                          - generic [ref=e1257]:
+                            - figure [ref=e1258]
+                            - generic [ref=e1259]:
+                              - generic [ref=e1260]:
+                                - paragraph [ref=e1262]:
+                                  - link "Sanija Nethaka Premium" [ref=e1263]:
+                                    - /url: https://www.linkedin.com/in/s-nethaka/
+                                    - text: Sanija Nethaka
+                                    - img "Premium" [ref=e1264]:
+                                      - img [ref=e1265]
+                                - paragraph [ref=e1267]: · 2nd
+                              - paragraph [ref=e1269]: AI Engineer | Final Year Computer Science Student (Honours) @ UTS | LLMs • Machine Learning | Built AI Restaurant Assistant & Road Damage Detection Systems
+                        - button "Invite Sanija Nethaka to connect" [ref=e1275] [cursor=pointer]:
+                          - generic [ref=e1276]:
+                            - img [ref=e1277]
+                            - generic [ref=e1280]: Connect
+                      - generic [ref=e1282]:
+                        - link "Edward NORTON · 3rd+ National Taiwan University öğrencisi" [ref=e1284] [cursor=pointer]:
+                          - /url: https://www.linkedin.com/in/edward-norton-1a51b1402/
+                          - generic [ref=e1285]:
+                            - figure [ref=e1286]:
+                              - img [ref=e1287]
+                            - generic [ref=e1293]:
+                              - generic [ref=e1294]:
+                                - paragraph [ref=e1296]:
+                                  - link "Edward NORTON" [ref=e1297]:
+                                    - /url: https://www.linkedin.com/in/edward-norton-1a51b1402/
+                                - paragraph [ref=e1298]: · 3rd+
+                              - paragraph [ref=e1300]: National Taiwan University öğrencisi
+                        - link "Send a message to Edward NORTON" [ref=e1306] [cursor=pointer]:
+                          - /url: /messaging/compose/?profileUrn=urn%3Ali%3Afsd_profile%3AACoAAGbmbs0BZPkB-1kliCE0C5j_1xVh7z8GvE0&recipient=ACoAAGbmbs0BZPkB-1kliCE0C5j_1xVh7z8GvE0&screenContext=NON_SELF_PROFILE_VIEW&interop=msgOverlay
+                          - generic [ref=e1307]:
+                            - img [ref=e1308]
+                            - generic [ref=e1310]: Message
+                      - generic [ref=e1312]:
+                        - link "William Zhang Verified · 2nd Data Science Student Working on Data Projects" [ref=e1314] [cursor=pointer]:
+                          - /url: https://www.linkedin.com/in/szha5977/
+                          - generic [ref=e1315]:
+                            - figure [ref=e1316]
+                            - generic [ref=e1317]:
+                              - generic [ref=e1318]:
+                                - paragraph [ref=e1320]:
+                                  - link "William Zhang Verified" [ref=e1321]:
+                                    - /url: https://www.linkedin.com/in/szha5977/
+                                    - text: William Zhang
+                                    - img "Verified" [ref=e1322]:
+                                      - img [ref=e1323]
+                                - paragraph [ref=e1325]: · 2nd
+                              - paragraph [ref=e1327]: Data Science Student Working on Data Projects
+                        - button "Invite William Zhang to connect" [ref=e1333] [cursor=pointer]:
+                          - generic [ref=e1334]:
+                            - img [ref=e1335]
+                            - generic [ref=e1338]: Connect
+                    - link "Show all people you may know" [ref=e1340] [cursor=pointer]:
+                      - /url: https://www.linkedin.com/in/dylan-martens/
+                      - generic [ref=e1341]:
+                        - img [ref=e1342]
+                        - generic [ref=e1344]: Show all
+                  - generic [ref=e1349]:
+                    - generic [ref=e1351]:
+                      - heading "You might like" [level=2] [ref=e1352]
+                      - paragraph [ref=e1353]: Pages for you
+                    - generic [ref=e1355]:
+                      - link "Australian Government Government Relations Services 299,055 followers Rohan & 25 other connections follow this page Follow" [ref=e1358] [cursor=pointer]:
+                        - /url: https://www.linkedin.com/company/australiangovernment/
+                        - generic [ref=e1359]:
+                          - figure [ref=e1360]
+                          - generic [ref=e1361]:
+                            - paragraph [ref=e1364]: Australian Government
+                            - paragraph [ref=e1366]: Government Relations Services
+                            - paragraph [ref=e1367]: 299,055 followers
+                            - generic [ref=e1368]:
+                              - figure [ref=e1369]
+                              - paragraph [ref=e1371]:
+                                - link "Rohan & 25 other connections follow this page" [ref=e1372]:
+                                  - /url: https://www.linkedin.com/company/australiangovernment/?showInNetworkFollowers=true
+                            - button "Follow" [ref=e1375]:
+                              - generic [ref=e1376]:
+                                - img [ref=e1377]
+                                - generic [ref=e1379]: Follow
+                      - link "CSIRO Research Services 375,798 followers Karen & 30 other connections follow this page Follow" [ref=e1382] [cursor=pointer]:
+                        - /url: https://www.linkedin.com/company/csiro/
+                        - generic [ref=e1383]:
+                          - figure [ref=e1384]
+                          - generic [ref=e1385]:
+                            - paragraph [ref=e1388]: CSIRO
+                            - paragraph [ref=e1390]: Research Services
+                            - paragraph [ref=e1391]: 375,798 followers
+                            - generic [ref=e1392]:
+                              - figure [ref=e1393]
+                              - paragraph [ref=e1395]:
+                                - link "Karen & 30 other connections follow this page" [ref=e1396]:
+                                  - /url: https://www.linkedin.com/company/csiro/?showInNetworkFollowers=true
+                            - button "Follow" [ref=e1399]:
+                              - generic [ref=e1400]:
+                                - img [ref=e1401]
+                                - generic [ref=e1403]: Follow
+                    - link "Show all" [ref=e1405] [cursor=pointer]:
+                      - /url: https://www.linkedin.com/in/dylan-martens/
+                      - generic [ref=e1406]:
+                        - img [ref=e1407]
+                        - generic [ref=e1409]: Show all
+                - iframe [ref=e1414]:
+                  - generic [ref=f62e3]:
+                    - banner [ref=f62e4]:
+                      - generic [ref=f62e5]:
+                        - link "Promoted" [ref=f62e6] [cursor=pointer]:
+                          - /url: https://www.linkedin.com/ads/start?src=en-all-ad-li-ads_by_li&trk=ads_by_li&utm_medium=ad&utm_source=li&utm_campaign=ads_by_li
+                        - button [ref=f62e7] [cursor=pointer]:
+                          - img [ref=f62e8]
+                    - generic [ref=f62e13]:
+                      - link "Ad Image 1,370,068,696 Try Google Workspace Help your business look professional in any inbox. Get started today. Alex Alex & 3 other connections also follow Google Workspace" [ref=f62e14] [cursor=pointer]:
+                        - /url: https://www.linkedin.com/li/tscp/sct?destinationUrl=https%3A%2F%2Fad.doubleclick.net%2Fddm%2Ftrackclk%2FN5295.466581LINKEDIN.COM%2FB33083239.414658336%3Bdc_trk_aid%3D607064657%3Bdc_trk_cid%3D230642697%3Bdc_lat%3D%3Bdc_rdid%3D%3Btag_for_child_directed_treatment%3D%3Btfua%3D%3Bltd%3D%3Bdc_tdv%3D1%3Futm_medium%3Dpaid-social%26utm_id%3D557824576%26utm_source%3Dlinkedin&trackingEvent=%5B%7B%22eventInfo%22%3A%7B%22appId%22%3A%22com.linkedin.ads.rendering.d_web%22%2C%22eventName%22%3A%22SponsoredRightRailContentActionEvent%22%2C%22topicName%22%3A%22SponsoredRightRailContentActionEvent%22%7D%2C%22eventBody%22%3A%7B%22sponsoredEventHeader%22%3A%7B%22encryptedTrackingData%22%3A%22CwEAAAGd0ywreo3q1xM_yAnwH3eoc4inDbB1DRJ-eSnIlpDvxft56JDwj4G0jK_-y3gIP7XAJPjx-xdCrbHZEQpiEBRcy_NTbaE-EJyn4wLaeZ95ZvwzDlaKyjgcMBRJcV-ZJkKUNdQC3tEXRyLoXkGo-Dhlab08JM4QYVWC9eqHuryWQ4VVkox4vCr0XjVGSqxancWtYgwc9R4U6bmLmnJkGlNotD48xuzh0XRsUx3Pj2w_pYnAOkjtvY7mbLVGGFGrDv8A6_JwjTGrIoJtuI1AGhBHq-YsELQeIVhdOoJBlLEWIir_q2FAFQN8FEGgNlm4FumREZ4nOakrr6MQ90xHmHozwYyQsx4gzgHEGPNkEv94OBJSjvSR0xxMA0tXAY9R47t6b1G-VRXQoTeGm-qDe-b7KDNIKP8BmBLSwvvq_vpVVwUE9UD5dX3Hj9Ilwl-0cg1GhcptV8irtUj_uv-0EC45Xln5p8egk5idWzBwuvdNBj5JF-jEg7uJqOgJuf7ShPEt3Ll9GIbKrMEHhbxpoyLPgukQELxhLAEbJfqNIyXkU5tG5CcoYVI-qcIj1UDcvwVWv7mcHm9fwTvM0v00uXhBeVVohMDXUFPfsF3f4Hs9aE9bZCQ2ISaiJRjpLT9xH3FCKZyfEkLcZPTHFwKhwfC8xeFKr5jwGxXDbdtpb18pgOtscYgU40huyIxPynwUooR0Vw1VYZKQLpUXAyQCLrOUJ-tq2nyD-8R2aSgerxpD9e-EO69YDJrOKrhvQN8GMPKVgWJxCb9mmrqIFhPeZ8DEigJO5ZkBAmOaQzpFqaCDNYOGqioCk1fWxa7RymZ3emtvLgNrqRYd9npu5WQINkAmNLfUhYlaDdCCxHY_54mnMWKOI-Hika8X-dUbKXkJj1_rwwtAoffXWrXorUXeX9IwWW27vTJdTlrET71CuJsZA4mC4hD-6k1Z-O-E1_lzG2r7nCzcuOS8wpR2_a266qum8ydAsfo9a0QgmTitV45EF4PN2ZBlI5rqV8ecAQjj%22%7D%2C%22header%22%3A%7B%22pageInstance%22%3A%7B%22pageUrn%22%3A%22urn%3Ali%3Apage%3Ad_flagship3_profile_view_base%22%2C%22trackingId%22%3A%2292a00d48-95f4-463e-95e5-ac38c974220e%22%7D%2C%22time%22%3A1777364380538%2C%22version%22%3A%220.0.0%22%7D%2C%22requestHeader%22%3A%7B%22pageKey%22%3A%22d_flagship3_profile_view_base%22%2C%22interfaceLocale%22%3A%22en-US%22%7D%7D%7D%5D&csrfToken=ajax%3A4754293302675097270
+                        - img "Ad Image 1,370,068,696" [ref=f62e16]
+                        - generic [ref=f62e17]:
+                          - heading "Try Google Workspace" [level=4] [ref=f62e18]
+                          - paragraph [ref=f62e19]: Help your business look professional in any inbox. Get started today.
+                          - generic [ref=f62e20]:
+                            - img "Alex" [ref=f62e22]
+                            - paragraph [ref=f62e23]: Alex & 3 other connections also follow Google Workspace
+                      - link "Ad Image 843,064,946 Turn ideas into action Discover how your business can use Confluence for project management. Jeremy Jeremy & 62 other connections also follow Atlassian" [ref=f62e24] [cursor=pointer]:
+                        - /url: https://www.linkedin.com/li/tscp/sct?destinationUrl=https%3A%2F%2Fwww.atlassian.com%2Fsoftware%2Fconfluence%3Fli_fat_id%3D055d2085-6478-4290-b5cf-15ae8ab06f0f%26utm_campaign%3DP%253Aconfluence%257CO%253Appm%257CV%253Alinkedin%257CG%253Aaunz%257CL%253Aen%257CF%253Aaware%257CT%253Apredictive%257CA%253Atext%257CD%253Aalld%257CU%253Acustomers%26utm_medium%3Dpaid-social%26utm_content%3DP%253Aconfluence%257CO%253Appm%257CV%253Alinkedin%257CG%253Aaunz%257CL%253Aen%257CF%253Aaware%257CT%253Apredictive%257CA%253Atext%257CD%253Aalld%257CU%253Acustomers_text-core-projmgmt-projmgmt-action-100x100-na-na-discover%26campaign_group_id%3D607582966%26creative_id%3D843064946%26utm_source%3Dlinkedin%26account_id%3D507715664%26campaign_group_name%3DOBA_P%253Aconfluence%257CO%253Appm%257CV%253Alinkedin%26utm_campaignid%3D443715666%26account_name%3DConfluence_Linkedin_Social_BAU&trackingEvent=%5B%7B%22eventInfo%22%3A%7B%22appId%22%3A%22com.linkedin.ads.rendering.d_web%22%2C%22eventName%22%3A%22SponsoredRightRailContentActionEvent%22%2C%22topicName%22%3A%22SponsoredRightRailContentActionEvent%22%7D%2C%22eventBody%22%3A%7B%22sponsoredEventHeader%22%3A%7B%22encryptedTrackingData%22%3A%22CwEAAAGd0ywreX-wBDxGCeZ_tUGhQtJYj4jirfaV1yfePvgdEJxbscwVsjMi2PuboaA04SvTEU0PwaaCizeN5RWxFC8oYcR9yKGoi5vPtfFFs6UOMsYOYUDFjQDyeUmUtR0HlU3Vgm5IMAKr4sCrEfOSr-hkLIZ7veHzLFTEwWfOHI_ArLaPyBUgA4rbvKtRFToi9jaDQEW5OsuDU0-9vTJOe_-5mPz1zcbxKCCSJmeONWC3o7Val3uaRyPad6OvNYQE52ImZaYaRvw0YtFUJQPr1zrt0wITsg3lgXSNaH6BkUZnTRdHgNjWCHcPT6PtOwVbqYNenjyOk54MNLtBKVtHoMpQBVEyH315U2OI2PlCQrOIrh-hfeL5Z6noKwBm9wDfk4tOVpyyFOU0PmJBFiwKXfUg0nRu_Hge1pYKuzK77P2eRUygrdnrAXAsUVLE2qwhxBCnhbg7QwYxGhd2DDS0H6ZEedlE9YrTYjT8PYIZoMx7q3uULKvkmXhyUymvhyFD-v95ZNY7vsPtLvAW19ZoeC1cH6p61PKoRZLQYk5JHNhSObFf3F6JX52ASvwXySvC-uUzwCfZ405akgkpIsj_CtQifAc7mYexFLOR9peqX-Tuxg4Qa_NxiFHarP1EFIdaM4dvMVUx99JNm78phCGIjNAUM9c1CuLFO941ANptsrpAaBrCCySGccP3hQUYodNrjl7FqhKtyxPKR9Z2fobOfGAy3opqKTOeWH-Lw-cmRFpgVvyElJdmt42bZ_dsVLbJrcsBWSIJ3TbH6izp0HyF8t8gX_UBuITMoNH4bqg3hOkTtCrsu8G8aUZ-nRmnN4FMiyjbPwlckJImf4iBDhzQ017lZwdT20al-vVhiUm_1_bXiqx8oqQ9harIic4vzgT_dfVFizXDJcVE5k8510u694ZsrjpdxSnI4Dw-et21kNxy4oCf9Pe8RiT-MFtnUyPC6cic70vpwfAKSBh0WQtjeZjNNYW_K2PMCcdy4lHbvcddwS7k-8vkZWPc0gXmgJdx9E0sHtc%22%7D%2C%22header%22%3A%7B%22pageInstance%22%3A%7B%22pageUrn%22%3A%22urn%3Ali%3Apage%3Ad_flagship3_profile_view_base%22%2C%22trackingId%22%3A%223c13dc87-dde9-4143-9554-f464b48c4ddb%22%7D%2C%22time%22%3A1777364380536%2C%22version%22%3A%220.0.0%22%7D%2C%22requestHeader%22%3A%7B%22pageKey%22%3A%22d_flagship3_profile_view_base%22%2C%22interfaceLocale%22%3A%22en-US%22%7D%7D%7D%5D&csrfToken=ajax%3A4754293302675097270
+                        - img "Ad Image 843,064,946" [ref=f62e26]
+                        - generic [ref=f62e27]:
+                          - heading "Turn ideas into action" [level=4] [ref=f62e28]
+                          - paragraph [ref=f62e29]: Discover how your business can use Confluence for project management.
+                          - generic [ref=f62e30]:
+                            - img "Jeremy" [ref=f62e32]
+                            - paragraph [ref=f62e33]: Jeremy & 62 other connections also follow Atlassian
+              - generic [ref=e1418]:
+                - generic [ref=e1419]:
+                  - navigation [ref=e1420]:
+                    - link "About" [ref=e1421] [cursor=pointer]:
+                      - /url: https://about.linkedin.com/
+                      - paragraph [ref=e1422]: About
+                    - link "Accessibility" [ref=e1423] [cursor=pointer]:
+                      - /url: https://www.linkedin.com/accessibility/
+                      - paragraph [ref=e1424]: Accessibility
+                    - link "Talent Solutions" [ref=e1425] [cursor=pointer]:
+                      - /url: https://business.linkedin.com/talent-solutions?trk=flagship_nav&veh=li-footer-lts-control&src=li-footer
+                      - paragraph [ref=e1426]: Talent Solutions
+                    - link "Community Guidelines" [ref=e1427] [cursor=pointer]:
+                      - /url: https://www.linkedin.com/legal/professional-community-policies/
+                      - paragraph [ref=e1428]: Community Guidelines
+                    - link "Careers" [ref=e1429] [cursor=pointer]:
+                      - /url: https://careers.linkedin.com/
+                      - paragraph [ref=e1430]: Careers
+                    - link "Marketing Solutions" [ref=e1431] [cursor=pointer]:
+                      - /url: https://business.linkedin.com/advertise?trk=n_nav_lms_f&src=li-footer
+                      - paragraph [ref=e1432]: Marketing Solutions
+                    - button "Privacy & Terms" [ref=e1433] [cursor=pointer]:
+                      - generic [ref=e1434]:
+                        - paragraph [ref=e1435]: Privacy & Terms
+                        - img [ref=e1436]
+                    - link "Ad Choices" [ref=e1438] [cursor=pointer]:
+                      - /url: https://www.linkedin.com/help/linkedin/answer/62931/
+                      - paragraph [ref=e1439]: Ad Choices
+                    - link "Advertising" [ref=e1440] [cursor=pointer]:
+                      - /url: https://www.linkedin.com/ad/start/?trk=n_nav_ads_rr
+                      - paragraph [ref=e1441]: Advertising
+                    - link "Sales Solutions" [ref=e1442] [cursor=pointer]:
+                      - /url: https://business.linkedin.com/sales-solutions?trk=flagship_nav&veh=li-footer-lss-control&src=li-footer
+                      - paragraph [ref=e1443]: Sales Solutions
+                    - link "Mobile" [ref=e1444] [cursor=pointer]:
+                      - /url: https://mobile.linkedin.com/
+                      - paragraph [ref=e1445]: Mobile
+                    - link "Small Business" [ref=e1446] [cursor=pointer]:
+                      - /url: https://business.linkedin.com/grow?src=li-footer
+                      - paragraph [ref=e1447]: Small Business
+                    - link "Safety Center" [ref=e1448] [cursor=pointer]:
+                      - /url: https://safety.linkedin.com/
+                      - paragraph [ref=e1449]: Safety Center
+                  - paragraph [ref=e1451]: LinkedIn Corporation © 2026
+                - generic [ref=e1452]:
+                  - list [ref=e1453]:
+                    - listitem [ref=e1454]:
+                      - generic [ref=e1455]:
+                        - img [ref=e1456]
+                        - generic [ref=e1458]:
+                          - link "Questions?" [ref=e1459] [cursor=pointer]:
+                            - /url: https://www.linkedin.com/help/linkedin/
+                            - paragraph [ref=e1460]: Questions?
+                          - paragraph [ref=e1461]: Visit our Help Center.
+                    - listitem [ref=e1462]:
+                      - generic [ref=e1463]:
+                        - img [ref=e1464]
+                        - generic [ref=e1466]:
+                          - link "Manage your account and privacy" [ref=e1467] [cursor=pointer]:
+                            - /url: https://www.linkedin.com/mypreferences/d/
+                            - paragraph [ref=e1468]: Manage your account and privacy
+                          - paragraph [ref=e1469]: Go to your Settings.
+                    - listitem [ref=e1470]:
+                      - generic [ref=e1471]:
+                        - img [ref=e1472]
+                        - generic [ref=e1474]:
+                          - link "Recommendation transparency" [ref=e1475] [cursor=pointer]:
+                            - /url: https://www.linkedin.com/help/linkedin/answer/a1339724/
+                            - paragraph [ref=e1476]: Recommendation transparency
+                          - paragraph [ref=e1477]: Learn more about Recommended Content.
+                  - generic [ref=e1479]:
+                    - paragraph [ref=e1481]: Select language
+                    - generic [ref=e1482]:
+                      - combobox "Select language" [ref=e1483] [cursor=pointer]:
+                        - option "العربية (Arabic)"
+                        - option "বাংলা (Bangla)"
+                        - option "Čeština (Czech)"
+                        - option "Dansk (Danish)"
+                        - option "Deutsch (German)"
+                        - option "Ελληνικά (Greek)"
+                        - option "English (English)" [selected]
+                        - option "Español (Spanish)"
+                        - option "فارسی (Persian)"
+                        - option "Suomi (Finnish)"
+                        - option "Français (French)"
+                        - option "हिंदी (Hindi)"
+                        - option "Magyar (Hungarian)"
+                        - option "Bahasa Indonesia (Indonesian)"
+                        - option "Italiano (Italian)"
+                        - option "עברית (Hebrew)"
+                        - option "日本語 (Japanese)"
+                        - option "한국어 (Korean)"
+                        - option "मराठी (Marathi)"
+                        - option "Bahasa Malaysia (Malay)"
+                        - option "Nederlands (Dutch)"
+                        - option "Norsk (Norwegian)"
+                        - option "ਪੰਜਾਬੀ (Punjabi)"
+                        - option "Polski (Polish)"
+                        - option "Português (Portuguese)"
+                        - option "Română (Romanian)"
+                        - option "Русский (Russian)"
+                        - option "Svenska (Swedish)"
+                        - option "తెలుగు (Telugu)"
+                        - option "ภาษาไทย (Thai)"
+                        - option "Tagalog (Tagalog)"
+                        - option "Türkçe (Turkish)"
+                        - option "Українська (Ukrainian)"
+                        - option "Tiếng Việt (Vietnamese)"
+                        - option "简体中文 (Chinese (Simplified))"
+                        - option "正體中文 (Chinese (Traditional))"
+                      - img
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - complementary:
+            - generic [ref=e1484]:
+              - generic [ref=e1485]:
+                - generic [ref=e1487] [cursor=pointer]:
+                  - generic [ref=e1488]:
+                    - img "Ying-Kai Liao" [ref=e1489]
+                    - generic [ref=e1491]: Status is online
+                  - button "You are on the messaging overlay. Press enter to open the list of conversations." [ref=e1492]:
+                    - generic [ref=e1493]:
+                      - generic [ref=e1494]: Messaging
+                      - generic [ref=e1495]: You are on the messaging overlay. Press enter to open the list of conversations.
+                - generic [ref=e1496]:
+                  - button "Open messenger dropdown menu" [ref=e1498] [cursor=pointer]:
+                    - img "Open messenger dropdown menu" [ref=e1499]
+                  - button "Compose message" [ref=e1502] [cursor=pointer]:
+                    - img [ref=e1503]
+                    - generic [ref=e1505]: Compose message
+                  - button "You are on the messaging overlay. Press enter to open the list of conversations." [ref=e1506] [cursor=pointer]:
+                    - img [ref=e1507]
+                    - generic [ref=e1509]: You are on the messaging overlay. Press enter to open the list of conversations.
+              - link "Pemo Tech Co.,Ltd. picture Pemo Tech Co.,Ltd." [ref=e1510] [cursor=pointer]:
+                - /url: https://www.linkedin.com/company/104805537/admin/inbox
+                - img "Pemo Tech Co.,Ltd. picture" [ref=e1511]
+                - generic [ref=e1512]: Pemo Tech Co.,Ltd.
+                - img [ref=e1513]
+          - complementary "AI-powered assistant to get help with your career, jobs etc"
+  - iframe [ref=e1515]:
+    - generic [active] [ref=f63e1]:
+      - generic:
+        - region "Toast message":
+          - heading "0 notifications total" [level=2] [ref=f63e3]
+          - alert
+      - region [ref=f63e4]
+      - generic [ref=f63e5]:
+        - generic [ref=f63e7]:
+          - button "Skip to search" [ref=f63e8] [cursor=pointer]:
+            - generic [ref=f63e9]: Skip to search
+          - button "Skip to main content" [ref=f63e10] [cursor=pointer]:
+            - generic [ref=f63e11]: Skip to main content
+          - button "Keyboard shortcuts" [ref=f63e12] [cursor=pointer]:
+            - generic [ref=f63e13]: Keyboard shortcuts
+          - button "Close jump menu" [ref=f63e14] [cursor=pointer]:
+            - img [ref=f63e15]
+            - generic [ref=f63e17]: Close jump menu
+        - banner "Global Navigation" [ref=f63e18]:
+          - generic [ref=f63e19]:
+            - link "LinkedIn" [ref=f63e20] [cursor=pointer]:
+              - /url: https://www.linkedin.com/feed/?nis=true
+              - img "LinkedIn" [ref=f63e23]:
+                - img [ref=f63e24]
+            - generic [ref=f63e28]:
+              - combobox "Search" [ref=f63e29]
+              - generic:
+                - img
+            - navigation "Primary Navigation" [ref=f63e30]:
+              - list [ref=f63e31]:
+                - listitem [ref=f63e32]:
+                  - link "new feed updates notifications Home" [ref=f63e33] [cursor=pointer]:
+                    - /url: https://www.linkedin.com/feed/
+                    - generic [ref=f63e34]:
+                      - generic [ref=f63e37]: new feed updates notifications
+                      - img [ref=f63e41]
+                    - generic "Home" [ref=f63e43]
+                - listitem [ref=f63e44]:
+                  - link "2 new network updates notifications My Network" [ref=f63e45] [cursor=pointer]:
+                    - /url: https://www.linkedin.com/mynetwork/?
+                    - generic [ref=f63e46]:
+                      - generic [ref=f63e47]:
+                        - generic [ref=f63e48]: "2"
+                        - generic [ref=f63e49]: 2 new network updates notifications
+                      - img [ref=f63e53]
+                    - generic "My Network" [ref=f63e55]
+                - listitem [ref=f63e56]:
+                  - link "Jobs" [ref=f63e57] [cursor=pointer]:
+                    - /url: https://www.linkedin.com/jobs/?
+                    - img [ref=f63e61]
+                    - generic "Jobs" [ref=f63e63]
+                - listitem [ref=f63e64]:
+                  - link "Messaging" [ref=f63e65] [cursor=pointer]:
+                    - /url: https://www.linkedin.com/messaging/?
+                    - img [ref=f63e69]
+                    - generic "Messaging" [ref=f63e71]
+                - listitem [ref=f63e72]:
+                  - link "9 new notifications Notifications" [ref=f63e73] [cursor=pointer]:
+                    - /url: https://www.linkedin.com/notifications/?
+                    - generic [ref=f63e74]:
+                      - generic [ref=f63e75]:
+                        - generic [ref=f63e76]: "9"
+                        - generic [ref=f63e77]: 9 new notifications
+                      - img [ref=f63e81]
+                    - generic "Notifications" [ref=f63e83]
+                - listitem [ref=f63e84]:
+                  - button "Ying-Kai Liao Me" [ref=f63e86] [cursor=pointer]:
+                    - img "Ying-Kai Liao" [ref=f63e87]
+                    - generic [ref=f63e88]:
+                      - text: Me
+                      - img [ref=f63e89]
+                - listitem [ref=f63e91]:
+                  - button "For Business" [ref=f63e93] [cursor=pointer]:
+                    - img [ref=f63e97]
+                    - generic "For Business" [ref=f63e99]:
+                      - text: For Business
+                      - img [ref=f63e100]
+                - listitem [ref=f63e102]:
+                  - link "Try Premium for A$0" [ref=f63e104] [cursor=pointer]:
+                    - /url: javascript:void(0)
+                    - generic [ref=f63e105]:
+                      - img [ref=f63e106]
+                      - generic [ref=f63e108]: Try Premium for A$0

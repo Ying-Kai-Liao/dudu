@@ -1,0 +1,542 @@
+- generic [ref=e1]:
+  - generic:
+    - region "Toast message":
+      - heading "0 notifications total" [level=2] [ref=e3]
+      - alert
+  - region [ref=e15]
+  - generic [ref=e16]:
+    - generic [ref=e116]:
+      - button "Skip to search" [ref=e117] [cursor=pointer]:
+        - generic [ref=e118]: Skip to search
+      - button "Skip to main content" [ref=e119] [cursor=pointer]:
+        - generic [ref=e120]: Skip to main content
+      - button "Keyboard shortcuts" [ref=e121] [cursor=pointer]:
+        - generic [ref=e122]: Keyboard shortcuts
+      - button "Close jump menu" [ref=e123] [cursor=pointer]:
+        - img [ref=e124]
+        - generic [ref=e126]: Close jump menu
+    - banner "Global Navigation" [ref=e127]:
+      - generic [ref=e128]:
+        - link "LinkedIn" [ref=e129] [cursor=pointer]:
+          - /url: https://www.linkedin.com/feed/?nis=true
+          - img "LinkedIn" [ref=e132]:
+            - img [ref=e133]
+        - generic [ref=e137]:
+          - combobox "Search" [ref=e138]: agency founder durban
+          - generic:
+            - img
+        - navigation "Primary Navigation" [ref=e139]:
+          - list [ref=e140]:
+            - listitem [ref=e141]:
+              - link "new feed updates notifications Home" [ref=e142] [cursor=pointer]:
+                - /url: https://www.linkedin.com/feed/?nis=true&
+                - generic [ref=e143]:
+                  - generic [ref=e146]: new feed updates notifications
+                  - img [ref=e150]
+                - generic "Home" [ref=e152]
+            - listitem [ref=e153]:
+              - link "2 new network updates notifications My Network" [ref=e154] [cursor=pointer]:
+                - /url: https://www.linkedin.com/mynetwork/?
+                - generic [ref=e155]:
+                  - generic [ref=e156]:
+                    - generic [ref=e157]: "2"
+                    - generic [ref=e158]: 2 new network updates notifications
+                  - img [ref=e162]
+                - generic "My Network" [ref=e164]
+            - listitem [ref=e165]:
+              - link "Jobs" [ref=e166] [cursor=pointer]:
+                - /url: https://www.linkedin.com/jobs/?
+                - img [ref=e170]
+                - generic "Jobs" [ref=e172]
+            - listitem [ref=e173]:
+              - link "Messaging" [ref=e174] [cursor=pointer]:
+                - /url: https://www.linkedin.com/messaging/?
+                - img [ref=e178]
+                - generic "Messaging" [ref=e180]
+            - listitem [ref=e181]:
+              - link "9 new notifications Notifications" [ref=e182] [cursor=pointer]:
+                - /url: https://www.linkedin.com/notifications/?
+                - generic [ref=e183]:
+                  - generic [ref=e184]:
+                    - generic [ref=e185]: "9"
+                    - generic [ref=e186]: 9 new notifications
+                  - img [ref=e190]
+                - generic "Notifications" [ref=e192]
+            - listitem [ref=e193]:
+              - button "Ying-Kai Liao Me" [ref=e195] [cursor=pointer]:
+                - img "Ying-Kai Liao" [ref=e196]
+                - generic [ref=e197]:
+                  - text: Me
+                  - img [ref=e198]
+            - listitem [ref=e200]:
+              - button "For Business" [ref=e202] [cursor=pointer]:
+                - img [ref=e206]
+                - generic "For Business" [ref=e208]:
+                  - text: For Business
+                  - img [ref=e209]
+            - listitem [ref=e211]:
+              - link "Try Premium for A$0" [ref=e213] [cursor=pointer]:
+                - /url: javascript:void(0)
+                - generic [ref=e214]:
+                  - img [ref=e215]
+                  - generic [ref=e217]: Try Premium for A$0
+    - generic [ref=e218]:
+      - navigation "Search filters" [ref=e221]:
+        - generic [ref=e222]:
+          - list [ref=e223]:
+            - listitem [ref=e224]:
+              - 'button "Filter by: People" [ref=e226] [cursor=pointer]':
+                - text: People
+                - img [ref=e227]
+            - listitem [ref=e229]
+            - listitem [ref=e230]:
+              - group "Connections filter" [ref=e232]:
+                - generic [ref=e233]: Connections filter
+                - list [ref=e234]:
+                  - listitem [ref=e235]:
+                    - button "1st" [ref=e236] [cursor=pointer]
+                  - listitem [ref=e237]:
+                    - button "2nd" [ref=e238] [cursor=pointer]
+                  - listitem [ref=e239]:
+                    - button "3rd+" [ref=e240] [cursor=pointer]
+            - listitem [ref=e241]:
+              - button "Locations filter. Clicking this button displays all Locations filter options." [ref=e244] [cursor=pointer]:
+                - text: Locations
+                - img [ref=e245]
+            - listitem [ref=e247]:
+              - button "Current company filter. Clicking this button displays all Current company filter options." [ref=e250] [cursor=pointer]:
+                - text: Current company
+                - img [ref=e251]
+          - button "Show all filters. Clicking this button displays all available filter options." [ref=e256] [cursor=pointer]: All filters
+      - generic [ref=e257]:
+        - generic [ref=e258]:
+          - main [ref=e259]:
+            - heading "Search results for agency founder durban. There are 10 results. Currently on the page 1 of 55 search result pages." [active] [level=1] [ref=e260]
+            - generic [ref=e262]:
+              - list [ref=e265]:
+                - listitem [ref=e266]:
+                  - generic [ref=e269] [cursor=pointer]:
+                    - link "Liesl Yearsley" [ref=e272]:
+                      - /url: https://www.linkedin.com/in/liesl?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAABRvK0Buxd5FrMros-WmvB-EsHXMsjveWo
+                      - img "Liesl Yearsley" [ref=e276]
+                    - generic [ref=e277]:
+                      - generic [ref=e278]:
+                        - generic [ref=e282]:
+                          - link "View Liesl Yearsley’s profile" [ref=e283]:
+                            - /url: https://www.linkedin.com/in/liesl?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAABRvK0Buxd5FrMros-WmvB-EsHXMsjveWo
+                            - generic [ref=e284]:
+                              - generic [ref=e285]: Liesl Yearsley
+                              - generic [ref=e286]: View Liesl Yearsley’s profile
+                          - generic [ref=e288]:
+                            - button "Verified member" [ref=e290]:
+                              - img "Verified member" [ref=e293]
+                            - generic [ref=e295]:
+                              - generic [ref=e296]: • 2nd
+                              - generic [ref=e297]: 2nd degree connection
+                        - generic [ref=e298]: CEO Akin.com
+                        - generic [ref=e299]: Sydney, NSW
+                      - generic [ref=e301]:
+                        - img [ref=e305]
+                        - generic [ref=e308]:
+                          - link "Dr Rich Lane" [ref=e309]:
+                            - /url: https://www.linkedin.com/in/ACoAAAArEugB-H9NcwPDuswgTkJlBqp4Yc733fg?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAAArEugB-H9NcwPDuswgTkJlBqp4Yc733fg
+                            - strong [ref=e311]: Dr Rich Lane
+                          - text: ","
+                          - link "Jason Ming" [ref=e312]:
+                            - /url: https://www.linkedin.com/in/ACoAAAEDCgwBoLrDn9b0tAaple_OJO2EdQ9mt3I?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAAEDCgwBoLrDn9b0tAaple_OJO2EdQ9mt3I
+                            - strong [ref=e314]: Jason Ming
+                          - text: ", and"
+                          - link "2 other mutual connections" [ref=e315]:
+                            - /url: https://www.linkedin.com/search/results/people/?facetNetwork=%5B%22F%22%5D&facetConnectionOf=%5B%22ACoAAABRvK0Buxd5FrMros-WmvB-EsHXMsjveWo%22%5D&origin=SHARED_CONNECTIONS_CANNED_SEARCH
+                            - strong [ref=e317]: 2 other mutual connections
+                    - button "Invite Liesl Yearsley to connect" [ref=e320]:
+                      - generic [ref=e321]: Connect
+                - listitem [ref=e322]:
+                  - generic [ref=e325] [cursor=pointer]:
+                    - link "Preshen Govender" [ref=e328]:
+                      - /url: https://www.linkedin.com/in/preshen-govender-74162639b?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAGIohqEBCd3EKKtI6KU6Lc0tCz21Cbggikw
+                      - img "Preshen Govender" [ref=e332]
+                    - generic [ref=e333]:
+                      - generic [ref=e334]:
+                        - generic [ref=e338]:
+                          - link "View Preshen Govender’s profile" [ref=e339]:
+                            - /url: https://www.linkedin.com/in/preshen-govender-74162639b?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAGIohqEBCd3EKKtI6KU6Lc0tCz21Cbggikw
+                            - generic [ref=e340]:
+                              - generic [ref=e341]: Preshen Govender
+                              - generic [ref=e342]: View Preshen Govender’s profile
+                          - generic [ref=e345]:
+                            - generic [ref=e346]: • 2nd
+                            - generic [ref=e347]: 2nd degree connection
+                        - generic [ref=e348]: Interior Architect | Cognitive Systems Architect | AI Workflow Designer Durban, South Africa | Open to Remote & Hybrid Roles. Or Collaborations.
+                        - generic [ref=e349]: Durban
+                      - generic [ref=e351]:
+                        - img [ref=e355]
+                        - generic [ref=e358]:
+                          - link "Ashish Goud" [ref=e359]:
+                            - /url: https://www.linkedin.com/in/ACoAADwn5y4BCvGP2Kc1fZwl5Bx9jNWH7OmK4h4?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAADwn5y4BCvGP2Kc1fZwl5Bx9jNWH7OmK4h4
+                            - strong [ref=e361]: Ashish Goud
+                          - text: and
+                          - link "Abdul Basit" [ref=e362]:
+                            - /url: https://www.linkedin.com/in/ACoAAErzQQsBueWWQ_rzluX6XL72ZXZb_W8wG60?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAErzQQsBueWWQ_rzluX6XL72ZXZb_W8wG60
+                            - strong [ref=e364]: Abdul Basit
+                          - text: are mutual connections
+                    - button "Invite Preshen Govender to connect" [ref=e367]:
+                      - generic [ref=e368]: Connect
+                - listitem
+                - listitem [ref=e369]:
+                  - generic [ref=e372] [cursor=pointer]:
+                    - link "Varish Singh" [ref=e375]:
+                      - /url: https://www.linkedin.com/in/varish-singh-2201bb82?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAABF4sngBgPxUYskvD6TbvfJc43yUh9G4XuE
+                      - img "Varish Singh" [ref=e379]
+                    - generic [ref=e380]:
+                      - generic [ref=e381]:
+                        - generic [ref=e385]:
+                          - link "View Varish Singh’s profile" [ref=e386]:
+                            - /url: https://www.linkedin.com/in/varish-singh-2201bb82?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAABF4sngBgPxUYskvD6TbvfJc43yUh9G4XuE
+                            - generic [ref=e387]:
+                              - generic [ref=e388]: Varish Singh
+                              - generic [ref=e389]: View Varish Singh’s profile
+                          - generic [ref=e392]:
+                            - generic [ref=e393]: • 2nd
+                            - generic [ref=e394]: 2nd degree connection
+                        - generic [ref=e395]: Head of Marketing | Strategic Communications | Business Development | Chemistry Product Development | Software and AI Technologist | Brand Progression
+                        - generic [ref=e396]: Durban
+                      - link "Provides services - Web Design, WordPress Design, Blogging, Brand Marketing, Content Marketing, Content Strategy, Digital Marketing, Growth Marketing, Market Research, Marketing Strategy" [ref=e399]:
+                        - /url: https://www.linkedin.com/in/ACoAABF4sngBgPxUYskvD6TbvfJc43yUh9G4XuE?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAABF4sngBgPxUYskvD6TbvfJc43yUh9G4XuE
+                        - strong [ref=e403]: Provides services - Web Design, WordPress Design, Blogging, Brand Marketing, Content Marketing, Content Strategy, Digital Marketing, Growth Marketing, Market Research, Marketing Strategy
+                    - button "Follow Varish Singh" [ref=e406]:
+                      - generic [ref=e407]: Follow
+                - listitem [ref=e408]:
+                  - generic [ref=e411] [cursor=pointer]:
+                    - link "Hoosen Omar" [ref=e414]:
+                      - /url: https://www.linkedin.com/in/hoosen-omar-6695412b6?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAEvl6nEBu1PmOXFF20-op5QHQIvccFtHoyo
+                      - img "Hoosen Omar" [ref=e418]
+                    - generic [ref=e420]:
+                      - generic [ref=e424]:
+                        - link "View Hoosen Omar’s profile" [ref=e425]:
+                          - /url: https://www.linkedin.com/in/hoosen-omar-6695412b6?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAEvl6nEBu1PmOXFF20-op5QHQIvccFtHoyo
+                          - generic [ref=e426]:
+                            - generic [ref=e427]: Hoosen Omar
+                            - generic [ref=e428]: View Hoosen Omar’s profile
+                        - generic [ref=e431]:
+                          - generic [ref=e432]: • 3rd+
+                          - generic [ref=e433]: 3rd+ degree connection
+                      - generic [ref=e434]: Founder at CASA LIVING, Durban, South Africa
+                      - generic [ref=e435]: Durban
+                    - button "Message Hoosen Omar" [ref=e439]:
+                      - generic [ref=e440]: Message
+                - listitem [ref=e441]:
+                  - generic [ref=e444] [cursor=pointer]:
+                    - link "Xolani Cele" [ref=e447]:
+                      - /url: https://www.linkedin.com/in/xolani-cele-5a5b31164?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAACdSgQ0Byd8TzciANuaFni5eQqLv6QJpdFU
+                      - img "Xolani Cele" [ref=e451]
+                    - generic [ref=e453]:
+                      - generic [ref=e457]:
+                        - link "View Xolani Cele’s profile" [ref=e458]:
+                          - /url: https://www.linkedin.com/in/xolani-cele-5a5b31164?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAACdSgQ0Byd8TzciANuaFni5eQqLv6QJpdFU
+                          - generic [ref=e459]:
+                            - generic [ref=e460]: Xolani Cele
+                            - generic [ref=e461]: View Xolani Cele’s profile
+                        - generic [ref=e464]:
+                          - generic [ref=e465]: • 3rd+
+                          - generic [ref=e466]: 3rd+ degree connection
+                      - generic [ref=e467]: Founder at Durban Weekend
+                      - generic [ref=e468]: Durban
+                    - button "Message Xolani Cele" [ref=e472]:
+                      - generic [ref=e473]: Message
+                - listitem [ref=e474]:
+                  - generic [ref=e477] [cursor=pointer]:
+                    - link "Mbali Ntuli" [ref=e480]:
+                      - /url: https://www.linkedin.com/in/mbali-ntuli-gwc?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAAQ0C50BfFPBSJ9j07w8fNZfFPpxH_xKiJw
+                      - img "Mbali Ntuli" [ref=e484]
+                    - generic [ref=e485]:
+                      - generic [ref=e486]:
+                        - generic [ref=e490]:
+                          - link "View Mbali Ntuli’s profile" [ref=e491]:
+                            - /url: https://www.linkedin.com/in/mbali-ntuli-gwc?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAAQ0C50BfFPBSJ9j07w8fNZfFPpxH_xKiJw
+                            - generic [ref=e492]:
+                              - generic [ref=e493]: Mbali Ntuli
+                              - generic [ref=e494]: View Mbali Ntuli’s profile
+                          - generic [ref=e496]:
+                            - img "Premium member" [ref=e499]:
+                              - img [ref=e500]
+                            - generic [ref=e503]:
+                              - generic [ref=e504]: • 3rd+
+                              - generic [ref=e505]: 3rd+ degree connection
+                        - generic [ref=e506]: Founder and CEO at Ground Work Collective
+                        - generic [ref=e507]: Durban
+                      - generic [ref=e509]:
+                        - img [ref=e513]
+                        - generic [ref=e516]: 4K followers
+                    - button "Follow Mbali Ntuli" [ref=e519]:
+                      - generic [ref=e520]: Follow
+                - listitem [ref=e521]:
+                  - generic [ref=e524] [cursor=pointer]:
+                    - link "Anani Nani" [ref=e527]:
+                      - /url: https://www.linkedin.com/in/ananinani?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAD5BARwBs0KMSaXe396LdTMtIjRxhqps8NU
+                      - img "Anani Nani" [ref=e531]
+                    - generic [ref=e532]:
+                      - generic [ref=e533]:
+                        - generic [ref=e537]:
+                          - link "View Anani Nani’s profile" [ref=e538]:
+                            - /url: https://www.linkedin.com/in/ananinani?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAD5BARwBs0KMSaXe396LdTMtIjRxhqps8NU
+                            - generic [ref=e539]:
+                              - generic [ref=e540]: Anani Nani
+                              - generic [ref=e541]: View Anani Nani’s profile
+                          - generic [ref=e543]:
+                            - button "Verified member" [ref=e545]:
+                              - img "Verified member" [ref=e548]
+                            - generic [ref=e550]:
+                              - generic [ref=e551]: • 2nd
+                              - generic [ref=e552]: 2nd degree connection
+                        - generic [ref=e553]: Virtual Executive Assistant
+                        - generic [ref=e554]: Durban Metropolitan Area
+                      - link "Provides services - Executive Administrative Assistance, Virtual Assistance" [ref=e557]:
+                        - /url: https://www.linkedin.com/in/ACoAAD5BARwBs0KMSaXe396LdTMtIjRxhqps8NU?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAD5BARwBs0KMSaXe396LdTMtIjRxhqps8NU
+                        - strong [ref=e561]: Provides services - Executive Administrative Assistance, Virtual Assistance
+                    - button "Follow Anani Nani" [ref=e564]:
+                      - generic [ref=e565]: Follow
+                - listitem [ref=e566]:
+                  - generic [ref=e569] [cursor=pointer]:
+                    - link "Perene Rajoo" [ref=e572]:
+                      - /url: https://www.linkedin.com/in/perene-rajoo-994593399?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAGHLvsABbroHhNqBdulzTbk_mjxpDx58984
+                      - generic [ref=e576]: Perene Rajoo
+                    - generic [ref=e578]:
+                      - generic [ref=e582]:
+                        - link "View Perene Rajoo’s profile" [ref=e583]:
+                          - /url: https://www.linkedin.com/in/perene-rajoo-994593399?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAGHLvsABbroHhNqBdulzTbk_mjxpDx58984
+                          - generic [ref=e584]:
+                            - generic [ref=e585]: Perene Rajoo
+                            - generic [ref=e586]: View Perene Rajoo’s profile
+                        - generic [ref=e589]:
+                          - generic [ref=e590]: • 3rd+
+                          - generic [ref=e591]: 3rd+ degree connection
+                      - generic [ref=e592]: Founder and Creator at The Durban Candle Company
+                      - generic [ref=e593]: Durban
+                    - button "Message Perene Rajoo" [ref=e597]:
+                      - generic [ref=e598]: Message
+                - listitem [ref=e599]:
+                  - generic [ref=e602] [cursor=pointer]:
+                    - link [ref=e605]:
+                      - /url: https://www.linkedin.com/search/results/people/headless?origin=GLOBAL_SEARCH_HEADER&keywords=agency%20founder%20durban
+                    - generic [ref=e610]:
+                      - link "LinkedIn Member" [ref=e615]:
+                        - /url: https://www.linkedin.com/search/results/people/headless?origin=GLOBAL_SEARCH_HEADER&keywords=agency%20founder%20durban
+                      - generic [ref=e616]: Graphic Designer | Marketing Director | Fine & Digital Artist | Creative Strategist in Durban, SA
+                      - generic [ref=e617]: Durban
+                - listitem [ref=e619]:
+                  - generic [ref=e622] [cursor=pointer]:
+                    - link [ref=e625]:
+                      - /url: https://www.linkedin.com/search/results/people/headless?origin=GLOBAL_SEARCH_HEADER&keywords=agency%20founder%20durban
+                    - generic [ref=e630]:
+                      - link "LinkedIn Member" [ref=e635]:
+                        - /url: https://www.linkedin.com/search/results/people/headless?origin=GLOBAL_SEARCH_HEADER&keywords=agency%20founder%20durban
+                      - generic [ref=e636]: Founder of Kzn Meter Taxi Alliance & Durban Meter Taxi Association, Santaco Mobility
+                      - generic [ref=e637]: Durban
+              - list [ref=e641]:
+                - listitem [ref=e642]:
+                  - generic [ref=e643]:
+                    - generic [ref=e644]:
+                      - paragraph [ref=e645]: Are these results helpful?
+                      - paragraph [ref=e646]: Your feedback helps us improve search results
+                    - generic [ref=e647]:
+                      - button "Are these results helpful? Yes, these search results are helpful" [ref=e648] [cursor=pointer]:
+                        - img [ref=e649]
+                      - button "Are these results helpful? No, these search results are not helpful" [ref=e652] [cursor=pointer]:
+                        - img [ref=e653]
+              - generic [ref=e658]:
+                - generic [ref=e659]: Page 1 of 55
+                - button "Previous" [disabled] [ref=e660]:
+                  - img
+                  - generic: Previous
+                - list [ref=e661]:
+                  - listitem [ref=e662]:
+                    - button "Page 1" [ref=e663] [cursor=pointer]:
+                      - generic: "1"
+                  - listitem [ref=e664]:
+                    - button "Page 2" [ref=e665] [cursor=pointer]:
+                      - generic: "2"
+                  - listitem [ref=e666]:
+                    - button "Page 3" [ref=e667] [cursor=pointer]:
+                      - generic: "3"
+                  - listitem [ref=e668]:
+                    - button "Page 4" [ref=e669] [cursor=pointer]:
+                      - generic: "4"
+                  - listitem [ref=e670]:
+                    - button "Page 5" [ref=e671] [cursor=pointer]:
+                      - generic: "5"
+                  - listitem [ref=e672]:
+                    - button "Page 6" [ref=e673] [cursor=pointer]:
+                      - generic: "6"
+                  - listitem [ref=e674]:
+                    - button "Page 7" [ref=e675] [cursor=pointer]:
+                      - generic: "7"
+                  - listitem [ref=e676]:
+                    - button "Page 8" [ref=e677] [cursor=pointer]:
+                      - generic: "8"
+                  - listitem [ref=e678]:
+                    - button "Page 9" [ref=e679] [cursor=pointer]:
+                      - generic: …
+                  - listitem [ref=e680]:
+                    - button "Page 55" [ref=e681] [cursor=pointer]:
+                      - generic: "55"
+                - button "Next" [ref=e682] [cursor=pointer]:
+                  - img [ref=e683]
+                  - generic [ref=e685]: Next
+          - complementary "Search suggestions" [ref=e686]:
+            - iframe [ref=e691]:
+              - generic [ref=f25e2]:
+                - generic [ref=f25e3]: Ad
+                - img "overflow-web-small" [ref=f25e6] [cursor=pointer]
+                - link "Google Workspace" [ref=f25e10] [cursor=pointer]:
+                  - /url: https://www.linkedin.com/li/tscp/sct?destinationUrl=https%3A%2F%2Fad.doubleclick.net%2Fddm%2Ftrackclk%2FN5295.466581LINKEDIN.COM%2FB33083239.414658384%3Bdc_trk_aid%3D607121766%3Bdc_trk_cid%3D230642697%3Bdc_lat%3D%3Bdc_rdid%3D%3Btag_for_child_directed_treatment%3D%3Btfua%3D%3Bltd%3D%3Bdc_tdv%3D1%3Futm_medium%3Dpaid-social%26utm_id%3D556258166%26utm_source%3Dlinkedin&trackingEvent=%5B%7B%22eventInfo%22%3A%7B%22appId%22%3A%22com.linkedin.ads.rendering.d_web%22%2C%22eventName%22%3A%22SponsoredRightRailContentActionEvent%22%2C%22topicName%22%3A%22SponsoredRightRailContentActionEvent%22%7D%2C%22eventBody%22%3A%7B%22sponsoredEventHeader%22%3A%7B%22encryptedTrackingData%22%3A%22CwEAAAGd00Hk0p1DzaeDr06Kyf3ttW6ilQFw9erG7b9NnnDVNu8mQLF7p5m2VDAxeUN0u7kGSH746dibADDHreN0A82ZoqiaRSWGszQvuzENjrufdiOW1DzGNYF8IAO9hQOXdyFYWR1eI3k6meNNnJMQFlHZYA3HWtvxLZss-0Xr5_AvxR_7W95murZHbRr-7YNXr4qqFG8nfMV_liPw5IArD4RfPN-GB1uxlyLpb725drIvrWqCO6MZa48UXTSlbS-SO3cInuwLoIf7pUe5OsY_PLn--EV0oi3pzcnG8xlTh1RiFb3eH_srFIxCTpMbByULhryZtmjlpuD6WXQkSe4xsUy4scVgix7pijhW5M9A0wkBlXHqrkms_3CeSV6IODf7PKNSc5uuC-8j6xkIAixHaaonhPH8JjCXh20dm7zjAoaAcN-2UlVZt_OsUrSsmoRbr8_Bwl4-reInAQDo7ty5sNIcqLbv5g_5C3ik1paW_VSKtrjyBmvISu9Jk57ZWvIMVS_kKFepwxnIAU7QRYgqs1et279vSoVIwawfzEx44_u9Fzp9tKrpVpjeR1B6kfmE1ztY3kZsRB_ynQIUSPTgZ-zw2_Twq0ft2HYBBaKZaj24Upr-G_ZbVhPd9E9cuzSxodvHDhY5HP0B7_TmV9KgPI64wAYCBa7w-NTJ8v0ciXNHmRuFP4kd1k7s-d42MYS10YfYR-Ua5CI46gOUgoA2tIg9Nfau-cSgEqxoXNv7B4Beh9SMtB2wCsD1yhYNmGPySWgC_0bVY5Osjq_Xs3edTKlw1dWoZcG2Ux2f9jqgKUElZM-c6GIEP7b0xDt_ZqWGjPQQhoSSF3Gnk3Cqd3k9y__O_0Gx5u77DhyIGoyd_DK2zXDYN35Mv0FPEcRvdnOOf7o4iLR-Sy_l8ZaBY3nxNZuiF_akQPQGZj6EbSGf8XrF7cmWTYqoVWXxkDaFYJimBJEVLAmxrT9lzwYuJXXeEqU5I8xQRDEWu4ulPbRlpiVW3rm4rVgHet67v0kUlFJ8t_y7KTNHkY93xE6Un_4iUnlaSDZwm9-iM0KPzeBtmRP-dyf-rrd0Wg6v904x4tTXjNUFqksN8AvnpDIPkHJZ2JJchFWQI1z9fu4WBg9oGSc5hNkBIcImhN4csQEWUbEpdTmvnNDelWA%22%7D%2C%22header%22%3A%7B%22pageInstance%22%3A%7B%22pageUrn%22%3A%22urn%3Ali%3Apage%3Ad_flagship3_search_srp_people%22%2C%22trackingId%22%3A%22a31770e4-5ce5-42da-a23a-4a5d9f49eccb%22%7D%2C%22time%22%3A1777365804194%2C%22version%22%3A%220.0.0%22%7D%2C%22requestHeader%22%3A%7B%22pageKey%22%3A%22d_flagship3_search_srp_people%22%2C%22interfaceLocale%22%3A%22en-US%22%7D%7D%7D%5D&csrfToken=ajax%3A4754293302675097270
+                - generic [ref=f25e11]:
+                  - heading "Drive lets you easily search your files from wherever you are." [level=2] [ref=f25e14]
+                  - generic [ref=f25e16]:
+                    - img "Ying-Kai" [ref=f25e17]
+                    - generic [ref=f25e18]:
+                      - link "Google Workspace" [ref=f25e19] [cursor=pointer]:
+                        - /url: https://www.linkedin.com/li/tscp/sct?destinationUrl=https%3A%2F%2Fad.doubleclick.net%2Fddm%2Ftrackclk%2FN5295.466581LINKEDIN.COM%2FB33083239.414658384%3Bdc_trk_aid%3D607121766%3Bdc_trk_cid%3D230642697%3Bdc_lat%3D%3Bdc_rdid%3D%3Btag_for_child_directed_treatment%3D%3Btfua%3D%3Bltd%3D%3Bdc_tdv%3D1%3Futm_medium%3Dpaid-social%26utm_id%3D556258166%26utm_source%3Dlinkedin&trackingEvent=%5B%7B%22eventInfo%22%3A%7B%22appId%22%3A%22com.linkedin.ads.rendering.d_web%22%2C%22eventName%22%3A%22SponsoredRightRailContentActionEvent%22%2C%22topicName%22%3A%22SponsoredRightRailContentActionEvent%22%7D%2C%22eventBody%22%3A%7B%22sponsoredEventHeader%22%3A%7B%22encryptedTrackingData%22%3A%22CwEAAAGd00Hk0p1DzaeDr06Kyf3ttW6ilQFw9erG7b9NnnDVNu8mQLF7p5m2VDAxeUN0u7kGSH746dibADDHreN0A82ZoqiaRSWGszQvuzENjrufdiOW1DzGNYF8IAO9hQOXdyFYWR1eI3k6meNNnJMQFlHZYA3HWtvxLZss-0Xr5_AvxR_7W95murZHbRr-7YNXr4qqFG8nfMV_liPw5IArD4RfPN-GB1uxlyLpb725drIvrWqCO6MZa48UXTSlbS-SO3cInuwLoIf7pUe5OsY_PLn--EV0oi3pzcnG8xlTh1RiFb3eH_srFIxCTpMbByULhryZtmjlpuD6WXQkSe4xsUy4scVgix7pijhW5M9A0wkBlXHqrkms_3CeSV6IODf7PKNSc5uuC-8j6xkIAixHaaonhPH8JjCXh20dm7zjAoaAcN-2UlVZt_OsUrSsmoRbr8_Bwl4-reInAQDo7ty5sNIcqLbv5g_5C3ik1paW_VSKtrjyBmvISu9Jk57ZWvIMVS_kKFepwxnIAU7QRYgqs1et279vSoVIwawfzEx44_u9Fzp9tKrpVpjeR1B6kfmE1ztY3kZsRB_ynQIUSPTgZ-zw2_Twq0ft2HYBBaKZaj24Upr-G_ZbVhPd9E9cuzSxodvHDhY5HP0B7_TmV9KgPI64wAYCBa7w-NTJ8v0ciXNHmRuFP4kd1k7s-d42MYS10YfYR-Ua5CI46gOUgoA2tIg9Nfau-cSgEqxoXNv7B4Beh9SMtB2wCsD1yhYNmGPySWgC_0bVY5Osjq_Xs3edTKlw1dWoZcG2Ux2f9jqgKUElZM-c6GIEP7b0xDt_ZqWGjPQQhoSSF3Gnk3Cqd3k9y__O_0Gx5u77DhyIGoyd_DK2zXDYN35Mv0FPEcRvdnOOf7o4iLR-Sy_l8ZaBY3nxNZuiF_akQPQGZj6EbSGf8XrF7cmWTYqoVWXxkDaFYJimBJEVLAmxrT9lzwYuJXXeEqU5I8xQRDEWu4ulPbRlpiVW3rm4rVgHet67v0kUlFJ8t_y7KTNHkY93xE6Un_4iUnlaSDZwm9-iM0KPzeBtmRP-dyf-rrd0Wg6v904x4tTXjNUFqksN8AvnpDIPkHJZ2JJchFWQI1z9fu4WBg9oGSc5hNkBIcImhN4csQEWUbEpdTmvnNDelWA%22%7D%2C%22header%22%3A%7B%22pageInstance%22%3A%7B%22pageUrn%22%3A%22urn%3Ali%3Apage%3Ad_flagship3_search_srp_people%22%2C%22trackingId%22%3A%22a31770e4-5ce5-42da-a23a-4a5d9f49eccb%22%7D%2C%22time%22%3A1777365804194%2C%22version%22%3A%220.0.0%22%7D%2C%22requestHeader%22%3A%7B%22pageKey%22%3A%22d_flagship3_search_srp_people%22%2C%22interfaceLocale%22%3A%22en-US%22%7D%7D%7D%5D&csrfToken=ajax%3A4754293302675097270
+                        - img "Google Workspace" [ref=f25e20]
+                      - tooltip "Google Workspace" [ref=f25e21]
+                  - generic [ref=f25e22]:
+                    - heading "Try Google Workspace at no cost for 14 days." [level=2] [ref=f25e25]
+                    - link "Sign Up" [ref=f25e27] [cursor=pointer]:
+                      - /url: https://www.linkedin.com/li/tscp/sct?destinationUrl=https%3A%2F%2Fad.doubleclick.net%2Fddm%2Ftrackclk%2FN5295.466581LINKEDIN.COM%2FB33083239.414658384%3Bdc_trk_aid%3D607121766%3Bdc_trk_cid%3D230642697%3Bdc_lat%3D%3Bdc_rdid%3D%3Btag_for_child_directed_treatment%3D%3Btfua%3D%3Bltd%3D%3Bdc_tdv%3D1%3Futm_medium%3Dpaid-social%26utm_id%3D556258166%26utm_source%3Dlinkedin&trackingEvent=%5B%7B%22eventInfo%22%3A%7B%22appId%22%3A%22com.linkedin.ads.rendering.d_web%22%2C%22eventName%22%3A%22SponsoredRightRailContentActionEvent%22%2C%22topicName%22%3A%22SponsoredRightRailContentActionEvent%22%7D%2C%22eventBody%22%3A%7B%22sponsoredEventHeader%22%3A%7B%22encryptedTrackingData%22%3A%22CwEAAAGd00Hk0p1DzaeDr06Kyf3ttW6ilQFw9erG7b9NnnDVNu8mQLF7p5m2VDAxeUN0u7kGSH746dibADDHreN0A82ZoqiaRSWGszQvuzENjrufdiOW1DzGNYF8IAO9hQOXdyFYWR1eI3k6meNNnJMQFlHZYA3HWtvxLZss-0Xr5_AvxR_7W95murZHbRr-7YNXr4qqFG8nfMV_liPw5IArD4RfPN-GB1uxlyLpb725drIvrWqCO6MZa48UXTSlbS-SO3cInuwLoIf7pUe5OsY_PLn--EV0oi3pzcnG8xlTh1RiFb3eH_srFIxCTpMbByULhryZtmjlpuD6WXQkSe4xsUy4scVgix7pijhW5M9A0wkBlXHqrkms_3CeSV6IODf7PKNSc5uuC-8j6xkIAixHaaonhPH8JjCXh20dm7zjAoaAcN-2UlVZt_OsUrSsmoRbr8_Bwl4-reInAQDo7ty5sNIcqLbv5g_5C3ik1paW_VSKtrjyBmvISu9Jk57ZWvIMVS_kKFepwxnIAU7QRYgqs1et279vSoVIwawfzEx44_u9Fzp9tKrpVpjeR1B6kfmE1ztY3kZsRB_ynQIUSPTgZ-zw2_Twq0ft2HYBBaKZaj24Upr-G_ZbVhPd9E9cuzSxodvHDhY5HP0B7_TmV9KgPI64wAYCBa7w-NTJ8v0ciXNHmRuFP4kd1k7s-d42MYS10YfYR-Ua5CI46gOUgoA2tIg9Nfau-cSgEqxoXNv7B4Beh9SMtB2wCsD1yhYNmGPySWgC_0bVY5Osjq_Xs3edTKlw1dWoZcG2Ux2f9jqgKUElZM-c6GIEP7b0xDt_ZqWGjPQQhoSSF3Gnk3Cqd3k9y__O_0Gx5u77DhyIGoyd_DK2zXDYN35Mv0FPEcRvdnOOf7o4iLR-Sy_l8ZaBY3nxNZuiF_akQPQGZj6EbSGf8XrF7cmWTYqoVWXxkDaFYJimBJEVLAmxrT9lzwYuJXXeEqU5I8xQRDEWu4ulPbRlpiVW3rm4rVgHet67v0kUlFJ8t_y7KTNHkY93xE6Un_4iUnlaSDZwm9-iM0KPzeBtmRP-dyf-rrd0Wg6v904x4tTXjNUFqksN8AvnpDIPkHJZ2JJchFWQI1z9fu4WBg9oGSc5hNkBIcImhN4csQEWUbEpdTmvnNDelWA%22%7D%2C%22header%22%3A%7B%22pageInstance%22%3A%7B%22pageUrn%22%3A%22urn%3Ali%3Apage%3Ad_flagship3_search_srp_people%22%2C%22trackingId%22%3A%22a31770e4-5ce5-42da-a23a-4a5d9f49eccb%22%7D%2C%22time%22%3A1777365804194%2C%22version%22%3A%220.0.0%22%7D%2C%22requestHeader%22%3A%7B%22pageKey%22%3A%22d_flagship3_search_srp_people%22%2C%22interfaceLocale%22%3A%22en-US%22%7D%7D%7D%5D&csrfToken=ajax%3A4754293302675097270
+        - contentinfo [ref=e693]:
+          - generic [ref=e695]:
+            - generic [ref=e696]:
+              - navigation [ref=e697]:
+                - list [ref=e698]:
+                  - listitem [ref=e699]:
+                    - link "About" [ref=e700] [cursor=pointer]:
+                      - /url: https://about.linkedin.com/
+                  - listitem [ref=e701]:
+                    - link "Accessibility" [ref=e702] [cursor=pointer]:
+                      - /url: https://www.linkedin.com/accessibility
+                  - listitem [ref=e703]:
+                    - link "Talent Solutions" [ref=e704] [cursor=pointer]:
+                      - /url: https://www.linkedin.com/talent/post-a-job?trk=footer_jobs_home&src=li-footer
+                  - listitem [ref=e705]:
+                    - link "Professional Community Policies" [ref=e706] [cursor=pointer]:
+                      - /url: https://www.linkedin.com/legal/professional-community-policies
+                  - listitem [ref=e707]:
+                    - link "Careers" [ref=e708] [cursor=pointer]:
+                      - /url: https://careers.linkedin.com/
+                  - listitem [ref=e709]:
+                    - link "Marketing Solutions" [ref=e710] [cursor=pointer]:
+                      - /url: https://business.linkedin.com/marketing-solutions?trk=n_nav_lms_f&src=li-footer
+                  - listitem [ref=e711]:
+                    - button "Privacy & Terms" [ref=e713] [cursor=pointer]:
+                      - generic [ref=e715]:
+                        - text: Privacy & Terms
+                        - img [ref=e716]
+                  - listitem [ref=e718]:
+                    - link "Ad Choices" [ref=e719] [cursor=pointer]:
+                      - /url: https://www.linkedin.com/help/linkedin/answer/62931
+                  - listitem [ref=e720]:
+                    - link "Advertising" [ref=e721] [cursor=pointer]:
+                      - /url: https://business.linkedin.com/marketing-solutions/ads?trk=n_nav_ads_f
+                  - listitem [ref=e722]:
+                    - link "Sales Solutions" [ref=e723] [cursor=pointer]:
+                      - /url: https://business.linkedin.com/sales-solutions?trk=flagship_nav&veh=li-footer-lss-control&src=li-footer
+                  - listitem [ref=e724]:
+                    - link "Mobile" [ref=e725] [cursor=pointer]:
+                      - /url: https://mobile.linkedin.com/
+                  - listitem [ref=e726]:
+                    - link "Small Business" [ref=e727] [cursor=pointer]:
+                      - /url: https://smallbusiness.linkedin.com?&src=li-footer
+                  - listitem [ref=e728]:
+                    - link "Safety Center" [ref=e729] [cursor=pointer]:
+                      - /url: https://safety.linkedin.com
+              - generic [ref=e731]:
+                - list [ref=e732]:
+                  - listitem [ref=e733]:
+                    - img [ref=e734]
+                    - generic [ref=e736]:
+                      - link "Questions? Visit our Help Center." [ref=e737] [cursor=pointer]:
+                        - /url: https://www.linkedin.com/help/linkedin?trk=d_flagship3_search_srp_people
+                        - text: Questions?
+                      - paragraph [ref=e738]: Visit our Help Center.
+                  - listitem [ref=e739]:
+                    - img [ref=e740]
+                    - generic [ref=e742]:
+                      - link "Manage your account and privacy Go to your Settings." [ref=e743] [cursor=pointer]:
+                        - /url: https://www.linkedin.com/psettings/
+                        - text: Manage your account and privacy
+                      - paragraph [ref=e744]: Go to your Settings.
+                  - listitem [ref=e745]:
+                    - img [ref=e746]
+                    - generic [ref=e748]:
+                      - link "Recommendation transparency Learn more about Recommended Content." [ref=e749] [cursor=pointer]:
+                        - /url: https://www.linkedin.com/help/linkedin/answer/a1339724
+                        - text: Recommendation transparency
+                      - paragraph [ref=e750]: Learn more about Recommended Content.
+                - generic [ref=e751]:
+                  - generic [ref=e752]: Select Language
+                  - combobox "Select Language" [ref=e753]:
+                    - option "العربية (Arabic)"
+                    - option "বাংলা (Bangla)"
+                    - option "Čeština (Czech)"
+                    - option "Dansk (Danish)"
+                    - option "Deutsch (German)"
+                    - option "Ελληνικά (Greek)"
+                    - option "English (English)" [selected]
+                    - option "Español (Spanish)"
+                    - option "فارسی (Persian)"
+                    - option "Suomi (Finnish)"
+                    - option "Français (French)"
+                    - option "हिंदी (Hindi)"
+                    - option "Magyar (Hungarian)"
+                    - option "Bahasa Indonesia (Indonesian)"
+                    - option "Italiano (Italian)"
+                    - option "עברית (Hebrew)"
+                    - option "日本語 (Japanese)"
+                    - option "한국어 (Korean)"
+                    - option "मराठी (Marathi)"
+                    - option "Bahasa Malaysia (Malay)"
+                    - option "Nederlands (Dutch)"
+                    - option "Norsk (Norwegian)"
+                    - option "ਪੰਜਾਬੀ (Punjabi)"
+                    - option "Polski (Polish)"
+                    - option "Português (Portuguese)"
+                    - option "Română (Romanian)"
+                    - option "Русский (Russian)"
+                    - option "Svenska (Swedish)"
+                    - option "తెలుగు (Telugu)"
+                    - option "ภาษาไทย (Thai)"
+                    - option "Tagalog (Tagalog)"
+                    - option "Türkçe (Turkish)"
+                    - option "Українська (Ukrainian)"
+                    - option "Tiếng Việt (Vietnamese)"
+                    - option "简体中文 (Chinese (Simplified))"
+                    - option "正體中文 (Chinese (Traditional))"
+            - paragraph [ref=e754]: LinkedIn Corporation © 2026
+    - generic:
+      - generic:
+        - complementary:
+          - generic [ref=e755]:
+            - generic [ref=e756]:
+              - generic [ref=e758] [cursor=pointer]:
+                - generic [ref=e759]:
+                  - img "Ying-Kai Liao" [ref=e760]
+                  - generic [ref=e762]: Status is online
+                - button "You are on the messaging overlay. Press enter to open the list of conversations." [ref=e763]:
+                  - generic [ref=e764]:
+                    - generic [ref=e765]: Messaging
+                    - generic [ref=e766]: You are on the messaging overlay. Press enter to open the list of conversations.
+              - generic [ref=e767]:
+                - button "Open messenger dropdown menu" [ref=e769] [cursor=pointer]:
+                  - img "Open messenger dropdown menu" [ref=e770]
+                - button "Compose message" [ref=e773] [cursor=pointer]:
+                  - img [ref=e774]
+                  - generic [ref=e776]: Compose message
+                - button "You are on the messaging overlay. Press enter to open the list of conversations." [ref=e777] [cursor=pointer]:
+                  - img [ref=e778]
+                  - generic [ref=e780]: You are on the messaging overlay. Press enter to open the list of conversations.
+            - link "Pemo Tech Co.,Ltd. picture Pemo Tech Co.,Ltd." [ref=e781] [cursor=pointer]:
+              - /url: https://www.linkedin.com/company/104805537/admin/inbox
+              - img "Pemo Tech Co.,Ltd. picture" [ref=e782]
+              - generic [ref=e783]: Pemo Tech Co.,Ltd.
+              - img [ref=e784]
+        - complementary "AI-powered assistant to get help with your career, jobs etc"
