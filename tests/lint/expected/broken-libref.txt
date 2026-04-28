@@ -1,0 +1,2 @@
+ERROR: skills/c/SKILL.md references missing lib/does-not-exist.md
+FAIL: 1 error(s)
