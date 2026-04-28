@@ -9,3 +9,6 @@ deals/
 *.swp
 .idea/
 .vscode/
+
+# Local git worktrees
+.worktrees/
