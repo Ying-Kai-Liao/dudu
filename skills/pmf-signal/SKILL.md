@@ -15,11 +15,36 @@ Run after the full dudu diligence chain. Read `lib/deal.md`, `lib/research-proto
 
 ## Inputs
 
-(Filled in subsequent tasks.)
+Required (all from prior dudu skills — see Pre-flight hard gate):
 
-## Pre-flight
+- Deal slug
+- `deals/<slug>/inputs/deck.<ext>` (or pasted pitch text)
+- `deals/<slug>/personas/_context.md`
+- `deals/<slug>/market-problem.md`
+- `deals/<slug>/founder-*.md` (one or more)
+- `deals/<slug>/competitive-landscape.md`
+- `deals/<slug>/market-sizing.md`
 
-(Filled in Task 4.)
+Optional:
+- Company website URL (homepage + pricing + about) for stage 0 enrichment.
+- Public statements list (URLs to interviews / podcasts / blog posts).
+- `--n <int>` total personas (default 60; min 15; max 200).
+- `--frames <comma-list>` restrict to enabled frames.
+- `--no-network` skip stage 5.
+- `--public-only` stage 5 without authed LinkedIn.
+- `--force` overwrite existing artifacts.
+
+## Pre-flight (hard gate)
+
+Run `python3 scripts/pmf-signal-preflight.py deals/<slug>` first. The script verifies every upstream artifact exists, prints the loading ledger on success, or lists missing artifacts and exits non-zero on failure.
+
+- Exit 0: prior diligence complete; print the loading ledger to the user, then proceed to Stage 0.
+- Exit 2: upstream missing. Surface the script's stdout to the user verbatim and stop. Do not auto-trigger upstream skills — the user controls heavy spend.
+- Exit 3: pmf-signal already done. Surface the message and stop. The user must pass `--force` to overwrite.
+
+After exit 0, also confirm:
+- A pitch source exists (`inputs/deck.<ext>` is required; a website URL is optional and is fetched live in Stage 0).
+- The user passed any optional flags (`--n`, `--frames`, `--no-network`, `--public-only`).
 
 ## Stage 0 — Claim ledger ingestion
 
