@@ -1,14 +1,24 @@
 {
   "type": "object",
   "properties": {
-    "consent_confirmed": { "type": "boolean" },
-    "relationship_context": { "type": "string" },
+    "consent_confirmed": { "type": "boolean", "description": "Whether the reference explicitly agreed to the recorded conversation." },
+    "relationship_context": { "type": "string", "description": "How the reference came to know the founder, the working relationship (peer, manager, customer, advisor), team size, and what the work was." },
     "working_dates": { "type": "string", "description": "Approximate dates, e.g. '2019-2022'." },
-    "key_strengths": { "type": "array", "items": { "type": "string" }, "maxItems": 3 },
-    "key_concerns": { "type": "array", "items": { "type": "string" }, "maxItems": 3 },
-    "would_work_with_again": { "enum": ["yes", "no", "qualified"] },
-    "would_work_with_again_reason": { "type": "string" },
-    "reference_quality": { "enum": ["high", "medium", "low"], "description": "High if they gave specific examples; low if vague." }
+    "strength_examples": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Specific moments the reference described that illustrated a strength. Each item is a story-anchored example, not a trait label. Generic praise without an example does NOT belong here."
+    },
+    "concern_examples": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Specific moments illustrating concerns or growth areas. Empty if the reference offered none even after a polite re-ask."
+    },
+    "would_work_with_again": { "enum": ["yes", "no", "qualified", "unclear"], "description": "How they answered when asked about working with the founder again. 'unclear' if you couldn't form a confident read." },
+    "would_work_with_again_reason": { "type": "string", "description": "Their reasoning, in their words. Empty if they didn't elaborate." },
+    "reference_quality": { "enum": ["high", "medium", "low"], "description": "High if they gave specific examples and were forthcoming; medium if mixed; low if generic and vague throughout." },
+    "what_was_not_said": { "type": "string", "description": "Hesitations, refusals to specify, abrupt topic changes, or notable absences in the reference's answers — often the most useful signal. Empty if nothing notable." },
+    "your_overall_read": { "type": "string", "description": "A 1-2 sentence honest read on the founder as an operator, anchored in what the reference described, in your own words." }
   },
-  "required": ["consent_confirmed", "relationship_context", "working_dates", "key_strengths", "key_concerns", "would_work_with_again", "would_work_with_again_reason", "reference_quality"]
+  "required": []
 }
