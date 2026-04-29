@@ -16,8 +16,6 @@ ln -s ~/.codex/dudu/skills ~/.agents/skills/dudu
 
 Restart Codex to discover the skills. Full Codex install guide (Windows junction variant, troubleshooting, updating) is in `.codex/INSTALL.md`.
 
-If the repo is still private, use `gh repo clone Ying-Kai-Liao/dudu ~/.codex/dudu` instead.
-
 ## Demo
 
 `test/ledgerloop/` contains a complete dudu run against a real Cape Town company (LedgerLoop, founder Dylan Martens), produced from a Codex session.
@@ -38,14 +36,19 @@ Notable moment: founder-check caught a pitch/footprint mismatch — the supplied
 
 ## Install for Claude Code
 
-In a Claude Code session:
+In a Claude Code session, add the marketplace from the public GitHub repo and install the plugin:
 
 ```
-/plugin marketplace add /Users/ykliao/Workspace/dudu
+/plugin marketplace add Ying-Kai-Liao/dudu
 /plugin install dudu@dudu
 ```
 
-(Substitute the actual path on your machine. Once published, this becomes a git URL.)
+To install from a local clone instead (for development), substitute the path:
+
+```
+/plugin marketplace add /path/to/dudu
+/plugin install dudu@dudu
+```
 
 ## Prerequisites
 
