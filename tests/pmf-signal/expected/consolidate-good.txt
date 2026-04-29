@@ -1,0 +1,5 @@
+consolidated 4 claim(s) → personas/verdicts.yaml
+  persona-reaction: 2 claim(s) (c-001, c-003)
+  cross-artifact: 1 claim(s) (c-020)
+  external-evidence: 1 claim(s) (c-010)
+EXIT=0
