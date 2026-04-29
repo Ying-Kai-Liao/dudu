@@ -124,4 +124,30 @@ run_dir_case() {
 run_dir_case consolidate-good consolidate-verdicts
 run_dir_case aggregate-good aggregate
 
+run_render_report_case() {
+    local name="$1"
+    local fixture="$script_dir/fixtures-yaml/$name"
+    local expected="$script_dir/expected/$name.md"
+    python3 "$script_dir/../../scripts/pmf-signal-render-report.py" "$fixture" >/dev/null
+    local actual_path="$fixture/pmf-signal.md"
+    if [[ ! -f "$actual_path" ]]; then
+        echo "FAIL: $name (no output written)"
+        fail=1
+        return
+    fi
+    local norm_expected norm_actual
+    norm_expected="$(sed -E 's/[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z?/<ISO_TIMESTAMP>/g' "$expected")"
+    norm_actual="$(sed -E 's/[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z?/<ISO_TIMESTAMP>/g' "$actual_path")"
+    if [[ "$norm_expected" == "$norm_actual" ]]; then
+        echo "PASS: $name"
+    else
+        echo "FAIL: $name"
+        diff <(echo "$norm_expected") <(echo "$norm_actual") | head -40
+        fail=1
+    fi
+    rm -f "$actual_path"
+}
+
+run_render_report_case render-report-good
+
 exit "$fail"

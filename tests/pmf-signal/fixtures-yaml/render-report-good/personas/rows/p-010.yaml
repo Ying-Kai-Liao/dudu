@@ -1,0 +1,7 @@
+persona_id: p-010
+frame_id: x.pmf-validation
+scenario:
+  trigger_type: switching-cost
+attributes:
+  role: founder-ceo
+fabrication_flags: []
