@@ -22,14 +22,14 @@ Run the full dudu workflow end-to-end on one deal. Read `lib/deal.md`, `lib/play
 2. **Run sub-skills in this order**, each as a sub-invocation. After each, confirm the artifact exists before moving on. If the user passed `--force`, propagate it to each sub-skill.
 
    1. `dudu:founder-check` — for each founder
-   2. `dudu:market-problem`
-   3. `dudu:customer-discovery prep`
-   4. `dudu:competitive-landscape`
-   5. `dudu:market-sizing`
+   2. `dudu:market-problem` — full Phases 1+2+3
+   3. `dudu:competitive-landscape`
+   4. `dudu:market-sizing`
+   5. `dudu:pmf-signal` — emits `pmf-signal.md`, `outreach.md`, and the legacy-shape `customer-discovery-prep.md` as a side effect of stage 5
 
 3. **Pause for real interviews.** After the five sub-skills, print:
 
-   > Prep complete. The next step is yours: reach out to the candidates in `deals/<slug>/customer-discovery-prep.md` and run 5–10 real interviews. Save transcripts under `deals/<slug>/inputs/`. When done, re-run `dudu:diligence` and I'll continue with the debrief and final memo.
+   > Prep complete. The next step is yours: read `deals/<slug>/pmf-signal.md` for the calibrated PMF signal and consolidated claim ledger, then reach out to the candidates in `deals/<slug>/outreach.md` (sorted by warm-path quality) and run 5–10 real interviews. Save transcripts under `deals/<slug>/inputs/`. When done, re-run `dudu:diligence` and I'll continue with the debrief and final memo.
 
    Stop. Do not proceed.
 
@@ -57,6 +57,10 @@ Run the full dudu workflow end-to-end on one deal. Read `lib/deal.md`, `lib/play
 
 [Summary from `market-problem.md` (4-6 sentences) + the strongest pattern + the most valuable contradiction. Link to the full file.]
 
+## PMF signal & claim verification (calibrated prior + cross-artifact + external)
+
+[Headline read from `pmf-signal.md`. The top 5 rows of the consolidated claim ledger (worst-news-first ordering). The 1 strongest cluster pattern. Explicit Stance B disclaimer for the persona-reaction rows; cross-artifact and external-evidence rows do not need the same disclaimer because they triangulate against actual evidence. List of `requires-data-room` flags for the VC to follow up on.]
+
 ## Customer signal
 
 [Summary from `customer-discovery.md`. Quote 2-3 strongest verbatims. Flag any persona contradictions explicitly.]
@@ -83,12 +87,14 @@ Run the full dudu workflow end-to-end on one deal. Read `lib/deal.md`, `lib/play
 
 - founder-<name>.md
 - market-problem.md
+- pmf-signal.md
+- outreach.md
 - customer-discovery.md
 - competitive-landscape.md
 - market-sizing.md
 ```
 
-6. **Verify manifest completeness.** All six sub-skill keys in `skills_completed` should now be non-null (`founder-check`, `market-problem`, `customer-discovery-prep`, `customer-discovery-debrief`, `competitive-landscape`, `market-sizing`). Do not invent additional keys; the orchestrator's completion is implicit in those six.
+6. **Verify manifest completeness.** All seven sub-skill keys in `skills_completed` should now be non-null (`founder-check`, `market-problem`, `customer-discovery-prep`, `customer-discovery-debrief`, `competitive-landscape`, `market-sizing`, `pmf-signal`). Do not invent additional keys; the orchestrator's completion is implicit in those seven.
 
 7. **Render `report.html`.** Run `python3 scripts/render-report.py deals/<slug>`. The script reads `MEMO.md` and the artifacts and writes a single self-contained `deals/<slug>/report.html` — embedded CSS/JS, no network assets, openable in any browser. Markdown stays canonical; HTML is a derived view safe to share as a file.
 

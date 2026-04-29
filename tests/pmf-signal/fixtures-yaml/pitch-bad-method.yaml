@@ -1,0 +1,10 @@
+product:
+  name: ExampleCo
+target_market:
+  stated_icp: x
+claims:
+  - claim_id: c-001
+    claim: "x"
+    category: pain
+    source: "deck p.1"
+    verification_method: telepathy

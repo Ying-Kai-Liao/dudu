@@ -1,0 +1,35 @@
+product:
+  name: ExampleCo
+target_market:
+  stated_icp: SA freelancers
+claims:
+  - claim_id: c-001
+    claim: "SA freelancers lose 2 days/quarter to SARS"
+    category: pain
+    source: "deck p.3"
+    verification_method: persona-reaction
+  - claim_id: c-003
+    claim: "buyers find us via accountant referrals"
+    category: gtm-distribution
+    source: "deck p.9"
+    verification_method: persona-reaction
+  - claim_id: c-010
+    claim: "200 paying customers"
+    category: customer-count
+    source: "deck p.4"
+    verification_method: external-evidence
+  - claim_id: c-020
+    claim: "co-founder previously exited to Stripe"
+    category: founder-background
+    source: "deck p.2"
+    verification_method: cross-artifact
+  - claim_id: c-030
+    claim: "addressable market is $50B globally"
+    category: market-size
+    source: "deck p.5"
+    verification_method: cross-artifact
+  - claim_id: c-040
+    claim: "no direct competitors in SA"
+    category: competitive
+    source: "deck p.6"
+    verification_method: cross-artifact
