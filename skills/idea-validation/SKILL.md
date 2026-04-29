@@ -107,7 +107,7 @@ Pick one and justify in one sentence:
 
 #### Step 1 parallelization (Layer 2 — per source category)
 
-The five source categories above are independent. Dispatch **one `general-purpose` subagent per category in a single message** so they run concurrently. See `lib/research-protocol.md` § Parallelization.
+The five source categories above are independent. Dispatch **one worker subagent per category**, all concurrently in a single turn. See `lib/research-protocol.md` § Parallelization for the cross-platform mapping (Claude Code: `Agent` with `subagent_type="general-purpose"`; Codex: `spawn_agent` with `agent_type="worker"` and `multi_agent = true` in config).
 
 Group into 4 subagent batches (combine the two competitor categories so direct/indirect overlap is resolved in one place):
 
@@ -157,7 +157,7 @@ Apply `lib/research-protocol.md` citation rules. If a dimension can't be sourced
 
 #### Parallelization (Layer 2 — per candidate)
 
-Candidates are independent. With **2 or more** candidates, dispatch **one `general-purpose` subagent per candidate in a single message** so they run concurrently. See `lib/research-protocol.md` § Parallelization.
+Candidates are independent. With **2 or more** candidates, dispatch **one worker subagent per candidate**, all concurrently in a single turn. See `lib/research-protocol.md` § Parallelization for the cross-platform mapping (Claude Code: `Agent` with `subagent_type="general-purpose"`; Codex: `spawn_agent` with `agent_type="worker"` and `multi_agent = true` in config).
 
 Each subagent prompt MUST include:
 

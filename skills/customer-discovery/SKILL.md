@@ -44,7 +44,7 @@ Goal: produce a target list, outreach drafts, and an interview script.
    - **Niche communities** — identify 1-2 relevant Slack/Discord communities (only ones with public membership lists). ~5 fetches.
    - **X** — search for the persona phrasing from the persona profile. ~5 fetches.
 
-   **Parallelization:** dispatch **three `general-purpose` subagents in a single message** — one for Reddit, one for niche communities, one for X. See `lib/research-protocol.md` § Parallelization. Each subagent receives the persona profile, the channel-specific source instructions above, its ~5-fetch cap, the citation rules from `lib/research-protocol.md` (pasted), and a required return shape: a list of candidate rows (`name | link | why-they-fit | how-to-reach`).
+   **Parallelization:** dispatch **three worker subagents concurrently** — one for Reddit, one for niche communities, one for X — using your host's parallel-agent dispatch primitive (Claude Code: `Agent` with `subagent_type="general-purpose"`; Codex: `spawn_agent` with `agent_type="worker"`). See `lib/research-protocol.md` § Parallelization for the full cross-platform mapping and message-framing template. Each subagent receives the persona profile, the channel-specific source instructions above, its ~5-fetch cap, the citation rules from `lib/research-protocol.md` (pasted), and a required return shape: a list of candidate rows (`name | link | why-they-fit | how-to-reach`).
 
    The main session does the LinkedIn pass concurrently with the subagent dispatch (Playwright cannot be delegated). When all return, merge into a single 30-row target list.
 
