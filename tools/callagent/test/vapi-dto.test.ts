@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { VapiProvider } from "../src/provider/vapi.js";
 
-const provider = new VapiProvider({ apiKey: "test", fromNumber: "+15550000000" });
+const provider = new VapiProvider({ apiKey: "test", phoneNumberId: "vapi_phone_uuid_123" });
 
 describe("VapiProvider.assembleDTO", () => {
   const baseSpec = {
@@ -59,7 +59,7 @@ describe("VapiProvider.assembleDTO", () => {
 
   it("sets the from-number, to-number, and recording flag", () => {
     const dto = provider.assembleDTO(baseSpec);
-    expect(dto.phoneNumber.twilioPhoneNumber).toBe("+15550000000");
+    expect(dto.phoneNumberId).toBe("vapi_phone_uuid_123");
     expect(dto.customer.number).toBe("+15551234567");
     expect(dto.assistant.recordingEnabled).toBe(true);
     expect(dto.assistant.maxDurationSeconds).toBe(600);

@@ -156,13 +156,20 @@ async function extractStructuredData(
     throw new Error(`OpenAI extraction failed (${res.status}): ${text}`);
   }
   const data = (await res.json()) as { choices: Array<{ message: { content: string } }> };
-  return JSON.parse(data.choices[0].message.content);
+  const raw = data.choices[0]?.message?.content ?? "";
+  try {
+    return JSON.parse(raw);
+  } catch (e) {
+    throw new Error(
+      `OpenAI extraction returned non-JSON. Raw response:\n${raw}`,
+    );
+  }
 }
 
 function parseContextVars(ctx: string | undefined): Record<string, string> {
   if (!ctx) return {};
   const out: Record<string, string> = {};
-  const m = ctx.match(/^---\n([\s\S]*?)\n---/);
+  const m = ctx.match(/^---\r?\n([\s\S]*?)\r?\n---/);
   if (!m) return out;
   for (const line of m[1].split("\n")) {
     const kv = line.match(/^([A-Z_][A-Z0-9_]*):\s*(.+)$/);

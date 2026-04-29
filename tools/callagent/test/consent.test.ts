@@ -61,4 +61,18 @@ describe("appendAuditLog", () => {
     expect(entry.consent_token).toBe("tok-1");
     expect(entry.to).toBe("+15551234567");
   });
+
+  it("includes call_id in the entry when supplied", async () => {
+    const path = `${tmp}/audit-with-id.jsonl`;
+    await appendAuditLog(path, {
+      consent_token: "tok-2",
+      to: "+15551234567",
+      task_path: "tasks/my-task.md",
+      placed_at: "2026-04-28T15:00:00Z",
+      call_id: "call-abc-123",
+    });
+    const lines = readFileSync(path, "utf8").trim().split("\n");
+    const entry = JSON.parse(lines[0]);
+    expect(entry.call_id).toBe("call-abc-123");
+  });
 });

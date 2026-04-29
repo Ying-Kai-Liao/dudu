@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { mkdtempSync, writeFileSync, readFileSync, existsSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { resolve } from "node:path";
@@ -11,7 +11,13 @@ let tmp: string;
 beforeEach(() => {
   tmp = mkdtempSync(`${tmpdir()}/callagent-place-`);
   process.env.VAPI_API_KEY = "test";
-  process.env.VAPI_FROM_NUMBER = "+15550000000";
+  process.env.VAPI_PHONE_NUMBER_ID = "vapi-phone-uuid-test";
+});
+
+afterEach(() => {
+  vi.restoreAllMocks();
+  delete process.env.VAPI_API_KEY;
+  delete process.env.VAPI_PHONE_NUMBER_ID;
 });
 
 describe("placeCommand", () => {
@@ -76,5 +82,50 @@ describe("placeCommand", () => {
     const dto = JSON.parse(printed);
     expect(dto.assistant.analysisPlan).toBeUndefined();
     expect(dto.customer.number).toBe("+15551234567");
+  });
+
+  it("throws with exitCode 4 when call status is failed", async () => {
+    const failedCallResponse = {
+      id: "call-failed-123",
+      status: "failed",
+      endedReason: "no-answer",
+      startedAt: undefined,
+      endedAt: undefined,
+      artifact: { transcript: "", stereoRecordingUrl: undefined, messages: [] },
+      analysis: { structuredData: null },
+      customer: { number: "+15551234567" },
+    };
+
+    let callCount = 0;
+    vi.spyOn(globalThis, "fetch").mockImplementation(async (url: any) => {
+      callCount++;
+      if (callCount === 1) {
+        // placeCall POST
+        return new Response(JSON.stringify({ id: "call-failed-123" }), { status: 201 });
+      }
+      // pollUntilTerminal GET
+      return new Response(JSON.stringify(failedCallResponse), { status: 200 });
+    });
+
+    // Suppress the banner sleep
+    vi.spyOn(await import("../src/consent.js"), "emitBannerAndSleep").mockResolvedValue();
+
+    const outputPath = `${tmp}/failed-call.json`;
+    await expect(
+      placeCommand({
+        to: "+15551234567",
+        task: TASK,
+        consentToken: "tok-failed",
+        maxDuration: 60,
+        record: false,
+        dryRun: false,
+        output: outputPath,
+      } as any),
+    ).rejects.toMatchObject({ exitCode: 4 });
+
+    // The result file should still have been written
+    expect(existsSync(outputPath)).toBe(true);
+    const result = JSON.parse(readFileSync(outputPath, "utf8"));
+    expect(result.status).toBe("failed");
   });
 });

@@ -12,7 +12,7 @@ dry-run, plus the duration of one real call for the place phase.
 - **Built CLI** — `npm run build` inside `tools/callagent/`. Binary at `dist/cli.cjs`.
 - **OpenAI account** — needed for Phase 1 (simulate). Free-tier works.
 - **Vapi account** — needed for Phases 2–4. A provisioned outbound phone number
-  (`VAPI_FROM_NUMBER`) must exist in the Vapi dashboard.
+  (`VAPI_PHONE_NUMBER_ID`) must exist in the Vapi dashboard (Phone Numbers page — copy the UUID).
 - **A test phone you control** — the number that receives the real call in Phase 3.
   Do not use a number you do not own.
 
@@ -34,7 +34,7 @@ OPENAI_API_KEY=sk-...
 
 # Phases 2–4 — place (Vapi real call)
 VAPI_API_KEY=...
-VAPI_FROM_NUMBER=+15550001234    # E.164; must be provisioned in Vapi
+VAPI_PHONE_NUMBER_ID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx   # UUID from Vapi dashboard → Phone Numbers
 ```
 
 Confirm the file is loaded:
@@ -168,8 +168,7 @@ dialed — it only appears in the printed DTO.
 
 **Failure modes:**
 
-- `VAPI_API_KEY` or `VAPI_FROM_NUMBER` missing — dry-run still requires these
-  env vars because the DTO builder reads the from-number.
+- Dry-run does NOT require Vapi credentials. The CLI falls back to a stub provider when the env vars aren't set, so the printed `phoneNumberId` will be `<stub>` or similar. Real `place` (without `--dry-run`) requires `VAPI_API_KEY` and `VAPI_PHONE_NUMBER_ID`.
 - `firstMessage` absent — `disclosure_required: true` may be missing from the
   task frontmatter, or the `## Disclosure` section is malformed.
 
@@ -235,7 +234,7 @@ You have 5 seconds to press Ctrl+C if anything looks wrong.
 **Failure modes:**
 
 - Phone does not ring within 30 seconds — check `VAPI_API_KEY` validity and
-  that `VAPI_FROM_NUMBER` is provisioned and active in the Vapi dashboard.
+  that `VAPI_PHONE_NUMBER_ID` is provisioned and active in the Vapi dashboard.
 - `structured_data: null` — Vapi did not return an extraction result. Check
   that the schema was included in the DTO (rerun Phase 2 dry-run and inspect
   `analysisPlan.structuredDataSchema`).

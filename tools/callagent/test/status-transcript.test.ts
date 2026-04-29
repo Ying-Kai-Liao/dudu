@@ -4,7 +4,6 @@ import { transcriptCommand } from "../src/commands/transcript.js";
 
 beforeEach(() => {
   process.env.VAPI_API_KEY = "test";
-  process.env.VAPI_FROM_NUMBER = "+15550000000";
   vi.restoreAllMocks();
 });
 
