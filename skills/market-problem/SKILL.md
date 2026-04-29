@@ -47,6 +47,26 @@ Sources (cap at ~50 total):
 7. Industry analyst reports if findable (often paywalled — note when blocked).
 8. Podcast transcripts where relevant.
 
+### Phase 1 parallelization (Layer 2 — per source category)
+
+Phase 1 is the heaviest fetch load in any dudu skill (~50 fetches). Source categories are independent. Dispatch **one `general-purpose` subagent per source category in a single message**, then synthesize. See `lib/research-protocol.md` § Parallelization.
+
+Group the 8 sources into 4 subagent batches to keep dispatch tractable:
+
+- **Subagent A — Product & adjacent marketing** (sources 1, 2): ~8 fetches.
+- **Subagent B — Reviews** (source 3, G2/Capterra/Trustpilot): ~12 fetches.
+- **Subagent C — Community sentiment** (sources 4, 5, 6, Reddit/HN/niche forums): ~18 fetches.
+- **Subagent D — Analyst & podcast** (sources 7, 8): ~12 fetches.
+
+Each subagent prompt MUST include:
+
+- The deal's product description, the rough product category, and the pain-point keywords to search.
+- The fetch cap for that batch.
+- The citation and source-honesty rules from `lib/research-protocol.md` (paste, don't reference).
+- Required return shape: bullet findings under the same five `_context.md` headings (What is the problem, Who has it, How are they solving it today, What's contested, What we couldn't find), plus a `Sources` list. Verbatim quotes only when source rules require them.
+
+In the **main session** after all four subagents return: cross-reference, dedupe sources, surface contradictions across subagent reports under "What's contested," then write `personas/_context.md`.
+
 Write `personas/_context.md` with these sections:
 
 ```markdown
@@ -121,6 +141,10 @@ Write `personas/_context.md` with these sections:
 ```
 
 The interviewer asks Mom-Test-style questions (about current behavior, never about hypothetical future behavior or vague preferences). The persona stays grounded in the persona profile and `_context.md`; if either is silent on a topic, the persona says so rather than fabricating.
+
+### Phase 2 parallelization (per persona)
+
+Self-play rounds for different personas are independent. Dispatch **one `general-purpose` subagent per persona in a single message**, where each subagent runs all of that persona's assigned rounds. The subagent prompt must include the full `_context.md` text, the `persona-K.md` profile, the round numbers it owns, and the round template above. Subagents return round-file contents as text; the main session writes `personas/round-R.md` files.
 
 ## Phase 3: Cross-round analysis
 

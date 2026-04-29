@@ -37,13 +37,16 @@ Goal: produce a target list, outreach drafts, and an interview script.
 
 ### Steps
 
-1. **Target list.** Search ~20 fetches across:
-   - LinkedIn — Playwright with VC session. Filter by job title from the persona profile and by company size.
-   - Reddit — identify ~3 relevant subreddits, surface ~5 candidates each (people posting about the relevant pain).
-   - Niche communities — identify 1-2 relevant Slack/Discord communities (only ones with public membership lists).
-   - X — search for the persona phrasing from the persona profile.
+1. **Target list.** Search ~20 fetches across the channels below. **Aim for 30 candidates total.** For each, capture: name, channel, link, why-they-fit (one sentence), how-to-reach (DM / email / public post reply).
 
-   Aim for 30 candidates total. For each, capture: name, channel, link, why-they-fit (one sentence), how-to-reach (DM / email / public post reply).
+   - **LinkedIn** (main session only — Playwright with VC session). Filter by job title from the persona profile and by company size. ~5 fetches.
+   - **Reddit** — identify ~3 relevant subreddits, surface ~5 candidates each (people posting about the relevant pain). ~5 fetches.
+   - **Niche communities** — identify 1-2 relevant Slack/Discord communities (only ones with public membership lists). ~5 fetches.
+   - **X** — search for the persona phrasing from the persona profile. ~5 fetches.
+
+   **Parallelization:** dispatch **three `general-purpose` subagents in a single message** — one for Reddit, one for niche communities, one for X. See `lib/research-protocol.md` § Parallelization. Each subagent receives the persona profile, the channel-specific source instructions above, its ~5-fetch cap, the citation rules from `lib/research-protocol.md` (pasted), and a required return shape: a list of candidate rows (`name | link | why-they-fit | how-to-reach`).
+
+   The main session does the LinkedIn pass concurrently with the subagent dispatch (Playwright cannot be delegated). When all return, merge into a single 30-row target list.
 
 2. **Outreach templates.** Drafts cold-outreach message templates (one per channel: LinkedIn DM, Reddit DM, X DM, email) and per-persona variants slotted in for the top candidates.
 
