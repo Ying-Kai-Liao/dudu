@@ -1,0 +1,4 @@
+claim_id: c-020
+verification_method: cross-artifact
+verdict: partial
+verdict_rationale: "exit happened but no shareholder return"

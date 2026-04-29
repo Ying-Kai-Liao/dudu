@@ -1,0 +1,8 @@
+persona_id: p-002
+claim_responses:
+  - claim_id: c-001
+    verdict: partial
+    verbatim: "kinda"
+  - claim_id: c-003
+    verdict: disagree
+    verbatim: "no way"
