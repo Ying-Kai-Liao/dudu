@@ -1,3 +1,7 @@
-export async function transcriptCommand(_callId: string): Promise<void> {
-  throw new Error("transcript not yet implemented");
+import { getProvider } from "../provider/index.js";
+
+export async function transcriptCommand(callId: string): Promise<void> {
+  const provider = getProvider();
+  const rec = await provider.getCall(callId);
+  console.log(rec.transcript ?? "");
 }

@@ -1,3 +1,7 @@
-export async function statusCommand(_callId: string): Promise<void> {
-  throw new Error("status not yet implemented");
+import { getProvider } from "../provider/index.js";
+
+export async function statusCommand(callId: string): Promise<void> {
+  const provider = getProvider();
+  const rec = await provider.getCall(callId);
+  console.log(JSON.stringify(rec, null, 2));
 }
