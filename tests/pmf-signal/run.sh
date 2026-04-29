@@ -55,4 +55,7 @@ run_yaml_case pitch-good validate-pitch
 run_yaml_case pitch-missing-fields validate-pitch
 run_yaml_case pitch-bad-method validate-pitch
 
+run_yaml_case seeds-good mode-collapse
+run_yaml_case seeds-collapsed mode-collapse
+
 exit "$fail"

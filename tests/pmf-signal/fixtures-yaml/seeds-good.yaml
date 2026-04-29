@@ -1,0 +1,21 @@
+seeds:
+  - seed_id: s-1
+    trigger_type: regulatory-growth-collision
+  - seed_id: s-2
+    trigger_type: switching-cost
+  - seed_id: s-3
+    trigger_type: onboarding-friction
+  - seed_id: s-4
+    trigger_type: regulatory-growth-collision
+  - seed_id: s-5
+    trigger_type: scaling-stress
+  - seed_id: s-6
+    trigger_type: exit-prep
+  - seed_id: s-7
+    trigger_type: switching-cost
+  - seed_id: s-8
+    trigger_type: onboarding-trust
+  - seed_id: s-9
+    trigger_type: scaling-stress
+  - seed_id: s-10
+    trigger_type: switching-cost

@@ -1,0 +1,2 @@
+MODE-COLLAPSE: 10 seed(s) across 2 trigger_type(s); top-1 share = 0.90 (threshold 0.60)
+EXIT=5
