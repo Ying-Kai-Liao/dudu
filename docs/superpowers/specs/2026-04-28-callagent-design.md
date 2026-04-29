@@ -285,7 +285,7 @@ After the dossier is written, optional reference-call step:
 ## Acceptance criteria for v1
 
 1. `callagent --version` prints version
-2. `callagent place --dry-run …` with the bundled CD-screener persona+schema emits a valid Vapi `CreateCallDTO` where: (a) the persona body is the system message in `model.messages`, (b) the schema is `analysisPlan.structuredDataSchema`, (c) when `disclosure_required: true` in the persona frontmatter, the disclosure paragraph from the persona body is also set as `firstMessage` so it leads every call
+2. `callagent place --dry-run …` with a `--task <path>` and a sample task brief emits a valid Vapi `CreateCallDTO` where: (a) the task body is the system message in `model.messages`, (b) the schema (when supplied via `--schema`) is `analysisPlan.structuredDataSchema`, (c) when `disclosure_required: true` in the task frontmatter, the disclosure paragraph is also set as `firstMessage`
 3. With a real `VAPI_API_KEY` and `VAPI_FROM_NUMBER`, a real call to a test number returns a `call-<id>.json` matching the documented output shape
 4. `customer-discovery` skill text describes the optional callagent integration and works unchanged when `callagent` is not installed
 5. `founder-check` skill text describes the optional reference-call integration and works unchanged when `callagent` is not installed

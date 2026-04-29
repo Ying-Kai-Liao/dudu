@@ -42,7 +42,7 @@ OPENAI_API_KEY=sk-...
 
 # Required for `place`
 VAPI_API_KEY=...
-VAPI_FROM_NUMBER=+15550001234    # E.164 format, must be provisioned in Vapi
+VAPI_PHONE_NUMBER_ID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx   # UUID from Vapi dashboard → Phone Numbers
 ```
 
 Optional:
@@ -271,7 +271,7 @@ Fetches the current status of a previously placed call. Prints the full `CallRec
 callagent status abc-123
 ```
 
-Requires `VAPI_API_KEY` in env.
+Requires only `VAPI_API_KEY` in env. `VAPI_PHONE_NUMBER_ID` is not needed for this subcommand.
 
 ### `callagent transcript <call-id>`
 
@@ -281,7 +281,7 @@ Fetches the transcript of a completed call. Prints the transcript string to stdo
 callagent transcript abc-123
 ```
 
-Requires `VAPI_API_KEY` in env.
+Requires only `VAPI_API_KEY` in env. `VAPI_PHONE_NUMBER_ID` is not needed for this subcommand.
 
 ### `callagent simulate`
 
@@ -339,7 +339,7 @@ The audit log location resolves as:
 
 **Hosted service** — callagent is a local CLI. There is no API server, webhook endpoint, or queue in v1.
 
-**Multi-language disclosure** — the `language` frontmatter field is passed to Vapi but callagent does not validate or translate the disclosure text. That is the task author's responsibility.
+**Multi-language disclosure** — the `language` frontmatter field is reserved for future use; v1 is English-only and the field is parsed but not currently sent to the provider.
 
 **Bundled task templates** — v1 ships zero domain content. All task briefs are authored by the caller.
 

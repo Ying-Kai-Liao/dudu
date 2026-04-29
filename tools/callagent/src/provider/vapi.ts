@@ -5,7 +5,7 @@ const VAPI_BASE = "https://api.vapi.ai";
 
 export interface VapiOptions {
   apiKey: string;
-  fromNumber: string;
+  phoneNumberId?: string;
   pollIntervalMs?: number;
 }
 
@@ -40,10 +40,18 @@ export class VapiProvider implements Provider {
       assistant.firstMessage = spec.task.disclosure;
     }
 
+    if (!this.opts.phoneNumberId) {
+      const e: any = new Error(
+        "VAPI_PHONE_NUMBER_ID required to place a call. Set it in tools/callagent/.env.",
+      );
+      e.exitCode = 2;
+      throw e;
+    }
+
     return {
       assistant,
       customer: { number: spec.to },
-      phoneNumber: { twilioPhoneNumber: this.opts.fromNumber },
+      phoneNumberId: this.opts.phoneNumberId,
     };
   }
 
@@ -87,7 +95,7 @@ export class VapiProvider implements Provider {
       to: v.customer?.number,
       transcript: v.artifact?.transcript,
       messages: v.artifact?.messages,
-      recording_url: v.artifact?.recording?.stereoUrl ?? v.artifact?.recording?.url,
+      recording_url: v.artifact?.stereoRecordingUrl ?? v.artifact?.recordingUrl,
       structured_data: v.analysis?.structuredData ?? null,
       tool_calls: [],
       provider: "vapi",

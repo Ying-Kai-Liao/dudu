@@ -39,7 +39,7 @@ export function getProvider(): Provider {
   if (name === "vapi") {
     return new VapiProvider({
       apiKey: requireEnv("VAPI_API_KEY"),
-      fromNumber: requireEnv("VAPI_FROM_NUMBER"),
+      phoneNumberId: process.env.VAPI_PHONE_NUMBER_ID,
     });
   }
   throw new Error(`Unknown CALLAGENT_PROVIDER: ${name}`);
@@ -47,6 +47,10 @@ export function getProvider(): Provider {
 
 function requireEnv(name: string): string {
   const v = process.env[name];
-  if (!v) throw new Error(`${name} is not set in env.`);
+  if (!v) {
+    const e: any = new Error(`${name} is not set in env. Add it to tools/callagent/.env or export it.`);
+    e.exitCode = 2;
+    throw e;
+  }
   return v;
 }

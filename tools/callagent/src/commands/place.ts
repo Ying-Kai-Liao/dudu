@@ -72,12 +72,6 @@ export async function placeCommand(opts: PlaceOptions): Promise<void> {
     outputPath,
   });
   const placedAt = new Date().toISOString();
-  await appendAuditLog(auditLogPath, {
-    consent_token: opts.consentToken,
-    to: opts.to,
-    task_path: resolve(opts.task),
-    placed_at: placedAt,
-  });
 
   await emitBannerAndSleep({
     to: opts.to,
@@ -89,16 +83,34 @@ export async function placeCommand(opts: PlaceOptions): Promise<void> {
 
   const provider = getProvider();
   const callId = await provider.placeCall(spec);
+
+  // Only log once the call is actually accepted by Vapi
+  await appendAuditLog(auditLogPath, {
+    consent_token: opts.consentToken,
+    to: opts.to,
+    task_path: resolve(opts.task),
+    placed_at: placedAt,
+    call_id: callId,
+  });
+
   const finalRec = await provider.pollUntilTerminal(callId, opts.maxDuration * 1000 + 60_000);
   const finalPath = opts.output ?? `./call-${callId}.json`;
   await writeCallResult(finalPath, { ...finalRec, consent_token: opts.consentToken });
   process.stderr.write(`[callagent] Wrote ${finalPath}\n`);
+
+  if (finalRec.status === "failed") {
+    const e: any = new Error(
+      `Call ended with status "failed" (reason: ${finalRec.ended_reason ?? "unknown"}). Result file written to ${finalPath}.`,
+    );
+    e.exitCode = 4;
+    throw e;
+  }
 }
 
 function parseContextVars(ctx: string | undefined): Record<string, string> {
   if (!ctx) return {};
   const out: Record<string, string> = {};
-  const m = ctx.match(/^---\n([\s\S]*?)\n---/);
+  const m = ctx.match(/^---\r?\n([\s\S]*?)\r?\n---/);
   if (!m) return out;
   for (const line of m[1].split("\n")) {
     const kv = line.match(/^([A-Z_][A-Z0-9_]*):\s*(.+)$/);
@@ -108,8 +120,16 @@ function parseContextVars(ctx: string | undefined): Record<string, string> {
 }
 
 function tryGetProviderOrStub() {
-  try { return getProvider(); }
-  catch {
-    return new VapiProvider({ apiKey: "stub", fromNumber: "+10000000000" });
+  try {
+    const p = getProvider();
+    // For dry-run, fill in a placeholder phoneNumberId so assembleDTO doesn't throw.
+    // We do this by wrapping: if the real provider would fail on missing phoneNumberId,
+    // a stub is harmless in a dry-run context.
+    if (p instanceof VapiProvider && !process.env.VAPI_PHONE_NUMBER_ID) {
+      return new VapiProvider({ apiKey: "stub", phoneNumberId: "<stub>" });
+    }
+    return p;
+  } catch {
+    return new VapiProvider({ apiKey: "stub", phoneNumberId: "<stub>" });
   }
 }

@@ -21,6 +21,7 @@ export interface AuditLogEntry {
   to: string;
   task_path: string;
   placed_at: string;
+  call_id?: string;
 }
 
 export async function appendAuditLog(path: string, entry: AuditLogEntry): Promise<void> {
