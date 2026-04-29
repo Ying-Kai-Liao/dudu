@@ -126,7 +126,57 @@ Sources 1–4 are independent. Dispatch worker subagents per source category if 
 
 ## Stage 1 — Frame definition
 
-(Filled in Task 8.)
+Goal: produce `deals/<slug>/personas/frames.yaml` — 1–4 frames that drive the rest of the pipeline.
+
+### Frame purposes (v1)
+
+| Frame purpose | Asking lens | Captured per persona in stage 3a |
+|---|---|---|
+| `pmf-validation` | "Would you use this? What makes you say no?" | use intent, top hesitation, would-pay (Y/N + band), kill-switch reason |
+| `founder-claim-validation` | Per `pitch.yaml` persona-reaction claim → agree/partial/disagree + verbatim | per-claim verdict + contradicting quote |
+| `jtbd-discovery` | JTBD: job, forces, anxieties, progress | pain triggers, switching forces, current solution |
+| `bant-qualification` | BANT: budget, authority, need, timeline | budget band, authority level, urgency, timeline |
+
+Default v1 enabled: `pmf-validation`, `founder-claim-validation`, `jtbd-discovery`. `bant-qualification` ships built-in but disabled by default.
+
+### Per-frame definition
+
+For each enabled frame, derive:
+
+1. **Segments** — 1–3 customer types this frame applies to. Source from `pitch.yaml.target_market.stated_segments` and `_context.md`'s segment evidence. Total segments across all frames cap at 5.
+2. **Must-cover cells** — 8–12 attribute combinations per segment that the population MUST cover. The founder's stated ICP center is always one of these. Use Layer 1 attribute axes (role, geography, stage, vertical, team_size, revenue_band, buying_authority) to enumerate.
+3. **Distribution sampling profile** — weighted distributions for the remaining persona slots. Example: `role: {founder-ceo: 0.6, cofounder-cto: 0.2, ops-manager: 0.15, other: 0.05}`.
+
+### Output: frames.yaml
+
+```yaml
+frames:
+  - frame_id: <slug>.pmf-validation
+    purpose: pmf-validation
+    enabled: true
+    segments:
+      - segment_id: cape-town-saas-founder
+        must_cover:
+          - {role: founder-ceo, geography: ZA-Western-Cape, stage: pre-seed, vertical: b2b-saas, team_size: 3, revenue_band_mrr_zar: [150000, 300000], buying_authority: sole}
+          - # ... 7-11 more cells
+        distribution:
+          role: {founder-ceo: 0.6, cofounder-cto: 0.2, ops-manager: 0.15, other: 0.05}
+          # ... other axes
+  - frame_id: <slug>.founder-claim-validation
+    # ...
+  - frame_id: <slug>.jtbd-discovery
+    # ...
+```
+
+### Budget allocation across frames
+
+Default total N=60. Allocate:
+
+- 50% to `pmf-validation` (broad)
+- 30% to `founder-claim-validation` (focused on the founder's stated ICP center)
+- 20% to `jtbd-discovery` (pain-shape exploration)
+
+Adjust if `--n` was passed.
 
 ## Stage 2 — Population synthesis
 
