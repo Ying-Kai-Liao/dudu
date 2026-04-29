@@ -465,7 +465,14 @@ Dispatch one worker subagent per claim. Concurrency cap: 5. Each subagent owns i
 
 ## Stage 4 — PMF signal report
 
-(Filled in Task 17.)
+After stage 3 finishes, run aggregation and rendering:
+
+```bash
+python3 scripts/pmf-signal-aggregate.py deals/<slug>
+python3 scripts/pmf-signal-render-report.py deals/<slug>
+```
+
+The renderer emits `deals/<slug>/pmf-signal.md`. The output contains FILL-ME placeholders in three narrative sections (`Headline read`, `Strongest contradictions`, `Weakest assumptions in the founder's pitch`). After the renderer runs, complete those sections by reading the consolidated claim ledger and cluster patterns and writing 1–3 paragraphs each. The mechanical structure (claim ledger table, aggregates table, cluster headings, audit) is fixed by the renderer; the narrative is yours.
 
 ## Stage 5 — Network scan & outreach
 
