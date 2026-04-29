@@ -96,5 +96,6 @@ print(mod.run(htmls))
 
 run_recipe_case customer-list customer-list-html-good
 run_recipe_case testimonial-count testimonial-count-html-good
+run_recipe_case wayback-history wayback-history-html-good
 
 exit "$fail"
