@@ -1,0 +1,2 @@
+3 snapshot(s); claim numbers found: [12, 80, 200]; trajectory: 12 → 80 → 200
+EXIT=0
