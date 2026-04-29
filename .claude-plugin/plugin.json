@@ -1,7 +1,7 @@
 {
   "name": "dudu",
-  "description": "VC due diligence skills for Claude Code: founder checks, market/problem persona self-play, customer discovery, competitive landscape, and market sizing.",
-  "version": "0.1.0",
+  "description": "Layered VC due-diligence skills for Claude Code: background-check (L1) and pmf-signal (L2 unique deliverable), plus founder-check, market-context, competitive-landscape, market-sizing, and standalone customer-debrief.",
+  "version": "0.2.0",
   "author": {
     "name": "Ying-Kai Liao",
     "email": "lykevin890919@gmail.com"
@@ -12,5 +12,10 @@
     "venture-capital",
     "due-diligence",
     "skills"
+  ],
+  "deprecatedSkills": [
+    "diligence",
+    "market-problem",
+    "customer-discovery"
   ]
 }

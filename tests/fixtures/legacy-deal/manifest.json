@@ -1,0 +1,15 @@
+{
+  "slug": "legacy-deal",
+  "company": "Legacy Demo Co",
+  "founders": ["Sample Founder"],
+  "pitch": "Sample pitch for legacy-layout regression testing.",
+  "created_at": "2026-04-28T00:00:00Z",
+  "skills_completed": {
+    "founder-check": "2026-04-28T08:25:00Z",
+    "market-problem": "2026-04-28T08:55:00Z",
+    "customer-discovery-prep": "2026-04-28T09:00:00Z",
+    "customer-discovery-debrief": null,
+    "competitive-landscape": "2026-04-28T09:10:00Z",
+    "market-sizing": "2026-04-28T09:20:00Z"
+  }
+}

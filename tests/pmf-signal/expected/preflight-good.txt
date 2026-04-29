@@ -1,7 +1,8 @@
-Loading prior diligence for preflight-good:
+Loading L1 bundle for preflight-good:
+  ✓ background.md (L1 sentinel)
   ✓ founder-check: 1 founder(s) (founder-jane-doe.md)
-  ✓ market-problem: _context.md present, market-problem.md present
-  ✓ competitive-landscape: present
-  ✓ market-sizing: present
+  ✓ market-context.md
+  ✓ competitive-landscape.md
+  ✓ market-sizing.md
   ✓ pitch sources: inputs/deck.md
 EXIT=0

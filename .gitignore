@@ -16,3 +16,10 @@ __pycache__/
 
 # Local git worktrees
 .worktrees/
+
+# Local Claude Code session state (settings, installed skills/commands)
+# .claude-plugin/ is the published plugin manifest and IS tracked.
+.claude/
+
+# Local Codex skill installations (the published plugin manifest .codex-plugin/ IS tracked)
+.codex/skills/

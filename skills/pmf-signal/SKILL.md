@@ -5,42 +5,50 @@ description: Calibrated PMF signal + claim verification + warm-path outreach. La
 
 # PMF signal & warm-path outreach
 
-Run after the full dudu diligence chain. Read `lib/deal.md`, `lib/research-protocol.md`, and `lib/playwright-auth.md` first. Heaviest budget in the plugin: stage 3a is the largest LLM spend; stage 3c carries a 30-fetch web budget.
+Run as Layer 2 on top of a completed Layer 1 bundle (produced by `dudu:background-check`, or by any orchestrator that writes the L1 sentinel `deals/<slug>/background.md`). Read `lib/deal.md`, `lib/research-protocol.md`, and `lib/playwright-auth.md` first. Heaviest budget in the plugin: stage 3a is the largest LLM spend; stage 3c carries a 30-fetch web budget.
 
 ## What this skill IS and IS NOT
 
-- IS: a layered enrichment that produces the unique-value section of the diligence memo. Operates on prior artifacts; refuses to start without them.
-- IS NOT: a replacement for any prior dudu skill. All five upstream skills keep their full scope.
+- IS: the unique-value layer of the dudu plugin. Produces the falsifiable claim ledger × verdict matrix and the warm-path outreach list.
+- IS: the sole owner of the `personas/` namespace. All persona simulation files (`_context.md`, `frames.yaml`, `seeds.yaml`, `aggregates.yaml`, `verdicts.yaml`, `rows/p-*.yaml`) are written by this skill.
+- IS NOT: a replacement for the L1 background-check skills. They produce context; this layer verifies claims against that context plus a deep persona simulation plus external evidence.
 - IS NOT: signal. Stance B applies — every persona-reaction aggregate is a calibrated prior to falsify in real interviews. State this in every output.
 
 ## Inputs
 
-Required (all from prior dudu skills — see Pre-flight hard gate):
+Required (the L1 contract — verified by the preflight gate):
 
 - Deal slug
-- `deals/<slug>/inputs/deck.<ext>` (or pasted pitch text)
-- `deals/<slug>/personas/_context.md`
-- `deals/<slug>/market-problem.md`
+- `deals/<slug>/background.md` (the L1 sentinel — produced by `dudu:background-check`)
+- `deals/<slug>/inputs/deck.<ext>` (or pasted pitch text written to `deck.md`)
 - `deals/<slug>/founder-*.md` (one or more)
+- `deals/<slug>/market-context.md`
 - `deals/<slug>/competitive-landscape.md`
 - `deals/<slug>/market-sizing.md`
 
-Optional:
+Optional inputs the skill tolerates if present (read-only):
+
+- `deals/<slug>/personas/_context.md` — legacy artifact authored by the deprecated `market-problem` skill. If present, used as additional Stage-0 context. If absent, this skill writes its own `personas/_context.md` during Stage 1.
+- `deals/<slug>/personas/persona-*.md` and `personas/round-*.md` — legacy persona files from `market-problem` Phase 2. Tolerated but not required, and never overwritten by this skill.
+
+Optional flags:
 - Company website URL (homepage + pricing + about) for stage 0 enrichment.
 - Public statements list (URLs to interviews / podcasts / blog posts).
 - `--n <int>` total personas (default 60; min 15; max 200).
 - `--frames <comma-list>` restrict to enabled frames.
 - `--no-network` skip stage 5.
 - `--public-only` stage 5 without authed LinkedIn.
-- `--force` overwrite existing artifacts.
+- `--force` overwrite existing PMF artifacts (does NOT touch legacy persona files).
 
 ## Pre-flight (hard gate)
 
-Run `python3 scripts/pmf-signal-preflight.py deals/<slug>` first. The script verifies every upstream artifact exists, prints the loading ledger on success, or lists missing artifacts and exits non-zero on failure.
+Run `python3 scripts/pmf-signal-preflight.py deals/<slug>` first. The script verifies the L1 bundle is present (regardless of which orchestrator produced it) and prints either a loading ledger or a missing-artifact failure.
 
-- Exit 0: prior diligence complete; print the loading ledger to the user, then proceed to Stage 0.
-- Exit 2: upstream missing. Surface the script's stdout to the user verbatim and stop. Do not auto-trigger upstream skills — the user controls heavy spend.
+- Exit 0: L1 bundle complete; print the loading ledger to the user, then proceed to Stage 0.
+- Exit 2: L1 bundle incomplete. Surface the script's stdout verbatim and stop. Tell the user to run `dudu:background-check`. Do not auto-trigger upstream skills — the user controls heavy spend.
 - Exit 3: pmf-signal already done. Surface the message and stop. The user must pass `--force` to overwrite.
+
+The preflight checks for: `background.md` (L1 sentinel), `inputs/deck.<ext>`, `founder-*.md`, `market-context.md`, `competitive-landscape.md`, `market-sizing.md`. It does NOT check for `customer-discovery-prep.md`, `personas/_context.md`, or any legacy `personas/persona-*.md` — those couplings are gone.
 
 After exit 0, also confirm:
 - A pitch source exists (`inputs/deck.<ext>` is required; a website URL is optional and is fetched live in Stage 0).
@@ -123,6 +131,54 @@ Run `python3 scripts/pmf-signal-validate-pitch.py deals/<slug>/pitch.yaml`. Impl
 ### Parallelization
 
 Sources 1–4 are independent. Dispatch worker subagents per source category if all four are present; otherwise run inline. See `lib/research-protocol.md` § Parallelization.
+
+## Stage 0b — L1 context bundle absorption
+
+Goal: ensure `deals/<slug>/personas/_context.md` exists before Stage 1, regardless of which orchestrator produced L1.
+
+The downstream stages (frame definition, scenario-seed mining, persona synthesis) read `personas/_context.md` as the canonical context bundle. Two cases:
+
+1. **`personas/_context.md` already exists** — leave it untouched (it may have been authored by the deprecated `dudu:market-problem` Phase 1, which produced this file directly; or by a prior PMF run). Use it as-is.
+2. **`personas/_context.md` does not exist** — derive it from the L1 bundle. This is the new path under the layered architecture: `dudu:market-context` writes `market-context.md` (not `personas/_context.md`), so PMF synthesizes `personas/_context.md` itself before frame definition.
+
+When deriving (case 2), build `personas/_context.md` with this shape:
+
+```markdown
+# Problem-space context bundle
+
+**Generated:** <ISO timestamp>
+**Source:** synthesized by dudu:pmf-signal Stage 0b from L1 artifacts
+
+## What is the problem?
+
+[Lift verbatim or near-verbatim from market-context.md's "What is the problem?" section.]
+
+## Who has it?
+
+[Lift from market-context.md's "Who has it?" section.]
+
+## How are they solving it today?
+
+[Lift from market-context.md's "How are they solving it today?" section, augmented with competitive-landscape.md's competitor list.]
+
+## What's contested?
+
+[Lift from market-context.md's "What's contested?" section, augmented with cross-artifact contradictions across founder-*.md, market-sizing.md, and competitive-landscape.md.]
+
+## What we couldn't find
+
+[Lift from market-context.md, plus any "requires-data-room" flags surfaced in pitch.yaml.]
+
+## Sources
+
+- market-context.md
+- founder-<name>.md (one per founder)
+- competitive-landscape.md
+- market-sizing.md
+- inputs/deck.<ext>
+```
+
+This stage is idempotent: skip entirely if `personas/_context.md` already exists, regardless of who wrote it. `--force` re-derives it from the current L1 bundle (legacy `market-problem`-authored copies are overwritten only when `--force` is set).
 
 ## Stage 1 — Frame definition
 
@@ -308,7 +364,7 @@ fabrication_flags: [<string>]         # populated when LLM had to extrapolate
 ## Refusal 1
 **Slot:** frame=<frame_id>, must_cover=<cell>
 **Reason:** could not ground 5W chain — no seed in `_context.md` covers <trigger description>
-**Implication:** context bundle gap; re-run `dudu:market-problem` with sources covering <X>
+**Implication:** context bundle gap; re-run `dudu:market-context --force` with sources covering <X> (the deprecated `dudu:market-problem` invocation also forwards there)
 ```
 
 ### 2.6 Parallelization
@@ -476,7 +532,7 @@ The renderer emits `deals/<slug>/pmf-signal.md`. The output contains FILL-ME pla
 
 ## Stage 5 — Network scan & warm-path outreach
 
-Goal: produce `deals/<slug>/outreach.md` (cluster-stratified, warm-path-prioritized) AND a legacy-shape `deals/<slug>/customer-discovery-prep.md` (so downstream `customer-discovery debrief` keeps working).
+Goal: produce `deals/<slug>/outreach.md` (cluster-stratified, warm-path-prioritized) AND a legacy-shape `deals/<slug>/customer-discovery-prep.md` (a convenience artifact for the VC — readable on its own; not a precondition for any downstream step).
 
 If `--no-network` was passed, skip this stage entirely.
 
@@ -553,7 +609,7 @@ Run:
 python3 scripts/pmf-signal-render-outreach.py deals/<slug>
 ```
 
-This emits `outreach.md` (cluster-stratified, prioritized by warm-path quality) and a legacy-shape `customer-discovery-prep.md` (target list + channel templates + interview script auto-generated from cluster patterns + strongest contradictions in `pmf-signal.md`).
+This emits `outreach.md` (cluster-stratified, prioritized by warm-path quality) and a legacy-shape `customer-discovery-prep.md` (target list + channel templates + interview script auto-generated from cluster patterns + strongest contradictions in `pmf-signal.md`). The prep file is a convenience artifact for the VC — it is no longer a precondition for `dudu:customer-debrief`, which now runs whenever transcripts are present.
 
 ## After writing
 

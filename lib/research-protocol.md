@@ -22,10 +22,10 @@ Every factual claim has a source. Two formats:
 Deep research is token-heavy. Each skill declares a per-run budget in its body. Default budgets:
 
 - founder-check: ~30 fetches per founder
-- market-problem phase 1: ~50 fetches total
+- market-context phase 1: ~50 fetches total (was: market-problem phase 1, before the layered split)
 - competitive-landscape: ~5 fetches per competitor, ~30 competitors max
 - market-sizing: ~30 fetches total
-- customer-discovery prep: ~20 fetches total
+- pmf-signal stage 5 network scan: ~80 fetches total (was emitted by `customer-discovery prep` pre-split)
 
 If a skill hits its budget, it stops, writes what it has, and notes the truncation in the artifact.
 
@@ -78,7 +78,7 @@ If you do not know whether the host supports multi-agent dispatch, ask the user 
 ### What NOT to delegate to subagents
 
 - **Authenticated Playwright sessions** (LinkedIn, Crunchbase, etc., per `lib/playwright-auth.md`) — auth state lives in the main session. Do these in main, then optionally hand the result to a subagent for further public-web follow-up.
-- **VC-facing prompts and confirmations** (e.g., the founder-discovery confirmation step in `founder-check`, dispatch decisions in `customer-discovery`) — only the main session talks to the user.
+- **VC-facing prompts and confirmations** (e.g., the founder-discovery confirmation step in `founder-check`, the claim-ledger confirmation gate in `pmf-signal` stage 0) — only the main session talks to the user.
 - **Final artifact writes** — synthesize and write artifacts in the main session using subagent summaries as inputs. Never have a subagent write into `deals/<slug>/`.
 
 ### Budget accounting under fan-out
@@ -88,8 +88,8 @@ The budgets above are total per skill run, not per subagent. Divide explicitly i
 ### When NOT to fan out
 
 - Fewer than 2 independent units (a single founder, a single candidate) — overhead isn't worth it; just use Layer 1.
-- Local file synthesis (e.g., `customer-discovery debrief` reading transcripts) — no fetches, no fan-out.
-- Pure orchestrator skills like `dudu:diligence` — they parallelize at the *sub-skill* level if at all, not the fetch level, and only when the sub-skills are truly independent.
+- Local file synthesis (e.g., `dudu:customer-debrief` reading transcripts) — no fetches, no fan-out.
+- Pure orchestrator skills like `dudu:background-check` (and the deprecated `dudu:diligence` wrapper) — they parallelize at the *sub-skill* level if at all, not the fetch level, and only when the sub-skills are truly independent.
 
 ## Ordering of sources
 
