@@ -10,6 +10,8 @@ Kebab-case, lowercase, derived from the company name.
 
 The slug is supplied once by an orchestrator (e.g. `dudu:background-check` or the deprecated `dudu:diligence` wrapper) and reused by every sub-skill in that deal.
 
+**Reserved namespace.** Any directory under `deals/` whose name starts with an underscore is reserved for fleet/system use and is not a valid deal slug. Currently reserved: `deals/_fleet/` (owned by `dudu:fleet-run`). Slugs supplied to any orchestrator MUST NOT start with an underscore — the validators reject the entire run if they do.
+
 ## Layered architecture
 
 The plugin is organized as two cleanly composable layers plus a standalone debrief skill:
@@ -23,6 +25,13 @@ The deprecated `dudu:diligence` wrapper still runs the full chain end-to-end for
 ## Directory layout
 
 ```
+deals/_fleet/                     # reserved; owned by dudu:fleet-run
+├── manifest.json                 # fleet-run state for the most recent run
+├── queue.txt                     # optional input — one slug per line
+├── logs/                         # per-slug captured stdout/stderr
+│   └── <slug>.log
+└── dashboard.html                # rendered cross-deal view (regenerable)
+
 deals/<slug>/
 ├── manifest.json
 ├── inputs/                       # artifacts the VC supplied (deck, notes, transcripts)
@@ -96,6 +105,39 @@ Optional skills (e.g. `idea-validation`) may add their own key on completion. Th
 ### Legacy manifest tolerance
 
 Legacy manifests under `deals/ledgerloop/`, `deals/callagent/`, `deals/tiny/` use the older key set: `market-problem`, `customer-discovery-prep`, `customer-discovery-debrief`. Renderers and analysis tools tolerate both schemas. Do not retroactively rewrite legacy manifests.
+
+## `deals/_fleet/manifest.json` schema
+
+`dudu:fleet-run` writes one `deals/_fleet/manifest.json` per fleet invocation. It tracks the queue, mode, concurrency cap, optional token cap, cumulative tokens, and per-slug lifecycle.
+
+```json
+{
+  "fleet_run_id": "<ISO timestamp at init>",
+  "started_at": "<ISO>",
+  "finished_at": "<ISO or null while in flight>",
+  "mode": "gate | all | pmf-only",
+  "concurrency": 3,
+  "max_tokens": null,
+  "cumulative_tokens": 0,
+  "input_source": "slugs | auto | queue-file",
+  "queue": ["alpha", "beta", "gamma"],
+  "per_deal": {
+    "alpha": {
+      "status": "pending | running | complete | failed | aborted-budget",
+      "started_at": "<ISO or null>",
+      "finished_at": "<ISO or null>",
+      "error_summary": null,
+      "log_path": "deals/_fleet/logs/alpha.log",
+      "phases": {
+        "background-check": { "status": "pending | running | complete | failed", "started_at": null, "finished_at": null },
+        "pmf-signal":       { "status": "pending | running | complete | failed | skipped", "started_at": null, "finished_at": null }
+      }
+    }
+  }
+}
+```
+
+The top-level `per_deal[X].status` is the **terminal** state across the phases the run scheduled (`complete` only if every applicable phase is complete; `failed` if any required phase failed; `aborted-budget` if the token cap stopped enrollment before this slug ran). `phases` is populated lazily — only the phases the run actually scheduled appear there.
 
 ## Idempotency
 

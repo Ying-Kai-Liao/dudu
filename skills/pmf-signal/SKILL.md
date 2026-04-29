@@ -1,6 +1,6 @@
 ---
 name: pmf-signal
-description: Calibrated PMF signal + claim verification + warm-path outreach. Layered on top of completed dudu diligence. Ingests every founder/company claim into a structured ledger, verifies via three parallel paths (persona pitch-reaction over an N=10–200 5W-grounded synthetic population, cross-artifact triangulation against prior dudu artifacts, bounded external-evidence web checks), then runs a cluster-stratified network scan with authed-LinkedIn warm-path inference.
+description: Calibrated PMF signal + claim verification + warm-path outreach (Layer 2). Verifies founder claims via persona pitch-reaction (N=10–200), cross-artifact triangulation, and bounded web checks; adds an authed-LinkedIn warm-path scan.
 ---
 
 # PMF signal & warm-path outreach

@@ -1,6 +1,6 @@
 ---
 name: customer-debrief
-description: Standalone skill that synthesizes real customer interview transcripts into a pain/WTP/objections artifact with quote-level evidence. Runs independently of any orchestrator — the only precondition is that transcripts exist under deals/<slug>/inputs/.
+description: Synthesize real customer interview transcripts into a pain/WTP/objections artifact with quote-level evidence. Standalone — only precondition is transcripts under deals/<slug>/inputs/.
 ---
 
 # Customer debrief

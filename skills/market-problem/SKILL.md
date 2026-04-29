@@ -1,6 +1,6 @@
 ---
 name: market-problem
-description: DEPRECATED — forwards to dudu:market-context. The persona self-play (Phase 2) of the original market-problem skill has been removed; personas are now owned exclusively by dudu:pmf-signal. This stub exists for one release window and will be removed by the deprecate-diligence-orchestrator change.
+description: DEPRECATED — forwards to dudu:market-context. Persona self-play moved to dudu:pmf-signal. Stub kept for one release window.
 ---
 
 # market-problem (deprecated)

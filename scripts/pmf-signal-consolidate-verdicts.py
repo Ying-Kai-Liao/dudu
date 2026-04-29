@@ -78,25 +78,27 @@ def _yaml_dump(doc: dict) -> str:
                         lines.append(f"{prefix}{k}: []")
                     else:
                         lines.append(f"{prefix}{k}:")
+                        item_prefix = " " * (indent + 2)
+                        item_key_prefix = " " * (indent + 4)
                         for item in v:
                             if isinstance(item, dict):
                                 first = True
                                 for ik, iv in item.items():
                                     if first:
                                         if isinstance(iv, (dict, list)):
-                                            lines.append(f"{prefix}- {ik}:")
-                                            emit(iv, indent + 4)
+                                            lines.append(f"{item_prefix}- {ik}:")
+                                            emit(iv, indent + 6)
                                         else:
-                                            lines.append(f"{prefix}- {ik}: {fmt_scalar(iv)}")
+                                            lines.append(f"{item_prefix}- {ik}: {fmt_scalar(iv)}")
                                         first = False
                                     else:
                                         if isinstance(iv, (dict, list)):
-                                            lines.append(f"{prefix}  {ik}:")
-                                            emit(iv, indent + 4)
+                                            lines.append(f"{item_key_prefix}{ik}:")
+                                            emit(iv, indent + 6)
                                         else:
-                                            lines.append(f"{prefix}  {ik}: {fmt_scalar(iv)}")
+                                            lines.append(f"{item_key_prefix}{ik}: {fmt_scalar(iv)}")
                             else:
-                                lines.append(f"{prefix}- {fmt_scalar(item)}")
+                                lines.append(f"{item_prefix}- {fmt_scalar(item)}")
                 else:
                     lines.append(f"{prefix}{k}: {fmt_scalar(v)}")
         else:

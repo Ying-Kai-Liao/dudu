@@ -107,6 +107,7 @@ To install from a local clone instead (for development), substitute the path:
 | `dudu:pmf-signal` | **L2 (unique)** | Claim ledger × verdict matrix from N=15–200 persona simulation + cross-artifact + external evidence + warm-path outreach | `pmf-signal.md` + `outreach.md` + `personas/*` |
 | `dudu:customer-debrief` | standalone | Synthesizes real interview transcripts into pain/WTP/objections | `customer-discovery.md` |
 | `dudu:idea-validation` | optional | Compare 2–5 candidate ICPs head-to-head, recommend a wedge (idea-stage only) | `idea-validation.md` |
+| `dudu:fleet-run` | fleet orchestrator | Compose L1 (and optionally L2) across many deals at once with concurrency cap, per-deal failure isolation, and a sortable HTML dashboard | `deals/_fleet/manifest.json` + `dashboard.html` |
 | `dudu:diligence` | deprecated wrapper | Backward-compat: runs L1 + L2 + debrief + stitch + render | `MEMO.md` + `report.html` |
 | `dudu:market-problem` | deprecated stub | Forwards to `dudu:market-context` for one release window | (forwards) |
 | `dudu:customer-discovery` | deprecated stub | Forwards `prep` → pmf-signal, `debrief` → customer-debrief | (forwards) |
@@ -124,6 +125,31 @@ Each skill can be invoked standalone. `idea-validation` is optional and not part
 
 The legacy `dudu:diligence` invocation still works — it runs the full chain end-to-end and stitches `MEMO.md` plus renders `report.html`. The wrapper prints a deprecation notice on every invocation and will be removed by the `deprecate-diligence-orchestrator` change. To migrate, use the layered call above and stitch the memo manually if you still want one. The render step (`python3 scripts/render-report.py deals/<slug>`) works on either layout.
 
+## Running a fleet
+
+When you're triaging a batch of startups (a YC AI-day list, a tagged inbox, a partner's referral pile), `dudu:fleet-run` composes Layer 1 across all of them at once and lets you pick which ones graduate to Layer 2. State lives entirely under `deals/_fleet/` — per-deal directories stay clean.
+
+```bash
+# 1. Gate-then-deepen (default): Layer 1 across every queued slug, no PMF yet.
+dudu:fleet-run --slugs alpha,beta,gamma --concurrency 3
+
+# 2. Render the cross-deal dashboard.
+python3 scripts/render-dashboard.py
+open deals/_fleet/dashboard.html
+
+# 3. Pick the survivors and run Layer 2 only on them.
+dudu:fleet-run --pmf alpha,gamma --concurrency 2
+
+# 4. Re-render to see PMF columns fill in for those slugs.
+python3 scripts/render-dashboard.py
+```
+
+Input options (priority order): `--slugs a,b,c` > `--auto` (every non-underscore directory under `deals/`) > `deals/_fleet/queue.txt` (one slug per line). If none is given, the run aborts with a clear error. Template: `docs/fleet-run/queue.txt.example` — copy to `deals/_fleet/queue.txt` and edit.
+
+Other flags: `--all` runs L1+L2 in one pass (skip the gate); `--concurrency N` caps parallel sub-skill invocations (default 3, tighten to 1 on a starter API tier); `--max-tokens N` is an opt-in cumulative budget cap that stops enrolling new slugs when crossed (in-flight slugs finish; unstarted ones are marked `aborted-budget`).
+
+Per-deal failure is non-fatal: a single bad deck does not abort the fleet. Failed slugs land with `status: failed` plus a per-slug log at `deals/_fleet/logs/<slug>.log`. Re-invoke fleet-run after fixing the input — completed slugs are skipped at the sub-skill level.
+
 ## What's NOT in v1
 
 - Founder reference checks via your personal network (out of scope — that's a calendar task, not a skill task).
@@ -131,8 +157,8 @@ The legacy `dudu:diligence` invocation still works — it runs the full chain en
 - Auto-generated investment-committee slide decks.
 - Multi-tenant deal sharing across a partnership.
 - Hybrid VC-in-the-loop persona interviewing (deferred).
-- A fleet runner for analyzing N startups in parallel (tracked in `openspec/changes/fleet-runner-and-dashboard`).
-- A fleet dashboard view (tracked in `openspec/changes/fleet-runner-and-dashboard`).
+- Streaming dashboard updates during a fleet run — the renderer is one command, not a daemon.
+- Customer-debrief automation across a fleet (debrief stays per-deal and async; the dashboard tolerates `interview: pending`).
 
 ## Repository layout
 
@@ -176,6 +202,12 @@ Run the renderer branch test suite:
 
 ```bash
 bash tests/fixtures/pmf-led-report/run.sh
+```
+
+Run the fleet-run integration tests:
+
+```bash
+bash tests/fleet-run/run.sh
 ```
 
 ## Report layout

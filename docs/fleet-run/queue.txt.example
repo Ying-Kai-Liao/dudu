@@ -1,0 +1,14 @@
+# deals/_fleet/queue.txt — fleet-run input source.
+#
+# One slug per line. Blank lines and lines starting with `#` are ignored.
+# Slugs are kebab-case (lowercase, digits, hyphens) and must NOT start with an
+# underscore — that prefix is reserved for fleet/system directories.
+#
+# This file is read by `dudu:fleet-run` only when neither `--slugs` nor
+# `--auto` is passed. `--slugs` and `--auto` always take priority.
+#
+# To use: copy this file to deals/_fleet/queue.txt and add one slug per line.
+
+# alpha
+# beta
+# gamma
