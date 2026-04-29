@@ -1,0 +1,20 @@
+product:
+  name: ExampleCo
+  one_liner: tax automation for SA freelancers
+  category: fintech
+target_market:
+  stated_icp: SA freelance designers near VAT threshold
+  stated_segments: [freelance-creatives]
+claims:
+  - claim_id: c-001
+    claim: "SA freelancers lose 2 days/quarter to SARS"
+    category: pain
+    source: "deck p.3"
+    verification_method: persona-reaction
+  - claim_id: c-010
+    claim: "200 paying customers"
+    category: customer-count
+    source: "deck p.4"
+    verification_method: external-evidence
+    external_check: ["customer-list-on-website", "testimonial-count"]
+unstated_assumptions: []
