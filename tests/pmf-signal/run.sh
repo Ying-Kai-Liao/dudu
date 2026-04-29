@@ -98,12 +98,13 @@ run_recipe_case customer-list customer-list-html-good
 run_recipe_case testimonial-count testimonial-count-html-good
 run_recipe_case wayback-history wayback-history-html-good
 
-run_consolidate_case() {
+run_dir_case() {
     local name="$1"
+    local script="$2"
     local fixture="$script_dir/fixtures-yaml/$name"
     local expected="$script_dir/expected/$name.txt"
     local actual
-    actual="$(python3 "$script_dir/../../scripts/pmf-signal-consolidate-verdicts.py" "$fixture" 2>&1; echo "EXIT=$?")"
+    actual="$(python3 "$script_dir/../../scripts/pmf-signal-$script.py" "$fixture" 2>&1; echo "EXIT=$?")"
     local expected_contents
     expected_contents="$(cat "$expected")"
     if [[ "$actual" == "$expected_contents" ]]; then
@@ -117,9 +118,10 @@ run_consolidate_case() {
         echo "--- end ---"
         fail=1
     fi
-    rm -f "$fixture/personas/verdicts.yaml"
+    rm -f "$fixture/personas/aggregates.yaml" "$fixture/personas/verdicts.yaml"
 }
 
-run_consolidate_case consolidate-good
+run_dir_case consolidate-good consolidate-verdicts
+run_dir_case aggregate-good aggregate
 
 exit "$fail"
