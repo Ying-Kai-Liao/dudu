@@ -474,9 +474,86 @@ python3 scripts/pmf-signal-render-report.py deals/<slug>
 
 The renderer emits `deals/<slug>/pmf-signal.md`. The output contains FILL-ME placeholders in three narrative sections (`Headline read`, `Strongest contradictions`, `Weakest assumptions in the founder's pitch`). After the renderer runs, complete those sections by reading the consolidated claim ledger and cluster patterns and writing 1–3 paragraphs each. The mechanical structure (claim ledger table, aggregates table, cluster headings, audit) is fixed by the renderer; the narrative is yours.
 
-## Stage 5 — Network scan & outreach
+## Stage 5 — Network scan & warm-path outreach
 
-(Filled in Tasks 18–20.)
+Goal: produce `deals/<slug>/outreach.md` (cluster-stratified, warm-path-prioritized) AND a legacy-shape `deals/<slug>/customer-discovery-prep.md` (so downstream `customer-discovery debrief` keeps working).
+
+If `--no-network` was passed, skip this stage entirely.
+
+### 5a. Match — find real humans per cluster
+
+A cluster is any (`trigger_type`, `frame_id`) pair with ≥5 personas in `personas/rows/*.yaml`. List clusters before fetching anything; cap the candidate output at 30 across the deal (matching the legacy `customer-discovery-prep` ceiling).
+
+For each cluster, generate targeted searches from the union of `discoverability_signals.{job_titles, communities, post_patterns, query_strings}` across that cluster's personas.
+
+Channels and per-cluster fetch budgets:
+
+- **LinkedIn (authed Playwright, main session only)** — ~5 fetches per cluster, filtered by job title and geography. Skip under `--public-only`.
+- **Reddit** — ~5 candidates per cluster from `post_patterns` queries.
+- **Niche communities** — Slack/Discord with public membership lists, 1–2 per cluster, ~5 candidates.
+- **X** — search `voice.pain_phrases` + geography filter, ~5 candidates.
+
+Total fetch budget: 20 × cluster_count, hard-capped at 80. If clusters × budget exceeds 80, halve per-cluster budgets.
+
+Each candidate row anchors to a `match_evidence` quote: a public post or profile snippet that ties this candidate to the cluster's signature. **Drop candidates without match evidence.**
+
+#### Parallelization
+
+Dispatch one worker subagent per (cluster × non-LinkedIn channel) combination. LinkedIn runs in main session only (Playwright cannot delegate). See `lib/playwright-auth.md` for the authed-session protocol.
+
+### 5b. Network understanding
+
+For each surviving candidate, enrich with:
+
+1. **Warm-path inference (authed LinkedIn).** Check VC's 1st and 2nd-degree network. Stop at 2nd. Name the bridge if one exists. Skipped under `--public-only`.
+2. **Broker identification.** For each candidate's primary community, surface the named moderator/manager/chair. One per community is sufficient.
+3. **Channel-fit prior.** Per channel, label `expected_response: low | medium | high` and `risk: low | medium-spam | high-ban`, **conditioned on the specific community** (not the channel-in-the-abstract).
+4. **Post hooks.** A recent (≤30 days) post by the candidate that anchors the outreach. "Saw your post about X" outperforms generic DMs.
+
+### Stage 5 row schema
+
+```yaml
+candidate_id: c-014
+cluster_id: <trigger_type>__<frame_id>
+match_evidence:
+  url: "<URL>"
+  quote: "<verbatim quote>"
+  date: <ISO date>
+person:
+  name: "<name>"
+  handle_or_link: "<URL>"
+  role_inferred: "<string>"
+  geography_inferred: "<string>"
+warm_path:
+  exists: <true | false>
+  degree: <1 | 2 | null>
+  bridge_name: "<name (degree-1 connection)>"
+  confidence: <high | medium | low>
+brokers:
+  - {community: "<name>", role: "<role>", contact: "<URL>"}
+channel_fit_ranked:
+  - {channel: warm-intro-via-<bridge>, expected_response: high, risk: low}
+  - {channel: linkedin-dm, expected_response: medium, risk: low}
+  - {channel: reddit-dm-public-thread-reply-first, expected_response: medium, risk: medium-spam}
+  - {channel: cold-email, expected_response: low, risk: low, note: "<...>"}
+post_hooks:
+  - {url: "<URL>", date: <ISO>, summary: "<short>"}
+recommended_outreach:
+  channel: <chosen channel slug>
+  draft: "<80-word draft referencing bridge + post hook + research framing>"
+```
+
+Save to `deals/<slug>/personas/candidates/<candidate_id>.yaml`.
+
+### 5c. Render outreach artifacts
+
+Run:
+
+```bash
+python3 scripts/pmf-signal-render-outreach.py deals/<slug>
+```
+
+This emits `outreach.md` (cluster-stratified, prioritized by warm-path quality) and a legacy-shape `customer-discovery-prep.md` (target list + channel templates + interview script auto-generated from cluster patterns + strongest contradictions in `pmf-signal.md`).
 
 ## After writing
 
