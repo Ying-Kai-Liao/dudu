@@ -30,6 +30,8 @@ What's in there:
 - `competitive-landscape.md` — direct/indirect competitors + incumbent threat verdict + moat analysis
 - `market-sizing.md` — bottom-up TAM, anchored on a defined ICP and reachable population
 - `customer-discovery-prep.md` — target list (LinkedIn searches in `inputs/`), outreach templates, interview script
+- `MEMO.md` — final stitched investment memo with a Pass verdict and conditional path to Watch
+- `report.html` — single-file rendered version of the run, openable in any browser, safe to share by email
 - `manifest.json` — five of six skills completed; `customer-discovery-debrief` is null because no real interviews were run for the demo
 
 Notable moment: founder-check caught a pitch/footprint mismatch — the supplied pitch said "embedded working capital for Southeast Asian wholesalers" but the founder's actual public footprint is a South African accounting practice. The VC reframed the deal mid-run rather than continuing on a wrong premise. See `manifest.json` `pitch_reframe_note`.
@@ -54,7 +56,7 @@ In a Claude Code session:
 
 | Skill | What it does | Output |
 |-------|--------------|--------|
-| `dudu:diligence` | Orchestrates the full workflow on one deal | `deals/<slug>/MEMO.md` |
+| `dudu:diligence` | Orchestrates the full workflow on one deal | `deals/<slug>/MEMO.md` + `report.html` |
 | `dudu:founder-check` | Public-web + LinkedIn dossier per founder | `deals/<slug>/founder-<name>.md` |
 | `dudu:idea-validation` | Compare 2–5 candidate ICPs head-to-head, recommend a wedge (optional, idea-stage only) | `deals/<slug>/idea-validation.md` |
 | `dudu:market-problem` | Deep context + persona self-play (rehearsal) | `deals/<slug>/market-problem.md` |
@@ -70,7 +72,7 @@ Each skill can be invoked standalone, or run all together via the orchestrator. 
 2. **Wait for the prep phase to complete.** Five skills run, taking ~15–45 minutes depending on the deal complexity and your network access.
 3. **Read the prep output.** Especially `customer-discovery-prep.md` — the candidate list, outreach templates, and interview script.
 4. **Run real customer interviews** (5–10 of them). Save transcripts/notes under `deals/<slug>/inputs/`.
-5. **Re-invoke `dudu:diligence`.** The orchestrator detects the inputs, runs `customer-discovery debrief`, and stitches `MEMO.md`.
+5. **Re-invoke `dudu:diligence`.** The orchestrator detects the inputs, runs `customer-discovery debrief`, stitches `MEMO.md`, and renders `report.html` — a single self-contained file (embedded CSS/JS, no network assets) that you can email to a partner or open offline.
 
 ## What's NOT in v1
 
@@ -88,7 +90,8 @@ Each skill can be invoked standalone, or run all together via the orchestrator. 
 .codex/INSTALL.md      Codex install guide (clone + symlink)
 skills/                six SKILL.md files (read by both harnesses)
 lib/                   shared procedural docs (deal schema, Playwright UX, research protocol)
-scripts/lint-skills.sh frontmatter + lib-reference linter
+scripts/lint-skills.sh frontmatter + lib-reference linter (also runs render-report smoke test)
+scripts/render-report.py renders deals/<slug>/report.html from MEMO + artifacts (stdlib-only)
 tests/lint/            linter test fixtures and runner
 test/ledgerloop/       hackathon demo run (committed; see Demo section)
 docs/superpowers/      design spec and implementation plan
