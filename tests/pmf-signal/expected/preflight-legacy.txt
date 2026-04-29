@@ -1,0 +1,8 @@
+Loading L1 bundle for preflight-legacy:
+  ✓ background.md (L1 sentinel)
+  ✓ founder-check: 1 founder(s) (founder-legacy-founder.md)
+  ✓ market-context.md
+  ✓ competitive-landscape.md
+  ✓ market-sizing.md
+  ✓ pitch sources: inputs/deck.md
+EXIT=0

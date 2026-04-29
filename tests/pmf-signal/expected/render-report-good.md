@@ -68,4 +68,4 @@ The full ledger of every claim made by founder/company, sorted by severity (wors
 - personas/reactions/*.yaml
 - personas/verdicts.yaml
 - personas/refusals.md
-- (cross-referenced) founder-*.md, market-sizing.md, competitive-landscape.md, market-problem.md
+- (cross-referenced) founder-*.md, market-sizing.md, competitive-landscape.md, market-context.md (or legacy market-problem.md)

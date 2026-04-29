@@ -253,7 +253,7 @@ def main(argv: list[str]) -> int:
     out.append("- personas/verdicts.yaml")
     if has_refusals:
         out.append("- personas/refusals.md")
-    out.append("- (cross-referenced) founder-*.md, market-sizing.md, competitive-landscape.md, market-problem.md")
+    out.append("- (cross-referenced) founder-*.md, market-sizing.md, competitive-landscape.md, market-context.md (or legacy market-problem.md)")
     out.append("")
 
     (deal / "pmf-signal.md").write_text("\n".join(out), encoding="utf-8")

@@ -28,6 +28,7 @@ run_preflight_case() {
 run_preflight_case preflight-good
 run_preflight_case preflight-missing
 run_preflight_case preflight-already-done
+run_preflight_case preflight-legacy
 
 run_yaml_case() {
     local name="$1"

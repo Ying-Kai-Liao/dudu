@@ -245,9 +245,12 @@ SKILL_LABELS = {
     "customer-discovery-debrief": "Discovery debrief",
 }
 
-# (id, title, filename) — discovered conditionally
+# (id, title, filename) — discovered conditionally. Layered architecture
+# uses market-context.md; legacy deals use market-problem.md. The renderer
+# prefers the new filename and falls back to the legacy one.
 SECTION_FILES = [
-    ("market-problem", "Problem & Product", "market-problem.md"),
+    ("market-problem", "Problem & Product", "market-context.md"),
+    ("market-problem-legacy", "Problem & Product", "market-problem.md"),
     ("customer-discovery", "Customer Signal", "customer-discovery.md"),
     ("customer-discovery-prep", "Customer Discovery Prep", "customer-discovery-prep.md"),
     ("competitive-landscape", "Competitive Landscape", "competitive-landscape.md"),
@@ -612,8 +615,9 @@ def render_report(deal_dir: Path) -> str:
     elif "founders" in memo_sections:
         add_section("founders", "Founders", render_markdown(memo_sections["founders"], heading_offset=OFFSET))
 
-    # Problem & product (prefer artifact, fallback to MEMO)
-    mp = _read(deal_dir / "market-problem.md")
+    # Problem & product — prefer the new market-context.md, fall back to the
+    # legacy market-problem.md (pre-split layout), then to the MEMO section.
+    mp = _read(deal_dir / "market-context.md") or _read(deal_dir / "market-problem.md")
     if mp:
         body = re.sub(r"^#\s+.+\n", "", mp, count=1)
         add_section("problem", "Problem & Product", render_markdown(body, heading_offset=OFFSET))
@@ -694,14 +698,19 @@ def render_report(deal_dir: Path) -> str:
             )
             toc.append(("personas", "Personas"))
 
-    # Source artifacts
+    # Source artifacts (tolerates both legacy and post-split layouts)
     artifacts: list[str] = []
     for name in [
         "MEMO.md",
         "manifest.json",
+        "background.md",
+        "market-context.md",
         "market-problem.md",
         "competitive-landscape.md",
         "market-sizing.md",
+        "pmf-signal.md",
+        "outreach.md",
+        "pitch.yaml",
         "customer-discovery-prep.md",
         "customer-discovery.md",
     ]:
