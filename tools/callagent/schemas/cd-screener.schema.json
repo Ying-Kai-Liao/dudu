@@ -1,0 +1,13 @@
+{
+  "type": "object",
+  "properties": {
+    "consent_confirmed": { "type": "boolean" },
+    "pain_intensity": { "type": "integer", "minimum": 1, "maximum": 10 },
+    "pain_quote": { "type": "string", "description": "Verbatim quote describing the pain." },
+    "current_solution": { "type": "string", "description": "What they use today, vendor or workaround." },
+    "wtp_signal": { "type": "string", "description": "Verbatim WTP statement, or 'none' if not given." },
+    "willing_to_meet_vc": { "type": "boolean" },
+    "top_objection": { "type": "string", "description": "If they pushed back, the strongest objection. Empty if none." }
+  },
+  "required": ["consent_confirmed", "pain_intensity", "pain_quote", "current_solution", "wtp_signal", "willing_to_meet_vc", "top_objection"]
+}
