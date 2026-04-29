@@ -51,6 +51,10 @@ def parse_yaml_subset(text: str) -> dict:
             return parts
         if v in ("null", "~"):
             return None
+        if v in ("true", "True", "TRUE"):
+            return True
+        if v in ("false", "False", "FALSE"):
+            return False
         try:
             return int(v)
         except ValueError:

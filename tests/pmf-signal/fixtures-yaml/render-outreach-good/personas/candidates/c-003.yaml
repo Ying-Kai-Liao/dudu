@@ -1,0 +1,23 @@
+candidate_id: c-003
+cluster_id: switching-cost__pmf-validation
+match_evidence:
+  url: "https://reddit.com/r/SAfreelancers/comments/xyz"
+  quote: "wish I had not switched my CA mid-year"
+  date: "2026-04-20"
+person:
+  name: "Megan V."
+  handle_or_link: "https://reddit.com/u/megan-v"
+  role_inferred: "freelance designer"
+  geography_inferred: "Johannesburg"
+warm_path:
+  exists: false
+  degree: null
+  bridge_name: ""
+  confidence: low
+post_hooks:
+  - url: "https://reddit.com/r/SAfreelancers/comments/xyz"
+    date: "2026-04-20"
+    summary: "CA switching rant"
+recommended_outreach:
+  channel: reddit-dm-public-thread-reply-first
+  draft: "Hi Megan — saw your post about switching CAs mid-year. Researching how SA freelancers handle accountant transitions. 20 min DM chat?"

@@ -1,0 +1,27 @@
+candidate_id: c-002
+cluster_id: regulatory-growth-collision__pmf-validation
+match_evidence:
+  url: "https://siliconcape.com/founders/example"
+  quote: "fundraise + VAT threshold collision is brutal"
+  date: "2026-04-15"
+person:
+  name: "Pierre K."
+  handle_or_link: "https://www.linkedin.com/in/pierre-k"
+  role_inferred: "founder, multiple startups"
+  geography_inferred: "Cape Town"
+warm_path:
+  exists: false
+  degree: null
+  bridge_name: ""
+  confidence: low
+brokers:
+  - community: "Silicon Cape Slack"
+    role: "moderator"
+    contact: "https://siliconcape.com/contact"
+post_hooks:
+  - url: "https://siliconcape.com/founders/example"
+    date: "2026-04-15"
+    summary: "fundraise/VAT thread"
+recommended_outreach:
+  channel: broker-via-Silicon-Cape-Slack
+  draft: "Hi Pierre — researching how CPT founders manage SARS during fundraises. Asked the Silicon Cape mod to forward. 20-min Zoom?"
