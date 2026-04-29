@@ -49,7 +49,7 @@ Sources (cap at ~50 total):
 
 ### Phase 1 parallelization (Layer 2 — per source category)
 
-Phase 1 is the heaviest fetch load in any dudu skill (~50 fetches). Source categories are independent. Dispatch **one `general-purpose` subagent per source category in a single message**, then synthesize. See `lib/research-protocol.md` § Parallelization.
+Phase 1 is the heaviest fetch load in any dudu skill (~50 fetches). Source categories are independent. Dispatch **one worker subagent per source category**, all concurrently in a single turn, then synthesize. See `lib/research-protocol.md` § Parallelization for the cross-platform mapping (Claude Code: `Agent` with `subagent_type="general-purpose"`; Codex: `spawn_agent` with `agent_type="worker"` and `multi_agent = true` in config).
 
 Group the 8 sources into 4 subagent batches to keep dispatch tractable:
 
@@ -144,7 +144,7 @@ The interviewer asks Mom-Test-style questions (about current behavior, never abo
 
 ### Phase 2 parallelization (per persona)
 
-Self-play rounds for different personas are independent. Dispatch **one `general-purpose` subagent per persona in a single message**, where each subagent runs all of that persona's assigned rounds. The subagent prompt must include the full `_context.md` text, the `persona-K.md` profile, the round numbers it owns, and the round template above. Subagents return round-file contents as text; the main session writes `personas/round-R.md` files.
+Self-play rounds for different personas are independent. Dispatch **one worker subagent per persona** (all concurrently in a single turn — see `lib/research-protocol.md` § Parallelization for the cross-platform mapping), where each subagent runs all of that persona's assigned rounds. The subagent prompt must include the full `_context.md` text, the `persona-K.md` profile, the round numbers it owns, and the round template above. Subagents return round-file contents as text; the main session writes `personas/round-R.md` files.
 
 ## Phase 3: Cross-round analysis
 
