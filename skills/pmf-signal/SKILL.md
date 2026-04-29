@@ -20,11 +20,15 @@ Required (the L1 contract — verified by the preflight gate):
 
 - Deal slug
 - `deals/<slug>/background.md` (the L1 sentinel — produced by `dudu:background-check`)
-- `deals/<slug>/inputs/deck.<ext>` (or pasted pitch text written to `deck.md`)
 - `deals/<slug>/founder-*.md` (one or more)
 - `deals/<slug>/market-context.md`
 - `deals/<slug>/competitive-landscape.md`
 - `deals/<slug>/market-sizing.md`
+- `deals/<slug>/manifest.json` with a non-empty `pitch` field (always produced by `dudu:background-check`'s init step)
+
+Optional (improves Stage 0 claim ledger quality but not required):
+
+- `deals/<slug>/inputs/deck.<ext>` (or pasted deck text written to `deck.md`) — when present, source #1 for Stage 0 claim ingestion. When absent, Stage 0 falls back to manifest.pitch + founder dossiers + market-context + the optional company-website fetch.
 
 Optional inputs the skill tolerates if present (read-only):
 
@@ -48,10 +52,10 @@ Run `python3 scripts/pmf-signal-preflight.py deals/<slug>` first. The script ver
 - Exit 2: L1 bundle incomplete. Surface the script's stdout verbatim and stop. Tell the user to run `dudu:background-check`. Do not auto-trigger upstream skills — the user controls heavy spend.
 - Exit 3: pmf-signal already done. Surface the message and stop. The user must pass `--force` to overwrite.
 
-The preflight checks for: `background.md` (L1 sentinel), `inputs/deck.<ext>`, `founder-*.md`, `market-context.md`, `competitive-landscape.md`, `market-sizing.md`. It does NOT check for `customer-discovery-prep.md`, `personas/_context.md`, or any legacy `personas/persona-*.md` — those couplings are gone.
+The preflight checks for: `background.md` (L1 sentinel), `founder-*.md`, `market-context.md`, `competitive-landscape.md`, `market-sizing.md`. It does NOT require `inputs/deck.<ext>` (deck is optional — see Stage 0). It does NOT check for `customer-discovery-prep.md`, `personas/_context.md`, or any legacy `personas/persona-*.md` — those couplings are gone.
 
 After exit 0, also confirm:
-- A pitch source exists (`inputs/deck.<ext>` is required; a website URL is optional and is fetched live in Stage 0).
+- A pitch source: `manifest.pitch` is always present (set by `dudu:background-check`'s init); `inputs/deck.<ext>` is optional and only fetched in Stage 0 if present; a website URL is optional and is fetched live in Stage 0.
 - The user passed any optional flags (`--n`, `--frames`, `--no-network`, `--public-only`).
 
 ## Stage 0 — Claim ledger ingestion
@@ -60,12 +64,15 @@ Goal: produce `deals/<slug>/pitch.yaml` — a structured ledger of every claim t
 
 ### Sources
 
-1. The deck at `inputs/deck.<ext>` (always — required by pre-flight).
+1. The deck at `inputs/deck.<ext>` if present (optional). When absent, fall through to the manifest's `pitch` one-liner (always present) plus sources 2–5 below.
 2. The company website if a URL was provided — fetch homepage, pricing page, about page (3 fetches max).
 3. Each `founder-*.md` (already on disk from `dudu:founder-check`).
 4. Public statements list if provided — fetch each URL with the WebFetch tool, max 5 fetches total.
+5. The L1 context bundle: `market-context.md`, `competitive-landscape.md`, `market-sizing.md` — always present as part of the L1 contract. Used as supplementary claim sources especially when no deck is supplied.
 
-Total stage-0 fetch budget: 8.
+Total stage-0 fetch budget: 8. (Sources 3 and 5 are local-file reads, no fetches.)
+
+If no deck is present AND no website was provided AND no public statements were supplied, Stage 0 produces a thinner `pitch.yaml` drawn from `manifest.pitch` + the L1 artifacts. Mark such runs in the artifact's preamble: `**Pitch sources:** manifest.pitch + L1 artifacts only (no deck supplied)`. The downstream stages run normally — claim verdicts will be sparser and that's the honest result.
 
 ### Extraction
 
