@@ -1,5 +1,6 @@
 import { ParsedPersona } from "../persona/parse.js";
 import { JsonSchema } from "../schema/load.js";
+import { VapiProvider } from "./vapi.js";
 
 export interface CallSpec {
   to: string;
@@ -37,7 +38,6 @@ export interface Provider {
 export function getProvider(): Provider {
   const name = process.env.CALLAGENT_PROVIDER ?? "vapi";
   if (name === "vapi") {
-    const { VapiProvider } = require("./vapi.js");
     return new VapiProvider({
       apiKey: requireEnv("VAPI_API_KEY"),
       fromNumber: requireEnv("VAPI_FROM_NUMBER"),
