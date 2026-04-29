@@ -1,0 +1,7 @@
+Loading prior diligence for preflight-good:
+  ✓ founder-check: 1 founder(s) (founder-jane-doe.md)
+  ✓ market-problem: _context.md present, market-problem.md present
+  ✓ competitive-landscape: present
+  ✓ market-sizing: present
+  ✓ pitch sources: inputs/deck.md
+EXIT=0

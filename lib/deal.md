@@ -50,7 +50,8 @@ deals/<slug>/
     "customer-discovery-prep": null,
     "customer-discovery-debrief": null,
     "competitive-landscape": null,
-    "market-sizing": null
+    "market-sizing": null,
+    "pmf-signal": null
   }
 }
 ```

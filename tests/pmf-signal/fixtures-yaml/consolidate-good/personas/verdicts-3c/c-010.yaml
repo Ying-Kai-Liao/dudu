@@ -1,0 +1,4 @@
+claim_id: c-010
+verification_method: external-evidence
+verdict: insufficient-evidence-for-200
+verdict_rationale: "public surface area inconsistent with 200"

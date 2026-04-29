@@ -1,0 +1,7 @@
+aggregates written → personas/aggregates.yaml
+  N=10, grounded=9, fabricated=1
+  would_use: no=3, yes=4, yes-with-caveats=3
+  willing_to_pay: maybe=2, no=5, yes=3
+  wtp_ceiling_zar_per_month: n=3, median=10000, mean=10000.0
+  by trigger_type: regulatory-growth-collision=6, switching-cost=4
+EXIT=0

@@ -1,0 +1,8 @@
+persona_id: p-001
+claim_responses:
+  - claim_id: c-001
+    verdict: agree
+    verbatim: "yes I agree"
+  - claim_id: c-003
+    verdict: disagree
+    verbatim: "no chance"
