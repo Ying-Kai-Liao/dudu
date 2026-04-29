@@ -52,10 +52,34 @@ for skill_path in skills/*/SKILL.md; do
     done < <(echo "$body" | grep -oE 'lib/[a-zA-Z0-9_-]+\.md' | sort -u)
 done
 
-if [[ "$errors" -eq 0 ]]; then
-    echo "OK: $skill_count skill(s) lint-clean"
-    exit 0
-else
+if [[ "$errors" -ne 0 ]]; then
     echo "FAIL: $errors error(s)"
     exit 1
 fi
+echo "OK: $skill_count skill(s) lint-clean"
+
+# ---- render-report smoke test ------------------------------------------
+# Render the committed test fixture and assert the output is non-empty.
+# Skip silently if python3 is missing so this lint stays portable.
+fixture="test/ledgerloop"
+if [[ -d "$fixture" && -f scripts/render-report.py ]]; then
+    if command -v python3 >/dev/null 2>&1; then
+        if ! python3 scripts/render-report.py "$fixture" >/dev/null; then
+            echo "FAIL: render-report.py exited non-zero on $fixture"
+            exit 1
+        fi
+        out="$fixture/report.html"
+        if [[ ! -s "$out" ]]; then
+            echo "FAIL: $out missing or empty after render"
+            exit 1
+        fi
+        if ! awk 'BEGIN{found=0} /<body[^>]*>/{p=1; next} /<\/body>/{exit} p && /[^[:space:]]/{found=1} END{exit !found}' "$out"; then
+            echo "FAIL: $out has empty <body>"
+            exit 1
+        fi
+        echo "OK: render-report smoke test passed on $fixture"
+    else
+        echo "SKIP: python3 not on PATH; render-report smoke test not run"
+    fi
+fi
+exit 0

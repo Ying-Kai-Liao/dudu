@@ -90,7 +90,12 @@ Run the full dudu workflow end-to-end on one deal. Read `lib/deal.md`, `lib/play
 
 6. **Verify manifest completeness.** All six sub-skill keys in `skills_completed` should now be non-null (`founder-check`, `market-problem`, `customer-discovery-prep`, `customer-discovery-debrief`, `competitive-landscape`, `market-sizing`). Do not invent additional keys; the orchestrator's completion is implicit in those six.
 
-7. **Print** the path to `MEMO.md`.
+7. **Render `report.html`.** Run `python3 scripts/render-report.py deals/<slug>`. The script reads `MEMO.md` and the artifacts and writes a single self-contained `deals/<slug>/report.html` — embedded CSS/JS, no network assets, openable in any browser. Markdown stays canonical; HTML is a derived view safe to share as a file.
+
+   - If the script exits non-zero (missing `manifest.json`, parse error), surface the stderr message but **do not** block — `MEMO.md` is still useful on its own.
+   - If `python3` isn't on PATH, print: `report.html skipped — install Python 3 or run python3 scripts/render-report.py deals/<slug> manually.`
+
+8. **Print** the paths to `MEMO.md` and (if rendered) `report.html`.
 
 ## Re-runnability
 
