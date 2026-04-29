@@ -19,14 +19,13 @@ Run the public-source half of dudu diligence on one deal. Cheap, parallel-safe, 
 - Company name
 - Founder names (one or more)
 - One-line pitch
-- Pitch deck (file path or pasted text), strongly preferred. Saved to `deals/<slug>/inputs/deck.<ext>` (or `deck.md` for pasted text).
+- Pitch deck (file path or pasted text), **optional** but strengthens Layer 2's claim ledger. If supplied, saved to `deals/<slug>/inputs/deck.<ext>` (or `deck.md` for pasted text). If not supplied, the manifest's `pitch` one-liner plus the L1 artifacts (founder dossiers, market-context, etc.) carry through to PMF Stage 0.
 
 ## Pre-flight
 
-1. If `deals/<slug>/` does not exist, create it. Write `manifest.json` per the schema in `lib/deal.md`.
-2. If a deck path was supplied, copy it to `deals/<slug>/inputs/deck.<ext>`. If pasted text was supplied, write it to `deals/<slug>/inputs/deck.md`.
-3. Refuse to start if no deck input is present after step 2.
-4. Idempotency: if `deals/<slug>/background.md` already exists and `--force` was not passed, print "L1 sentinel already exists at deals/<slug>/background.md. Pass --force to re-run all sub-skills." and stop.
+1. If `deals/<slug>/` does not exist, create it. Write `manifest.json` per the schema in `lib/deal.md` — including the `pitch` one-liner field, which is required.
+2. If a deck path was supplied, copy it to `deals/<slug>/inputs/deck.<ext>`. If pasted deck text was supplied, write it to `deals/<slug>/inputs/deck.md`. If no deck was supplied, do nothing — that's fine.
+3. Idempotency: if `deals/<slug>/background.md` already exists and `--force` was not passed, print "L1 sentinel already exists at deals/<slug>/background.md. Pass --force to re-run all sub-skills." and stop.
 
 ## Steps
 
@@ -84,7 +83,7 @@ Write the L1 sentinel file at `deals/<slug>/background.md`:
 
 ## Claim ledger seed
 
-[Optional but recommended: a short list of the founder/company's most prominent verifiable claims, drawn from the deck and the founder dossiers. This is not a full pitch.yaml — Layer 2's stage 0 produces that. The seed is a heads-up for the human reading background.md.]
+[Optional but recommended: a short list of the founder/company's most prominent verifiable claims, drawn from the deck (if supplied) and the founder dossiers + manifest pitch. This is not a full pitch.yaml — Layer 2's stage 0 produces that. The seed is a heads-up for the human reading background.md.]
 
 ## What's next
 
@@ -97,7 +96,7 @@ Write the L1 sentinel file at `deals/<slug>/background.md`:
 - market-context.md
 - competitive-landscape.md
 - market-sizing.md
-- inputs/deck.<ext>
+- inputs/deck.<ext> (optional)
 ```
 
 After writing `background.md`:

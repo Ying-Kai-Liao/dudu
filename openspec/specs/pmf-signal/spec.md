@@ -4,23 +4,25 @@
 TBD - created by archiving change split-background-and-pmf-layers. Update Purpose after archive.
 ## Requirements
 ### Requirement: PMF-signal preflight uses an L1-bundle contract
-The system SHALL gate `pmf-signal` execution on the presence of (a) `deals/<slug>/background.md` (the L1 sentinel), (b) the four cross-artifact verification targets `founder-*.md`, `market-context.md`, `competitive-landscape.md`, `market-sizing.md`, and (c) a pitch source at `deals/<slug>/inputs/deck.<ext>` (or `deck.md` for pasted text). The preflight SHALL NOT check for `customer-discovery-prep.md`, `personas/_context.md`, or any other artifact owned by a different layer.
+The system SHALL gate `pmf-signal` execution on the presence of (a) `deals/<slug>/background.md` (the L1 sentinel) and (b) the four cross-artifact verification targets `founder-*.md`, `market-context.md`, `competitive-landscape.md`, `market-sizing.md`. A deck file at `deals/<slug>/inputs/deck.<ext>` (or `deck.md` for pasted text) is OPTIONAL — when present it strengthens Stage 0 claim ingestion; when absent Stage 0 falls back to `manifest.pitch` plus the L1 artifacts. The preflight SHALL NOT check for `customer-discovery-prep.md`, `personas/_context.md`, or any other artifact owned by a different layer.
 
-#### Scenario: Preflight passes with the L1 contract satisfied
+#### Scenario: Preflight passes with the L1 contract satisfied (deck present)
 - **WHEN** `dudu:pmf-signal --slug <slug>` is invoked on a deal that has `background.md`, the four cross-artifact files, and a deck — but no `customer-discovery-prep.md` and no legacy persona files
 - **THEN** preflight exits 0
-- **AND** the loading ledger is printed
+- **AND** the loading ledger is printed including the pitch source
 - **AND** stage 0 begins
+
+#### Scenario: Preflight passes with no deck (manifest.pitch carries the pitch)
+- **WHEN** `dudu:pmf-signal --slug <slug>` is invoked on a deal that has `background.md` and the four cross-artifact files but no `inputs/deck.*`
+- **THEN** preflight exits 0
+- **AND** the loading ledger notes "pitch sources: none (deck optional — Stage 0 will use manifest.pitch + founder/context artifacts)"
+- **AND** stage 0 begins, treating manifest.pitch + founder dossiers + market-context as the claim sources
 
 #### Scenario: Preflight fails when L1 sentinel is missing
 - **WHEN** `dudu:pmf-signal` is invoked on a deal where every other artifact exists but `background.md` does not
 - **THEN** preflight exits non-zero with a message naming the missing sentinel
 - **AND** the message tells the user to run `dudu:background-check` first
 - **AND** no automatic upstream invocation happens (the user controls heavy spend)
-
-#### Scenario: Preflight fails when deck is missing
-- **WHEN** `dudu:pmf-signal` is invoked on a deal where `background.md` and the four artifacts exist but `inputs/deck.<ext>` does not
-- **THEN** preflight exits non-zero with a message naming the missing deck input
 
 #### Scenario: Preflight ignores customer-discovery-prep.md presence or absence
 - **WHEN** `dudu:pmf-signal` is invoked

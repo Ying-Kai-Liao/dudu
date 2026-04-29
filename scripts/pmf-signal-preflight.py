@@ -10,9 +10,12 @@ was not passed, prints the idempotency message and exits 3.
 
 L1 contract: a `background.md` sentinel in the deal directory PLUS the
 four cross-artifact verification targets PMF will triangulate against
-in stage 3b. We DO NOT check for `customer-discovery-prep.md`,
-`personas/_context.md`, or any artifact owned by a different layer —
-those couplings were what blocked fleet-scale composition in v0.
+in stage 3b. The deck file under `inputs/deck.<ext>` is OPTIONAL — when
+present it strengthens Stage 0 claim ingestion, and when absent Stage 0
+falls back to manifest.pitch plus the L1 artifacts. We DO NOT check
+for `customer-discovery-prep.md`, `personas/_context.md`, or any
+artifact owned by a different layer — those couplings were what
+blocked fleet-scale composition in v0.
 
 Stdlib only.
 """
@@ -47,7 +50,10 @@ def loading_ledger(deal_dir: Path, founders: list[Path], pitch_sources: list[str
     print(f"  ✓ market-context.md")
     print(f"  ✓ competitive-landscape.md")
     print(f"  ✓ market-sizing.md")
-    print(f"  ✓ pitch sources: {', '.join(pitch_sources)}")
+    if pitch_sources:
+        print(f"  ✓ pitch sources: {', '.join(pitch_sources)}")
+    else:
+        print(f"  • pitch sources: none (deck optional — Stage 0 will use manifest.pitch + founder/context artifacts)")
     return 0
 
 
@@ -71,9 +77,9 @@ def main(argv: list[str]) -> int:
     if not (deal_dir / "background.md").exists():
         missing.append((f"deals/{slug}/background.md", "the L1 sentinel — produced by dudu:background-check"))
 
+    # Deck is optional. If present it strengthens Stage 0 claim ingestion;
+    # if absent, Stage 0 falls back to manifest.pitch + the L1 artifacts.
     pitch_candidates = sorted((deal_dir / "inputs").glob("deck.*")) if (deal_dir / "inputs").is_dir() else []
-    if not pitch_candidates:
-        missing.append((f"deals/{slug}/inputs/deck.<ext>", "place the founder's deck under inputs/"))
 
     founders = sorted(deal_dir.glob("founder-*.md"))
     if not founders:

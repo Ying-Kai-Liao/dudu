@@ -23,7 +23,7 @@ Read `lib/deal.md`, `lib/playwright-auth.md`, and `lib/research-protocol.md` bef
 - Company name
 - Founder names (one or more)
 - One-line pitch
-- Pitch deck (file path or pasted text), strongly preferred
+- Pitch deck (file path or pasted text), optional — strengthens PMF Stage 0 if supplied; manifest.pitch + L1 artifacts carry through if not
 
 ## Steps
 

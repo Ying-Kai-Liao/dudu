@@ -1,0 +1,8 @@
+Loading L1 bundle for preflight-no-deck:
+  ✓ background.md (L1 sentinel)
+  ✓ founder-check: 1 founder(s) (founder-jane-doe.md)
+  ✓ market-context.md
+  ✓ competitive-landscape.md
+  ✓ market-sizing.md
+  • pitch sources: none (deck optional — Stage 0 will use manifest.pitch + founder/context artifacts)
+EXIT=0
