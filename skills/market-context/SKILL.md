@@ -1,6 +1,6 @@
 ---
 name: market-context
-description: Two-phase public-source market and problem context. Phase 1 builds a deep context bundle from web research across product, reviews, community, and analyst sources. Phase 2 (formerly Phase 3) synthesizes patterns and contradictions into actionable open questions for real customer discovery. No personas — those are owned by dudu:pmf-signal.
+description: Two-phase public-source market context. Phase 1 builds a context bundle from web research; Phase 2 synthesizes patterns and contradictions into open questions for customer discovery. No personas (dudu:pmf-signal owns them).
 ---
 
 # Market / problem context

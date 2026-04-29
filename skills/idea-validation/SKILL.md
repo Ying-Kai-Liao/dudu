@@ -1,6 +1,6 @@
 ---
 name: idea-validation
-description: Idea-stage wedge selection with category-level market mapping. First maps the category — direct + indirect competitors, pricing benchmarks, funding and tailwinds — then compares 2–5 candidate user personas / segments side-by-side on pain, WTP, reachability, competitive fit, and segment size to recommend a wedge or flag that no segment yet justifies building. Pre-product, secondary-research only.
+description: Idea-stage wedge selection. Maps the category (competitors, pricing, funding), then compares 2–5 candidate personas on pain, WTP, reachability, and segment size to recommend a wedge. Pre-product, secondary-research only.
 ---
 
 # Idea validation

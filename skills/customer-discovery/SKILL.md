@@ -1,6 +1,6 @@
 ---
 name: customer-discovery
-description: DEPRECATED — split into two new skills. The 'prep' half is now produced as a Stage-5 side effect of dudu:pmf-signal (still emitted at deals/<slug>/customer-discovery-prep.md). The 'debrief' half is now dudu:customer-debrief, runnable independently of any orchestrator. This stub exists for one release window and will be removed by the deprecate-diligence-orchestrator change.
+description: DEPRECATED — split into dudu:pmf-signal (prep, as a Stage-5 side effect) and dudu:customer-debrief (transcript synthesis). Stub kept for one release window.
 ---
 
 # customer-discovery (deprecated)

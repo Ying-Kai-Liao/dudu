@@ -1,6 +1,6 @@
 ---
 name: background-check
-description: Layer 1 orchestrator. Runs the cheap, public-source diligence sub-skills (founder-check, market-context, competitive-landscape, market-sizing) and emits a context bundle plus a sentinel file (background.md) that downstream layers (notably pmf-signal) recognize as L1-complete. Produces zero persona artifacts — personas are owned by L2.
+description: Layer 1 orchestrator. Runs founder-check, market-context, competitive-landscape, and market-sizing, then writes deals/<slug>/background.md as the L1 sentinel for dudu:pmf-signal. No personas (L2 owns them).
 ---
 
 # Background check (Layer 1)

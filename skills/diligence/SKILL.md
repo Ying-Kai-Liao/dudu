@@ -1,6 +1,6 @@
 ---
 name: diligence
-description: DEPRECATED — thin compatibility wrapper. Calls dudu:background-check (Layer 1), dudu:pmf-signal (Layer 2), then dudu:customer-debrief on re-invocation if transcripts exist, then stitches MEMO.md and renders report.html. The layered skills are the canonical entry points; this wrapper exists for one release window and will be removed by the deprecate-diligence-orchestrator change.
+description: DEPRECATED — thin wrapper around dudu:background-check → dudu:pmf-signal → optional dudu:customer-debrief, then stitches MEMO.md and renders report.html. Prefer the layered skills directly.
 ---
 
 # Diligence orchestrator (deprecated)

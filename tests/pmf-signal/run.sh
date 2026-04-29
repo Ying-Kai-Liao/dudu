@@ -119,6 +119,33 @@ run_dir_case() {
         echo "--- end ---"
         fail=1
     fi
+    if [[ "$name" == "consolidate-good" ]]; then
+        local parse_actual
+        parse_actual="$(python3 - "$script_dir/../../scripts/pmf-signal-validate-pitch.py" "$fixture/personas/verdicts.yaml" <<'PY'
+import importlib.util
+import sys
+from pathlib import Path
+
+validator = Path(sys.argv[1])
+verdicts = Path(sys.argv[2])
+spec = importlib.util.spec_from_file_location("_pmf_validate", validator)
+mod = importlib.util.module_from_spec(spec)
+assert spec and spec.loader
+spec.loader.exec_module(mod)
+doc = mod.parse_yaml_subset(verdicts.read_text(encoding="utf-8"))
+print(f"parsed {len(doc.get('verdicts') or [])} verdict(s)")
+PY
+)"
+        if [[ "$parse_actual" == "parsed 4 verdict(s)" ]]; then
+            echo "PASS: $name parseable-verdicts"
+        else
+            echo "FAIL: $name parseable-verdicts"
+            echo "--- actual ---"
+            echo "$parse_actual"
+            echo "--- end ---"
+            fail=1
+        fi
+    fi
     rm -f "$fixture/personas/aggregates.yaml" "$fixture/personas/verdicts.yaml"
 }
 
