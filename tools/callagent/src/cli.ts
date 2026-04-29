@@ -3,6 +3,7 @@ import { Command } from "commander";
 import { placeCommand } from "./commands/place.js";
 import { statusCommand } from "./commands/status.js";
 import { transcriptCommand } from "./commands/transcript.js";
+import { simulateCommand } from "./commands/simulate.js";
 
 const program = new Command();
 program
@@ -41,6 +42,18 @@ program
   .description("Fetch transcript of a completed call.")
   .action(async (callId) => {
     try { await transcriptCommand(callId); }
+    catch (e: any) { console.error(e.message); process.exit(e.exitCode ?? 1); }
+  });
+
+program
+  .command("simulate")
+  .description("Run an interactive text-mode REPL against OpenAI using the same task brief.")
+  .requiredOption("--task <path>", "path to task markdown briefing")
+  .option("--context <path>", "path to context markdown for variable substitution")
+  .option("--schema <path>", "optional path to JSON Schema for end-of-call extraction")
+  .option("--model <id>", "OpenAI model id", "gpt-4o")
+  .action(async (opts) => {
+    try { await simulateCommand(opts); }
     catch (e: any) { console.error(e.message); process.exit(e.exitCode ?? 1); }
   });
 

@@ -1,4 +1,5 @@
 import { CallRecord, CallSpec, Provider } from "./index.js";
+import { buildSystemMessage } from "../system-message.js";
 
 const VAPI_BASE = "https://api.vapi.ai";
 
@@ -12,7 +13,7 @@ export class VapiProvider implements Provider {
   constructor(private opts: VapiOptions) {}
 
   assembleDTO(spec: CallSpec): any {
-    const systemMessage = spec.task.body.trim();
+    const systemMessage = buildSystemMessage(spec);
 
     const messages: Array<{ role: string; content: string }> = [
       { role: "system", content: systemMessage },
