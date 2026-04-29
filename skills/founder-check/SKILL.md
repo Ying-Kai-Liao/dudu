@@ -60,7 +60,7 @@ In rough priority order, capping at ~30 fetches per founder:
 
 ## Parallelization (Layer 2 — per founder)
 
-Founders are independent research units. With **2 or more** founders, dispatch **one `general-purpose` subagent per founder in a single message** so they run concurrently. See `lib/research-protocol.md` § Parallelization.
+Founders are independent research units. With **2 or more** founders, dispatch **one worker subagent per founder**, all concurrently in a single turn. See `lib/research-protocol.md` § Parallelization for the cross-platform mapping (Claude Code: `Agent` with `subagent_type="general-purpose"`; Codex: `spawn_agent` with `agent_type="worker"` and `multi_agent = true` in config).
 
 Each subagent prompt MUST include:
 

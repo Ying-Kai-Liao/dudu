@@ -31,23 +31,49 @@ If a skill hits its budget, it stops, writes what it has, and notes the truncati
 
 ## Parallelization
 
-Sequential `WebFetch` is the slow path. Default to parallel. Two layers:
+Sequential web fetching is the slow path. Default to parallel. Two layers:
 
-### Layer 1 — Batch independent fetches in a single message
+### Layer 1 — Batch independent fetches together
 
-Whenever you have N URLs and none of them depends on another's result (e.g., reading 5 search-result pages for the same founder, fetching 6 review sites for adjacent products), issue all the `WebFetch` calls in **one** message. The tool runs them concurrently. Sequential fetches are only justified when the next URL is chosen based on the previous fetch's content.
+Whenever you have N URLs and none of them depends on another's result (e.g., reading 5 search-result pages for the same founder, fetching 6 review sites for adjacent products), issue all the fetch calls **together in one turn** rather than one-by-one. Sequential fetches are only justified when the next URL is chosen based on the previous fetch's content.
 
-This applies inside the main session and inside any subagent.
+Host behaviour varies — Claude Code runs concurrent tool calls in one message in parallel; some other hosts may serialize them. **If your host serializes tool calls within a turn, treat Layer 1 as best-effort and rely on Layer 2 for guaranteed parallelism.**
 
 ### Layer 2 — Fan out to subagents when the work has N independent units
 
-When a skill's research naturally splits into N independent units (one per founder, one per competitor, one per candidate persona, one per outreach channel, one per source category), dispatch **one `general-purpose` subagent per unit, in a single message** so they run concurrently. Each subagent:
+When a skill's research naturally splits into N independent units (one per founder, one per competitor, one per candidate persona, one per outreach channel, one per source category), dispatch **one worker subagent per unit, all in a single turn** so they run concurrently. Each subagent:
 
-- Gets a self-contained prompt: the unit's identity, the per-unit fetch budget, the citation and source-honesty rules from this protocol, and the exact output shape it must return.
-- Does its own batched parallel `WebFetch` (Layer 1) inside its context.
+- Gets a self-contained prompt: the unit's identity, the per-unit fetch budget, the citation and source-honesty rules from this protocol (paste them, don't reference — subagents don't auto-load this file), and the exact output shape it must return.
+- Does its own batched parallel fetches (Layer 1) inside its context.
 - Returns a compact summary in the schema the caller asked for — not raw page contents.
 
-This keeps the main session context clean for synthesis while N units of research happen at once.
+This keeps the main session context clean for synthesis while N units of research happen at once. **This is the layer that delivers reliable parallelism across hosts.**
+
+### Cross-platform tool mapping
+
+The "dispatch a worker subagent" instruction above maps to different primitives per host. Pick the row for your host:
+
+| Host | Tool to dispatch a subagent | Required setup | Message framing |
+|------|------------------------------|----------------|-----------------|
+| **Claude Code** | `Agent` tool with `subagent_type="general-purpose"` | None | Plain prompt; multiple `Agent` calls in one assistant message run in parallel. |
+| **Codex (OpenAI)** | `spawn_agent` with `agent_type="worker"`, then `wait` for results | `multi_agent = true` in `~/.codex/config.toml` under `[features]`. Confirm with `cat ~/.codex/config.toml \| grep multi_agent`. | Wrap instructions in XML tags and use task-delegation framing — see template below. Issue all `spawn_agent` calls in one turn, then `wait` for them. |
+| **Other LLM CLIs** | The host's parallel-agent dispatch primitive | Whatever the host requires | Match the host's expected message framing. |
+
+**Codex message framing template** (per the superpowers `codex-tools.md` reference):
+
+```
+Your task is to perform the following. Follow the instructions below exactly.
+
+<agent-instructions>
+[unit identity, per-unit fetch budget, citation rules from this protocol pasted in,
+required return shape]
+</agent-instructions>
+
+Execute this now. Output ONLY the structured response following the format specified
+in the instructions above.
+```
+
+If you do not know whether the host supports multi-agent dispatch, ask the user before falling back to sequential per-unit work — sequential is the slow path the user is actively trying to avoid.
 
 ### What NOT to delegate to subagents
 

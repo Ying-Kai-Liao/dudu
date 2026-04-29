@@ -34,7 +34,7 @@ Competitor research splits cleanly per competitor. Run this skill in two stages:
 
 **Stage A — discovery (main session, ~10 fetches).** Identify the candidate competitor list via batched parallel `WebFetch` (Layer 1) across Product Hunt, GitHub category search, and news/tech-press for the category. Output: a list of up to ~30 competitors with names + one-line positioning each.
 
-**Stage B — per-competitor deep dive (fan out).** For the discovered list, dispatch **one `general-purpose` subagent per competitor in a single message**. See `lib/research-protocol.md` § Parallelization.
+**Stage B — per-competitor deep dive (fan out).** For the discovered list, dispatch **one worker subagent per competitor**, all concurrently in a single turn. See `lib/research-protocol.md` § Parallelization for the cross-platform mapping (Claude Code: `Agent` with `subagent_type="general-purpose"`; Codex: `spawn_agent` with `agent_type="worker"` and `multi_agent = true` in config).
 
 Each subagent prompt MUST include:
 
