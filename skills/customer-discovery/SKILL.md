@@ -5,6 +5,8 @@ description: Helps the VC do their own customer discovery — without the founde
 
 # Customer discovery
 
+> **Note:** As of pmf-signal v1, the `prep` sub-action is no longer invoked by `dudu:diligence` — `dudu:pmf-signal` stage 5 emits `customer-discovery-prep.md` directly. The `prep` sub-action remains available for standalone use (when running this skill outside the diligence orchestrator chain). `debrief` is unchanged and still part of the orchestrator chain.
+
 Two sub-actions, dispatched by argument: `prep` and `debrief`. Read `lib/research-protocol.md` and `lib/playwright-auth.md` first.
 
 ## Dispatch
