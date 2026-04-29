@@ -50,12 +50,22 @@ deals/<slug>/
     "customer-discovery-prep": null,
     "customer-discovery-debrief": null,
     "competitive-landscape": null,
-    "market-sizing": null
+    "market-sizing": null,
+    "pmf-signal": null
   }
 }
 ```
 
 Every skill that produces an artifact MUST update `skills_completed[<skill-key>]` with the current ISO-8601 UTC timestamp. If the skill aborts, it leaves the value as `null`.
+
+Key descriptions:
+- `founder-check` — populated when `dudu:founder-check` completes its investigation.
+- `market-problem` — populated when `dudu:market-problem` finishes market validation research.
+- `customer-discovery-prep` — populated when `dudu:customer-discovery` completes persona and interview prep.
+- `customer-discovery-debrief` — populated when `dudu:customer-discovery` finishes synthesis after interviews.
+- `competitive-landscape` — populated when `dudu:competitive-landscape` maps direct and indirect competitors.
+- `market-sizing` — populated when `dudu:market-sizing` completes a bottom-up TAM model.
+- `pmf-signal` — populated when `dudu:pmf-signal` finishes its full pipeline (claim verification + PMF report + outreach scan).
 
 Optional skills (e.g. `idea-validation`) may add their own key on completion. They are not required by the `dudu:diligence` orchestrator and need not be listed in the initial schema.
 
