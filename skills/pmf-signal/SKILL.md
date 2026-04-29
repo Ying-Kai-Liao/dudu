@@ -324,9 +324,86 @@ Each subagent receives:
 
 Returns: row YAML files as text. Main session writes them to `personas/rows/p-<id>.yaml` (assigning `persona_id` sequentially) and the `refusals.md` accumulator.
 
-## Stage 3 — Claim verification
+## Stage 3 — Claim verification (3a + 3b + 3c, parallel)
 
-(Filled in Tasks 12–15.)
+Stage 3 fans the claim ledger out into three independent verification paths. Run all three concurrently. Each emits per-claim verdicts. Stage 3 ends with `scripts/pmf-signal-consolidate-verdicts.py` merging them into `personas/verdicts.yaml`.
+
+### Stage 3a — Persona pitch-reaction
+
+For each persona row, run one structured reaction interview against the pitch + the persona-reaction-bound subset of `pitch.yaml.claims`.
+
+#### Interview prompt (dispatched to persona subagent)
+
+> You are persona [persona_id]: [render persona row's scenario.trigger, attributes, voice]. Stay in character. Use phrases from your `voice.pain_phrases` and `voice.objections` where natural.
+>
+> Here is the pitch you are being shown:
+>
+> [render `pitch.yaml.product`, `pitch.yaml.target_market`, and the full pitch text]
+>
+> React honestly:
+>
+> 1. Would you use this? Why or why not? Answer `yes`, `no`, or `yes-with-caveats`, then 1–2 sentences in your voice.
+> 2. What is your single biggest hesitation? Answer in your voice.
+> 3. Would you pay for this? Answer `yes`, `no`, or `maybe`. If yes, name a price ceiling above which you'd say no.
+> 4. What would make you say no immediately? Answer in your voice (this is your kill_switch).
+> 5. For each of the following founder claims, give a verdict (`agree | partial | disagree`) AND a verbatim quote from yourself supporting that verdict:
+>
+>    [render the persona-reaction-bound claims from pitch.yaml — id + claim text]
+
+#### Output schema (stored at `personas/reactions/p-<id>.yaml`)
+
+```yaml
+persona_id: p-007
+reaction_at: <ISO timestamp>
+schema_version: 1
+would_use: <yes | no | yes-with-caveats>
+biggest_hesitation: "<verbatim>"
+willing_to_pay: <yes | no | maybe>
+wtp_ceiling_zar_per_month: <int or null>
+kill_switch: "<verbatim>"
+claim_responses:
+  - claim_id: c-001
+    verdict: <agree | partial | disagree>
+    verbatim: "<verbatim>"
+  - # ...
+provenance:
+  voice_phrases_used: [<phrase>]
+  context_grounding: [<_context.md ref>]
+```
+
+#### Parallelization
+
+Dispatch worker subagents in batches of 20 personas per subagent. Each subagent owns its batch's reactions and returns the YAML files as text. Main session writes them to disk.
+
+### Stage 3b — Cross-artifact verification
+
+For each claim with `verification_method: cross-artifact`, verify against the named existing dudu artifact. Do **not** re-fetch external evidence — pmf-signal reads the artifact already produced by the prior dudu skill.
+
+#### Per-claim procedure
+
+1. Open `deals/<slug>/<cross_artifact_target>` (read-only).
+2. Find passages relevant to the claim (LLM judgement, anchored on claim text + category + keywords).
+3. Emit a verdict + supporting and/or contradicting verbatim quotes from the artifact, with line references.
+
+#### Verdict shape (one file per claim, stored at `personas/verdicts-3b/<claim_id>.yaml`)
+
+```yaml
+claim_id: c-020
+claim: "<verbatim claim text>"
+verification_method: cross-artifact
+cross_artifact: <founder-check | market-sizing | competitive-landscape>
+cross_artifact_target: <filename>
+verdict: <supports | partial | contradicts | no-evidence>
+supporting_quotes:
+  - {quote: "<verbatim>", location: "<file>:L<line>"}
+contradicting_quotes:
+  - {quote: "<verbatim>", location: "<file>:L<line>"}
+verdict_rationale: "<1-3 sentences explaining the verdict>"
+```
+
+#### Parallelization
+
+Group claims by `cross_artifact` (founder-check / market-sizing / competitive-landscape). Dispatch one worker subagent per group; each subagent receives the full text of its target artifact plus the claim list it owns.
 
 ## Stage 4 — PMF signal report
 
