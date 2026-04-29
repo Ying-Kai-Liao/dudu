@@ -150,4 +150,39 @@ run_render_report_case() {
 
 run_render_report_case render-report-good
 
+run_outreach_case() {
+    local name="$1"
+    local fixture="$script_dir/fixtures-yaml/$name"
+    local expected_outreach="$script_dir/expected/$name.outreach.md"
+    local expected_cdp="$script_dir/expected/$name.cdp.md"
+    python3 "$script_dir/../../scripts/pmf-signal-render-outreach.py" "$fixture" >/dev/null
+    local fail_local=0
+    for pair in "outreach.md:$expected_outreach" "customer-discovery-prep.md:$expected_cdp"; do
+        local actual_name="${pair%%:*}"
+        local expected_path="${pair#*:}"
+        local actual_path="$fixture/$actual_name"
+        if [[ ! -f "$actual_path" ]]; then
+            echo "FAIL: $name ($actual_name not written)"
+            fail_local=1
+            continue
+        fi
+        local norm_expected norm_actual
+        norm_expected="$(sed -E 's/[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z?/<ISO_TIMESTAMP>/g' "$expected_path")"
+        norm_actual="$(sed -E 's/[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z?/<ISO_TIMESTAMP>/g' "$actual_path")"
+        if [[ "$norm_expected" != "$norm_actual" ]]; then
+            echo "FAIL: $name ($actual_name diff)"
+            diff <(echo "$norm_expected") <(echo "$norm_actual") | head -40
+            fail_local=1
+        fi
+        rm -f "$actual_path"
+    done
+    if [[ $fail_local -eq 0 ]]; then
+        echo "PASS: $name"
+    else
+        fail=1
+    fi
+}
+
+run_outreach_case render-outreach-good
+
 exit "$fail"
