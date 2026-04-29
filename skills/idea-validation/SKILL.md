@@ -105,6 +105,21 @@ Pick one and justify in one sentence:
 - ...
 ```
 
+#### Step 1 parallelization (Layer 2 — per source category)
+
+The five source categories above are independent. Dispatch **one `general-purpose` subagent per category in a single message** so they run concurrently. See `lib/research-protocol.md` § Parallelization.
+
+Group into 4 subagent batches (combine the two competitor categories so direct/indirect overlap is resolved in one place):
+
+- **Subagent A — Direct competitors** (source 1): ~5 fetches. Skip Crunchbase if it requires Playwright; pull funding from public news/press instead, and flag any blanks for the main session to fill.
+- **Subagent B — Indirect / status quo** (source 2): ~3 fetches.
+- **Subagent C — Pricing benchmarks** (source 3): ~3 fetches.
+- **Subagent D — Funding tailwinds + structural shifts** (sources 4, 5): ~3 fetches.
+
+Each subagent prompt MUST include: the category name in both founder and analyst language, the deal's product description, the fetch cap for that batch, the citation and source-honesty rules from `lib/research-protocol.md` (pasted), and the required return shape (rows for the relevant `market-map.md` table or bullets for the relevant section, plus a `Sources` list).
+
+In the **main session**: fill any Crunchbase gaps via Playwright (per `lib/playwright-auth.md`), pick the category verdict, and write `market-map.md`.
+
 ### Step 2 — Generate or accept candidates
 
 If candidates were supplied, write each to `deals/<slug>/candidates/candidate-K.md` using the profile template below. If not supplied, generate 3 candidates that span meaningfully different axes — e.g., different company size, different job-to-be-done, different industry — not three flavors of the same buyer.
@@ -139,6 +154,26 @@ The category-level research from Step 1 is shared across candidates, so per-cand
 5. **Competitor overlap with this candidate** — of the direct competitors in the market map, which ones target *this* candidate vs. a different one? Read their landing pages, customer-logo walls, case studies, ICP statements. A competitor that loudly targets enterprise leaves the SMB candidate more open.
 
 Apply `lib/research-protocol.md` citation rules. If a dimension can't be sourced for a candidate, write **"Not found in public sources"** — never invent. Do not re-fetch category-level data already in `market-map.md`; cite it.
+
+#### Parallelization (Layer 2 — per candidate)
+
+Candidates are independent. With **2 or more** candidates, dispatch **one `general-purpose` subagent per candidate in a single message** so they run concurrently. See `lib/research-protocol.md` § Parallelization.
+
+Each subagent prompt MUST include:
+
+- The full candidate profile (`candidates/candidate-K.md` contents) and the deal's one-line problem statement.
+- The text of `market-map.md` so the subagent can cite category facts without re-fetching them.
+- The per-candidate fetch cap of **~6 fetches** (reserve ~2 per candidate for main-session Playwright work below).
+- The citation and source-honesty rules from `lib/research-protocol.md` (paste, don't reference). If a dimension can't be sourced, the subagent must write **"Not found in public sources"** — never invent.
+- Sources to consult: items **1, 2, and 5** from the list above. **Skip items 3 and 4** for the subagent — LinkedIn search counts require Playwright with the VC's authenticated session.
+- Required return shape: rubric scores for Pain severity, Pain frequency, WTP proxy, and Competitive room (each 1–5 or `?` with one-line evidence-anchored rationale citing a source), the 3 strongest verbatim evidence quotes for that candidate (each with link), and a `Sources` list.
+
+After all subagents return, in the **main session**:
+
+1. For each candidate, do the LinkedIn / Playwright work for items 3 and 4 (Reachability + Population/segment size). Authenticated browsers cannot run in subagents.
+2. Score Reachability and Segment size from the Playwright findings; copy Category proof from `market-map.md` (it's the same for every candidate); merge with the subagent rubric scores from the four dimensions above. Proceed to Step 4.
+
+With a single candidate this skill does not apply — escalate to `dudu:market-problem` directly.
 
 ### Step 4 — Score each candidate on the rubric
 
