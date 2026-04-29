@@ -19,7 +19,7 @@ export function validateConsentToken(token: string | undefined): void {
 export interface AuditLogEntry {
   consent_token: string;
   to: string;
-  persona_path: string;
+  task_path: string;
   placed_at: string;
 }
 
@@ -39,14 +39,14 @@ export function resolveAuditLogPath(opts: {
 
 export async function emitBannerAndSleep(opts: {
   to: string;
-  personaName: string;
+  taskName: string;
   consentTokenHash: string;
   auditLogPath: string;
   abortSeconds: number;
 }): Promise<void> {
   const redactedTo = opts.to.replace(/\d(?=\d{4})/g, "*");
   process.stderr.write(
-    `[callagent] Placing call to ${redactedTo} with persona ${opts.personaName}.\n` +
+    `[callagent] Placing call to ${redactedTo} with task ${opts.taskName}.\n` +
     `[callagent] Consent token: ${opts.consentTokenHash}. Audit log: ${opts.auditLogPath}.\n` +
     `[callagent] If you do not have explicit opt-in from this target, abort now (Ctrl+C).\n` +
     `[callagent] Sleeping ${opts.abortSeconds}s before placing call.\n`,

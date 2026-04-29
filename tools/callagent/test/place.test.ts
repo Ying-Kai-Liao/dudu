@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { resolve } from "node:path";
 import { placeCommand } from "../src/commands/place.js";
 
-const PERSONA = resolve(__dirname, "fixtures/persona-basic.md");
+const TASK = resolve(__dirname, "fixtures/task-basic.md");
 const SCHEMA = resolve(__dirname, "fixtures/schema-basic.json");
 
 let tmp: string;
@@ -20,8 +20,7 @@ describe("placeCommand", () => {
     const fetchSpy = vi.spyOn(globalThis, "fetch");
     await placeCommand({
       to: "+15551234567",
-      persona: PERSONA,
-      goal: "screener",
+      task: TASK,
       schema: SCHEMA,
       consentToken: "tok-1",
       maxDuration: 60,
@@ -37,8 +36,7 @@ describe("placeCommand", () => {
   it("rejects empty consent token with exit code 3", async () => {
     await expect(placeCommand({
       to: "+15551234567",
-      persona: PERSONA,
-      goal: "g",
+      task: TASK,
       schema: SCHEMA,
       consentToken: "",
       maxDuration: 60,
@@ -52,8 +50,7 @@ describe("placeCommand", () => {
     writeFileSync(toolsPath, JSON.stringify([{ type: "function", function: { name: "x" } }]));
     await expect(placeCommand({
       to: "+15551234567",
-      persona: PERSONA,
-      goal: "g",
+      task: TASK,
       schema: SCHEMA,
       consentToken: "tok-1",
       tools: toolsPath,
@@ -61,5 +58,23 @@ describe("placeCommand", () => {
       record: true,
       dryRun: true,
     } as any)).rejects.toMatchObject({ exitCode: 2 });
+  });
+
+  it("place succeeds without --schema (dry-run)", async () => {
+    const log = vi.spyOn(console, "log").mockImplementation(() => {});
+    const fetchSpy = vi.spyOn(globalThis, "fetch");
+    await placeCommand({
+      to: "+15551234567",
+      task: TASK,
+      consentToken: "tok-1",
+      maxDuration: 60,
+      record: true,
+      dryRun: true,
+    } as any);
+    expect(fetchSpy).not.toHaveBeenCalled();
+    const printed = log.mock.calls.map((c) => c[0]).join("\n");
+    const dto = JSON.parse(printed);
+    expect(dto.assistant.analysisPlan).toBeUndefined();
+    expect(dto.customer.number).toBe("+15551234567");
   });
 });

@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { Command } from "commander";
 import { placeCommand } from "./commands/place.js";
 import { statusCommand } from "./commands/status.js";
@@ -13,10 +14,9 @@ program
   .command("place")
   .description("Place an outbound call and return a structured transcript.")
   .requiredOption("--to <e164>", "phone number in E.164 format")
-  .requiredOption("--persona <path>", "path to persona markdown file")
-  .requiredOption("--goal <string>", "one-sentence call goal")
-  .requiredOption("--schema <path>", "path to JSON Schema for structured extraction")
+  .requiredOption("--task <path>", "path to task markdown briefing")
   .requiredOption("--consent-token <token>", "opaque consent token from caller")
+  .option("--schema <path>", "optional path to JSON Schema for structured extraction")
   .option("--tools <path>", "path to tools JSON (v1 errors if non-empty)")
   .option("--context <path>", "path to context markdown injected into the system prompt")
   .option("--max-duration <seconds>", "max call duration", (v) => parseInt(v, 10), 600)

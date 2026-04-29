@@ -6,12 +6,11 @@ const provider = new VapiProvider({ apiKey: "test", fromNumber: "+15550000000" }
 describe("VapiProvider.assembleDTO", () => {
   const baseSpec = {
     to: "+15551234567",
-    persona: {
+    task: {
       frontmatter: { voice: "alloy", language: "en-US", disclosure_required: true },
       body: "You are an AI assistant calling on behalf of Acme.",
       disclosure: "Hi, I'm an AI assistant calling on behalf of Acme. Recorded for research.",
     },
-    goal: "5-minute pain/WTP screener",
     schema: {
       type: "object",
       properties: { pain_intensity: { type: "integer" } },
@@ -22,26 +21,26 @@ describe("VapiProvider.assembleDTO", () => {
     record: true,
   };
 
-  it("includes the persona body in model.messages", () => {
+  it("includes the task body in model.messages", () => {
     const dto = provider.assembleDTO(baseSpec);
     expect(dto.assistant.model.messages[0].role).toBe("system");
-    expect(dto.assistant.model.messages[0].content).toContain(baseSpec.persona.body);
+    expect(dto.assistant.model.messages[0].content).toContain(baseSpec.task.body);
   });
 
-  it("appends the goal to the system message", () => {
+  it("system message equals task.body.trim() exactly", () => {
     const dto = provider.assembleDTO(baseSpec);
-    expect(dto.assistant.model.messages[0].content).toContain(baseSpec.goal);
+    expect(dto.assistant.model.messages[0].content).toBe(baseSpec.task.body.trim());
   });
 
   it("sets firstMessage to the disclosure when disclosure_required is true", () => {
     const dto = provider.assembleDTO(baseSpec);
-    expect(dto.assistant.firstMessage).toBe(baseSpec.persona.disclosure);
+    expect(dto.assistant.firstMessage).toBe(baseSpec.task.disclosure);
   });
 
   it("omits firstMessage when disclosure_required is false", () => {
     const spec = {
       ...baseSpec,
-      persona: { ...baseSpec.persona, frontmatter: { ...baseSpec.persona.frontmatter, disclosure_required: false }, disclosure: null },
+      task: { ...baseSpec.task, frontmatter: { ...baseSpec.task.frontmatter, disclosure_required: false }, disclosure: null },
     };
     const dto = provider.assembleDTO(spec);
     expect(dto.assistant.firstMessage).toBeUndefined();
@@ -50,6 +49,12 @@ describe("VapiProvider.assembleDTO", () => {
   it("attaches the schema as analysisPlan.structuredDataSchema", () => {
     const dto = provider.assembleDTO(baseSpec);
     expect(dto.assistant.analysisPlan.structuredDataSchema).toEqual(baseSpec.schema);
+  });
+
+  it("omits analysisPlan when schema is undefined", () => {
+    const spec = { ...baseSpec, schema: undefined };
+    const dto = provider.assembleDTO(spec);
+    expect(dto.assistant.analysisPlan).toBeUndefined();
   });
 
   it("sets the from-number, to-number, and recording flag", () => {

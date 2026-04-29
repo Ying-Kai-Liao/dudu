@@ -1,26 +1,26 @@
 import { readFile } from "node:fs/promises";
 import matter from "gray-matter";
 
-export interface PersonaFrontmatter {
+export interface TaskFrontmatter {
   voice?: string;
   language?: string;
   disclosure_required?: boolean;
 }
 
-export interface ParsedPersona {
-  frontmatter: PersonaFrontmatter;
+export interface ParsedTask {
+  frontmatter: TaskFrontmatter;
   body: string;
   disclosure: string | null;
 }
 
-export async function parsePersona(
+export async function parseTask(
   path: string,
   context: Record<string, string>,
-): Promise<ParsedPersona> {
+): Promise<ParsedTask> {
   const raw = await readFile(path, "utf8");
   const { data, content } = matter(raw);
   const body = substitute(content, context);
-  const fm = data as PersonaFrontmatter;
+  const fm = data as TaskFrontmatter;
   const disclosure = fm.disclosure_required ? extractDisclosure(body) : null;
   return { frontmatter: fm, body, disclosure };
 }

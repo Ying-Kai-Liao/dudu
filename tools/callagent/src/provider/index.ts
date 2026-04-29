@@ -1,12 +1,11 @@
-import { ParsedPersona } from "../persona/parse.js";
+import { ParsedTask } from "../task/parse.js";
 import { JsonSchema } from "../schema/load.js";
 import { VapiProvider } from "./vapi.js";
 
 export interface CallSpec {
   to: string;
-  persona: ParsedPersona;
-  goal: string;
-  schema: JsonSchema;
+  task: ParsedTask;
+  schema: JsonSchema | undefined;
   context: string | undefined;
   maxDurationSeconds: number;
   record: boolean;

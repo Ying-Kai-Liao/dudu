@@ -51,7 +51,7 @@ describe("appendAuditLog", () => {
     await appendAuditLog(path, {
       consent_token: "tok-1",
       to: "+15551234567",
-      persona_path: "personas/cd-screener.md",
+      task_path: "tasks/my-task.md",
       placed_at: "2026-04-28T15:00:00Z",
     });
     expect(existsSync(path)).toBe(true);
