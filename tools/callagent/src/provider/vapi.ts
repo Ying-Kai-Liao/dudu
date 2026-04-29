@@ -12,11 +12,7 @@ export class VapiProvider implements Provider {
   constructor(private opts: VapiOptions) {}
 
   assembleDTO(spec: CallSpec): any {
-    const systemMessage =
-      spec.persona.body.trim() +
-      "\n\n## What you're curious about today\n" +
-      spec.goal +
-      "\n\nThat's the territory you're exploring on this call. It's a starting point, not a destination — the conversation goes where the conversation goes. Don't treat it as a checklist.";
+    const systemMessage = spec.task.body.trim();
 
     const messages: Array<{ role: string; content: string }> = [
       { role: "system", content: systemMessage },
@@ -29,15 +25,18 @@ export class VapiProvider implements Provider {
       model: { provider: "openai", model: "gpt-4o", messages },
       voice: {
         provider: "openai",
-        voiceId: spec.persona.frontmatter.voice ?? "alloy",
+        voiceId: spec.task.frontmatter.voice ?? "alloy",
       },
-      analysisPlan: { structuredDataSchema: spec.schema },
       recordingEnabled: spec.record,
       maxDurationSeconds: spec.maxDurationSeconds,
     };
 
-    if (spec.persona.frontmatter.disclosure_required && spec.persona.disclosure) {
-      assistant.firstMessage = spec.persona.disclosure;
+    if (spec.schema) {
+      assistant.analysisPlan = { structuredDataSchema: spec.schema };
+    }
+
+    if (spec.task.frontmatter.disclosure_required && spec.task.disclosure) {
+      assistant.firstMessage = spec.task.disclosure;
     }
 
     return {

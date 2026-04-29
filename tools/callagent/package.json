@@ -15,6 +15,7 @@
   "dependencies": {
     "ajv": "^8.17.1",
     "commander": "^12.1.0",
+    "dotenv": "^16.4.5",
     "gray-matter": "^4.0.3"
   },
   "devDependencies": {

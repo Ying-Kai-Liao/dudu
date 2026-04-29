@@ -3,8 +3,7 @@ import { VapiProvider } from "../src/provider/vapi.js";
 
 const fakeSpec = {
   to: "+15551234567",
-  persona: { frontmatter: { disclosure_required: false }, body: "B", disclosure: null },
-  goal: "G",
+  task: { frontmatter: { disclosure_required: false }, body: "B", disclosure: null },
   schema: { type: "object" } as Record<string, unknown>,
   context: undefined,
   maxDurationSeconds: 60,

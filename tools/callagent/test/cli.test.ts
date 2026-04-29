@@ -18,8 +18,10 @@ describe("cli", () => {
 
   it("place --help mentions all required flags", () => {
     const out = runCli(["place", "--help"]);
-    for (const flag of ["--to", "--persona", "--goal", "--schema", "--consent-token"]) {
+    for (const flag of ["--to", "--task", "--consent-token"]) {
       expect(out).toContain(flag);
     }
+    expect(out).not.toContain("--persona");
+    expect(out).not.toContain("--goal");
   });
 });

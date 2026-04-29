@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import { parsePersona } from "../persona/parse.js";
+import { parseTask } from "../task/parse.js";
 import { loadSchema } from "../schema/load.js";
 import {
   validateConsentToken,
@@ -15,9 +15,8 @@ import { writeCallResult } from "../output.js";
 
 export interface PlaceOptions {
   to: string;
-  persona: string;
-  goal: string;
-  schema: string;
+  task: string;
+  schema?: string;
   tools?: string;
   context?: string;
   maxDuration: number;
@@ -47,13 +46,12 @@ export async function placeCommand(opts: PlaceOptions): Promise<void> {
 
   const contextStr = opts.context ? await readFile(opts.context, "utf8") : undefined;
   const ctxVars = parseContextVars(contextStr);
-  const persona = await parsePersona(opts.persona, ctxVars);
-  const schema = await loadSchema(opts.schema);
+  const task = await parseTask(opts.task, ctxVars);
+  const schema = opts.schema ? await loadSchema(opts.schema) : undefined;
 
   const spec = {
     to: opts.to,
-    persona,
-    goal: opts.goal,
+    task,
     schema,
     context: contextStr,
     maxDurationSeconds: opts.maxDuration,
@@ -77,13 +75,13 @@ export async function placeCommand(opts: PlaceOptions): Promise<void> {
   await appendAuditLog(auditLogPath, {
     consent_token: opts.consentToken,
     to: opts.to,
-    persona_path: resolve(opts.persona),
+    task_path: resolve(opts.task),
     placed_at: placedAt,
   });
 
   await emitBannerAndSleep({
     to: opts.to,
-    personaName: opts.persona.split("/").pop() ?? opts.persona,
+    taskName: opts.task.split("/").pop() ?? opts.task,
     consentTokenHash: hashToken(opts.consentToken),
     auditLogPath,
     abortSeconds: ABORT_WINDOW_SECONDS,
