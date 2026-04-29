@@ -1,6 +1,6 @@
 # dudu
 
-> Built for the **OpenAI Codex hackathon**. Turns "research a deal" from days into a few hours of supervised agent work.
+> Built for the **Lyra Codex hackathon**. Instead of just research and gather data, it adds quantitative value on top of it with grounded ICP test and real customer interview flow. 
 
 Six skills + an orchestrator that take a one-line pitch and produce a citation-backed investment memo. Founder dossiers, persona self-play interviews, your-own customer discovery, competitive landscape, and bottom-up market sizing — every claim cited, every gap explicit.
 
