@@ -1,0 +1,2 @@
+pitch.yaml OK: 2 claim(s); methods used: external-evidence(1), persona-reaction(1)
+EXIT=0

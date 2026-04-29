@@ -1,0 +1,9 @@
+product:
+  name: ExampleCo
+target_market:
+  stated_icp: SA freelancers
+claims:
+  - claim_id: c-001
+    claim: "missing source field"
+    category: pain
+    verification_method: persona-reaction
