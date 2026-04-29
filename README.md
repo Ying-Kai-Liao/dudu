@@ -132,7 +132,7 @@ The legacy `dudu:diligence` invocation still works — it runs the full chain en
 - Multi-tenant deal sharing across a partnership.
 - Hybrid VC-in-the-loop persona interviewing (deferred).
 - A fleet runner for analyzing N startups in parallel (tracked in `openspec/changes/fleet-runner-and-dashboard`).
-- A PMF-led report restructure (tracked in `openspec/changes/pmf-led-report`).
+- A fleet dashboard view (tracked in `openspec/changes/fleet-runner-and-dashboard`).
 
 ## Repository layout
 
@@ -143,7 +143,7 @@ The legacy `dudu:diligence` invocation still works — it runs the full chain en
 skills/                SKILL.md files (read by both harnesses)
 lib/                   shared procedural docs (deal schema, Playwright UX, research protocol)
 scripts/lint-skills.sh frontmatter + lib-reference linter (also runs render-report smoke test)
-scripts/render-report.py renders deals/<slug>/report.html from MEMO + artifacts (stdlib-only)
+scripts/render-report.py renders deals/<slug>/report.html from PMF artifacts + MEMO (stdlib + PyYAML)
 tests/lint/            linter test fixtures and runner
 tests/pmf-signal/      pmf-signal preflight + helpers test fixtures
 test/ledgerloop/       hackathon demo run (committed; legacy layout — see Demo section)
@@ -171,6 +171,35 @@ Run the pmf-signal preflight test suite:
 ```bash
 bash tests/pmf-signal/run.sh
 ```
+
+Run the renderer branch test suite:
+
+```bash
+bash tests/fixtures/pmf-led-report/run.sh
+```
+
+## Report layout
+
+`scripts/render-report.py deals/<slug>` writes `<slug>/report.html`. The
+renderer auto-detects which pmf-signal artifacts exist and picks one of
+four layouts in priority order:
+
+1. **full** — `pitch.yaml` + `personas/verdicts.yaml` both present.
+   Leads with three ★ sections sourced from PMF: the calibrated claim
+   ledger × verdict matrix (worst-news first), cross-artifact
+   contradictions (verbatim quotes + file pointers), and the warm-path
+   outreach top-10. Per-artifact files become collapsed drill-downs.
+2. **pitch-only** — `pitch.yaml` exists but `verdicts.yaml` does not
+   (PMF crashed mid-run). Renders the ledger with every verdict cell
+   marked `pending`; replaces the contradictions section with a
+   one-line "PMF run incomplete" note.
+3. **markdown-fallback** — neither yaml is present, but `pmf-signal.md`
+   is. Renders the markdown as a single ★ section in place of the
+   structured layout. Stderr emits a warning naming the missing yaml.
+4. **legacy** — none of the three exist. Renders the prior
+   artifact-by-artifact layout (`MEMO.md` + per-skill files), unchanged
+   from the pre-PMF behavior. `test/ledgerloop/` and any legacy demo
+   deal continue to render under this branch.
 
 ## License
 

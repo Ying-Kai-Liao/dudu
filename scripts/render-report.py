@@ -1,10 +1,33 @@
 #!/usr/bin/env python3
 """Render a self-contained report.html for a dudu deal directory.
 
+This renderer has four input-shape branches, selected automatically based
+on which pmf-signal artifacts exist in the deal directory. They are tried
+in priority order; the first matching branch wins:
+
+  1. full              — pitch.yaml AND personas/verdicts.yaml both present.
+                         Renders the star-led layout: header → recommendation
+                         ribbon → claim ledger × verdict matrix →
+                         cross-artifact contradictions → warm-path outreach
+                         top-N → drill-down (collapsed) → source artifacts.
+  2. pitch-only        — pitch.yaml present, verdicts.yaml absent.
+                         Renders the ledger with every verdict cell as
+                         "pending"; replaces the contradictions section
+                         with a "PMF run incomplete" note.
+  3. markdown-fallback — neither yaml present, but pmf-signal.md is.
+                         Renders pmf-signal.md as a single section in
+                         place of the three structured sections.
+  4. legacy            — none of pitch.yaml / verdicts.yaml / pmf-signal.md
+                         exist. Renders the prior artifact-by-artifact
+                         layout (today's behavior).
+
+Branches 2 and 3 emit a stderr warning naming the missing files.
+The renderer never crashes on malformed yaml; on parse failure the file
+is treated as absent and the renderer falls back to the next branch.
+
 Usage: python3 scripts/render-report.py <deal-dir>
 
-Reads MEMO.md and the standard sub-artifacts, applies a small markdown
-subset, and writes <deal-dir>/report.html. Stdlib only.
+Stdlib + PyYAML only.
 """
 
 from __future__ import annotations
@@ -15,8 +38,14 @@ import json
 import os
 import re
 import sys
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Iterable
+
+import yaml
+
+
+OUTREACH_TOP_N = 10
 
 
 # ---------- markdown subset ----------------------------------------------
@@ -310,6 +339,622 @@ def parse_market_sizing(md: str) -> dict | None:
     return {"wedge": wedge, "expansion": expansion, "founder": founder}
 
 
+# ---------- pmf-signal yaml inputs ---------------------------------------
+
+
+@dataclass
+class PMFInputs:
+    """Bundled view of the pmf-signal artifacts that drive the new layout.
+
+    Each *_status field is one of "present", "missing", or "malformed".
+    """
+
+    pitch: dict | None = None
+    verdicts: dict | None = None
+    aggregates: dict | None = None
+    outreach_md: str | None = None
+    pmf_signal_md: str | None = None
+    pitch_status: str = "missing"
+    verdicts_status: str = "missing"
+    aggregates_status: str = "missing"
+    outreach_status: str = "missing"
+    pmf_signal_status: str = "missing"
+
+
+def _load_yaml(path: Path) -> tuple[dict | None, str]:
+    """Load a yaml file; on parse failure, log to stderr and treat as absent."""
+    if not path.exists() or not path.is_file():
+        return None, "missing"
+    try:
+        text = path.read_text(encoding="utf-8")
+    except OSError as e:
+        print(f"warning: could not read {path}: {e}", file=sys.stderr)
+        return None, "malformed"
+    try:
+        data = yaml.safe_load(text)
+    except yaml.YAMLError as e:
+        print(f"warning: could not parse {path}: {e}", file=sys.stderr)
+        return None, "malformed"
+    if data is None:
+        return {}, "present"
+    if not isinstance(data, dict):
+        print(
+            f"warning: {path} did not parse to a mapping; treating as malformed",
+            file=sys.stderr,
+        )
+        return None, "malformed"
+    return data, "present"
+
+
+def _load_text(path: Path) -> str | None:
+    if not path.exists() or not path.is_file():
+        return None
+    try:
+        return path.read_text(encoding="utf-8")
+    except OSError:
+        return None
+
+
+def load_pmf_inputs(deal_dir: Path) -> PMFInputs:
+    pitch, pitch_status = _load_yaml(deal_dir / "pitch.yaml")
+    verdicts, verdicts_status = _load_yaml(deal_dir / "personas" / "verdicts.yaml")
+    aggregates, aggregates_status = _load_yaml(deal_dir / "personas" / "aggregates.yaml")
+    outreach_md = _load_text(deal_dir / "outreach.md")
+    pmf_signal_md = _load_text(deal_dir / "pmf-signal.md")
+    return PMFInputs(
+        pitch=pitch,
+        verdicts=verdicts,
+        aggregates=aggregates,
+        outreach_md=outreach_md,
+        pmf_signal_md=pmf_signal_md,
+        pitch_status=pitch_status,
+        verdicts_status=verdicts_status,
+        aggregates_status=aggregates_status,
+        outreach_status="present" if outreach_md is not None else "missing",
+        pmf_signal_status="present" if pmf_signal_md is not None else "missing",
+    )
+
+
+def detect_branch(inputs: PMFInputs, deal_dir: Path) -> str:
+    """Return one of 'full', 'pitch-only', 'markdown-fallback', 'legacy'.
+
+    Detection order matches design.md Decision 5:
+    - both pitch.yaml + verdicts.yaml present → full
+    - pitch.yaml present, verdicts.yaml absent → pitch-only
+    - neither yaml present, pmf-signal.md present → markdown-fallback
+    - none present → legacy
+    """
+    pitch_present = inputs.pitch_status == "present"
+    verdicts_present = inputs.verdicts_status == "present"
+    if pitch_present and verdicts_present:
+        return "full"
+    if pitch_present:
+        print(
+            f"warning: pitch.yaml found but verdicts.yaml is missing in {deal_dir}; "
+            "rendering pitch-only branch with verdicts as pending",
+            file=sys.stderr,
+        )
+        return "pitch-only"
+    if inputs.pmf_signal_status == "present":
+        missing = []
+        if inputs.pitch_status != "present":
+            missing.append("pitch.yaml")
+        if inputs.verdicts_status != "present":
+            missing.append("personas/verdicts.yaml")
+        print(
+            f"warning: pmf-signal.md found but yaml artifacts missing in {deal_dir} "
+            f"({', '.join(missing)}); rendering markdown-fallback branch",
+            file=sys.stderr,
+        )
+        return "markdown-fallback"
+    return "legacy"
+
+
+# ---------- ledger and verdict matrix ------------------------------------
+
+
+VERDICT_SEVERITY_RANK = {
+    "contradicts": 0,
+    "partial": 1,
+    "no-evidence": 2,
+    "supports": 3,
+    "pending": 4,
+}
+
+CATEGORY_ORDER = ["founder", "product", "market", "traction", "ask"]
+
+# Map raw category labels (as they appear in pitch.yaml) to canonical buckets
+# used by the worst-news-first ordering.
+CATEGORY_ALIASES = {
+    "founder": "founder",
+    "founders": "founder",
+    "founder-background": "founder",
+    "team": "founder",
+    "product": "product",
+    "feature": "product",
+    "pain": "product",
+    "problem": "product",
+    "market": "market",
+    "market-size": "market",
+    "tam": "market",
+    "competitive": "market",
+    "category": "market",
+    "traction": "traction",
+    "customer-count": "traction",
+    "customers": "traction",
+    "growth": "traction",
+    "revenue": "traction",
+    "metric": "traction",
+    "gtm": "traction",
+    "gtm-distribution": "traction",
+    "ask": "ask",
+    "raise": "ask",
+    "round": "ask",
+}
+
+
+def canonical_category(category: str | None) -> str | None:
+    if not category:
+        return None
+    cat = category.lower().strip()
+    if cat in CATEGORY_ALIASES:
+        return CATEGORY_ALIASES[cat]
+    for k, v in CATEGORY_ALIASES.items():
+        if k in cat:
+            return v
+    return None
+
+
+def category_rank(category: str | None) -> tuple[int, str]:
+    """Return a sort key: (canonical-rank, raw-lower) so unknowns sort last alpha."""
+    canon = canonical_category(category)
+    if canon and canon in CATEGORY_ORDER:
+        return (CATEGORY_ORDER.index(canon), canon)
+    return (len(CATEGORY_ORDER), (category or "").lower())
+
+
+def _normalize_method(method: str | None) -> str:
+    """Map the raw verification_method label to the canonical badge name."""
+    if not method:
+        return "unknown"
+    m = method.lower().strip()
+    if m in ("persona-reaction", "persona_reaction"):
+        return "persona-reaction"
+    if m in ("cross-artifact", "cross_artifact"):
+        return "cross-artifact"
+    if m in ("external", "external-evidence", "external_evidence"):
+        return "external"
+    return m
+
+
+def normalize_verdict(verdict_record: dict | None) -> str:
+    """Map a raw verdict record to one of the canonical buckets.
+
+    Buckets: contradicts | partial | no-evidence | supports | pending.
+    """
+    if verdict_record is None:
+        return "pending"
+    method = _normalize_method(
+        verdict_record.get("verification_method") or verdict_record.get("verification")
+    )
+    if method == "persona-reaction":
+        counts = verdict_record.get("verdict_counts") or {}
+        if not counts:
+            return "no-evidence"
+        # Tie-break alphabetically for stable behavior.
+        top_label = max(
+            counts.items(), key=lambda kv: (kv[1], -ord(kv[0][:1] or "z"))
+        )[0]
+        if top_label in ("agree", "supports"):
+            return "supports"
+        if top_label in ("disagree", "contradicts"):
+            return "contradicts"
+        if top_label in ("partial",):
+            return "partial"
+        return "no-evidence"
+    explicit = verdict_record.get("verdict")
+    if explicit is None:
+        return "no-evidence"
+    v = str(explicit).lower().strip()
+    if v in VERDICT_SEVERITY_RANK:
+        return v
+    if v.startswith("insufficient-evidence") or v == "requires-data-room":
+        return "no-evidence"
+    if v in ("agree", "yes"):
+        return "supports"
+    if v in ("disagree", "no"):
+        return "contradicts"
+    return "no-evidence"
+
+
+def _evidence_html(verdict_record: dict | None, method: str, verdict: str) -> str:
+    """Build the evidence cell HTML (already-escaped + inline)."""
+    if verdict == "pending":
+        return '<span class="evidence-pending">awaiting verification</span>'
+    if verdict_record is None:
+        return ""
+    if method == "persona-reaction":
+        counts = verdict_record.get("verdict_counts") or {}
+        verbatims = verdict_record.get("representative_verbatims") or {}
+        n_total = sum(counts.values()) if counts else 0
+        if not counts:
+            return ""
+        top_label = max(counts.items(), key=lambda kv: kv[1])[0]
+        n_top = counts.get(top_label, 0)
+        verbatim = verbatims.get(top_label, "")
+        if verbatim:
+            tail = f' ({n_top}/{n_total} personas — "{top_label}")'
+            return f"&ldquo;{_esc(verbatim)}&rdquo;{_esc(tail)}"
+        return _esc(f"{n_top}/{n_total} personas — {top_label}")
+    if method == "cross-artifact":
+        contradicting = verdict_record.get("contradicting_quotes") or []
+        supporting = verdict_record.get("supporting_quotes") or []
+        picked = (contradicting or supporting)[:1]
+        if picked:
+            q = picked[0] or {}
+            quote = q.get("quote", "") if isinstance(q, dict) else str(q)
+            location = q.get("location", "") if isinstance(q, dict) else ""
+            evidence_field = verdict_record.get("evidence")
+            if isinstance(evidence_field, dict):
+                # Spec form: {file, quote, line_hint}
+                quote = evidence_field.get("quote", quote)
+                location = evidence_field.get("file", location)
+            html_parts = [f"&ldquo;{_esc(quote)}&rdquo;"]
+            if location:
+                html_parts.append(f' <span class="evidence-loc">({_esc(location)})</span>')
+            return "".join(html_parts)
+        evidence_field = verdict_record.get("evidence")
+        if isinstance(evidence_field, dict):
+            quote = evidence_field.get("quote", "")
+            location = evidence_field.get("file", "")
+            if quote:
+                parts = [f"&ldquo;{_esc(quote)}&rdquo;"]
+                if location:
+                    parts.append(f' <span class="evidence-loc">({_esc(location)})</span>')
+                return "".join(parts)
+        rationale = verdict_record.get("verdict_rationale", "")
+        return _esc(rationale)
+    if method == "external":
+        evidence_field = verdict_record.get("evidence")
+        if isinstance(evidence_field, dict):
+            url = evidence_field.get("url")
+            quote = evidence_field.get("quote", "")
+            if url:
+                return f'<a href="{_esc(url)}" target="_blank" rel="noopener">{_esc(quote or url)}</a>'
+            if quote:
+                return f"&ldquo;{_esc(quote)}&rdquo;"
+        rationale = verdict_record.get("verdict_rationale", "")
+        return _esc(rationale)
+    return _esc(verdict_record.get("verdict_rationale", ""))
+
+
+def sort_ledger_rows(
+    pitch: dict | None,
+    verdicts: dict | None,
+    *,
+    force_pending: bool = False,
+) -> list[dict]:
+    """Build a sorted list of ledger rows joining pitch and verdicts on claim_id.
+
+    If `force_pending` is True (pitch-only branch), every row's verdict bucket
+    is forced to "pending" regardless of what verdicts.yaml says.
+    """
+    claims = (pitch or {}).get("claims") or []
+    verdicts_list = (verdicts or {}).get("verdicts") or []
+    verdicts_by_id = {v.get("claim_id"): v for v in verdicts_list if v.get("claim_id")}
+
+    rows: list[dict] = []
+    for c in claims:
+        if not isinstance(c, dict):
+            continue
+        cid = c.get("claim_id")
+        if not cid:
+            continue
+        v = verdicts_by_id.get(cid)
+        method = _normalize_method(
+            c.get("verification_method")
+            or (v.get("verification_method") if isinstance(v, dict) else None)
+        )
+        if force_pending or v is None:
+            verdict_bucket = "pending"
+            verdict_record = v if not force_pending else None
+        else:
+            verdict_bucket = normalize_verdict(v)
+            verdict_record = v
+        rows.append(
+            {
+                "claim_id": cid,
+                "claim": c.get("claim", ""),
+                "category": c.get("category", "") or "",
+                "source": c.get("source", "") or "",
+                "verification": method,
+                "verdict": verdict_bucket,
+                "verdict_record": verdict_record,
+                "claim_record": c,
+            }
+        )
+
+    rows.sort(
+        key=lambda r: (
+            VERDICT_SEVERITY_RANK.get(r["verdict"], 99),
+            category_rank(r["category"]),
+            r["claim_id"],
+        )
+    )
+    return rows
+
+
+def _method_badge(method: str) -> str:
+    label = method if method != "unknown" else "?"
+    return f'<span class="method-badge {_esc(method)}">{_esc(label)}</span>'
+
+
+def _verdict_badge(verdict: str) -> str:
+    label = verdict if verdict != "pending" else "pending"
+    return f'<span class="verdict-badge {_esc(verdict)}">{_esc(label)}</span>'
+
+
+def render_ledger_row(row: dict) -> str:
+    """Render one <tr> for the ledger table."""
+    method = row["verification"]
+    verdict = row["verdict"]
+    evidence = _evidence_html(row["verdict_record"], method, verdict)
+    if method == "persona-reaction" and verdict != "pending":
+        evidence += (
+            '<span class="stance-b-caption">Calibrated prior, not signal — '
+            "see PMF stage 3a</span>"
+        )
+    return (
+        "<tr>"
+        f'<td class="claim-cell">{_inline(_esc(row["claim"]))}</td>'
+        f'<td>{_esc(row["category"])}</td>'
+        f'<td>{_esc(row["source"])}</td>'
+        f"<td>{_method_badge(method)}</td>"
+        f"<td>{_verdict_badge(verdict)}</td>"
+        f'<td class="evidence-cell">{evidence}</td>'
+        "</tr>"
+    )
+
+
+def _verdict_counts(rows: list[dict]) -> dict[str, int]:
+    counts = {k: 0 for k in VERDICT_SEVERITY_RANK}
+    for r in rows:
+        v = r.get("verdict", "no-evidence")
+        if v in counts:
+            counts[v] += 1
+    return counts
+
+
+def _verdict_strip_html(rows: list[dict]) -> str:
+    counts = _verdict_counts(rows)
+    pills: list[str] = []
+    for label in ("contradicts", "partial", "no-evidence", "supports"):
+        pills.append(
+            f'<span class="vc-pill {label}">{label}: {counts[label]}</span>'
+        )
+    if counts["pending"]:
+        pills.append(
+            f'<span class="vc-pill pending">pending: {counts["pending"]}</span>'
+        )
+    legend = (
+        "Verification methods: "
+        '<span class="method-badge persona-reaction">persona-reaction</span> '
+        "(calibrated prior, not signal) · "
+        '<span class="method-badge cross-artifact">cross-artifact</span> '
+        "(real signal triangulated against prior dudu artifacts) · "
+        '<span class="method-badge external">external</span> '
+        "(real signal from bounded web checks)."
+    )
+    return (
+        f'<div class="verdict-strip">{"".join(pills)}</div>'
+        '<p class="verdict-strip-caption">Worst-news first.</p>'
+        f'<p class="verdict-strip-legend">{legend}</p>'
+    )
+
+
+def render_ledger_section(rows: list[dict]) -> str:
+    """Render the ledger × verdict matrix table."""
+    if not rows:
+        return ""
+    body: list[str] = [_verdict_strip_html(rows)]
+    body.append('<div class="table-wrap"><table class="ledger-table">')
+    body.append(
+        "<thead><tr>"
+        "<th>Claim</th><th>Category</th><th>Source</th>"
+        "<th>Verification</th><th>Verdict</th><th>Evidence</th>"
+        "</tr></thead><tbody>"
+    )
+    pending_header_emitted = False
+    for r in rows:
+        if r["verdict"] == "pending" and not pending_header_emitted:
+            body.append(
+                '<tr class="pending-group-row"><td colspan="6">'
+                '<span class="pending-group-header">Verdicts pending</span>'
+                "</td></tr>"
+            )
+            pending_header_emitted = True
+        body.append(render_ledger_row(r))
+    body.append("</tbody></table></div>")
+    return "\n".join(body)
+
+
+# ---------- contradictions section ---------------------------------------
+
+
+def select_contradiction_rows(rows: list[dict]) -> list[dict]:
+    """Return rows where verification == cross-artifact AND verdict in {contradicts, partial}."""
+    out: list[dict] = []
+    for r in rows:
+        if r["verification"] != "cross-artifact":
+            continue
+        if r["verdict"] in ("contradicts", "partial"):
+            out.append(r)
+    return out
+
+
+def render_contradiction_entry(row: dict) -> str:
+    """Render one cross-artifact contradiction entry."""
+    rec = row["verdict_record"] or {}
+    claim_text = row["claim"]
+    contradicting = rec.get("contradicting_quotes") or []
+    supporting = rec.get("supporting_quotes") or []
+    picked_list = contradicting or supporting
+    quote = ""
+    location = ""
+    if picked_list:
+        q = picked_list[0]
+        if isinstance(q, dict):
+            quote = q.get("quote", "") or ""
+            location = q.get("location", "") or ""
+    evidence_field = rec.get("evidence")
+    if isinstance(evidence_field, dict):
+        quote = evidence_field.get("quote", quote) or quote
+        location = evidence_field.get("file", location) or location
+    if not quote:
+        quote = rec.get("verdict_rationale", "") or ""
+
+    file_link = ""
+    file_path = location
+    # location may be like "customer-discovery.md:34" — strip the line hint
+    if file_path:
+        file_only = re.split(r"[:\s]", file_path, maxsplit=1)[0]
+        file_link = (
+            f'<span class="file-pointer">→ '
+            f'<a href="{_esc(file_only)}">{_esc(file_path)}</a></span>'
+        )
+
+    pieces = [
+        '<div class="contradiction-entry">',
+        f'<div class="claim-text">{_inline(_esc(claim_text))}</div>',
+    ]
+    if quote:
+        pieces.append(
+            f"<blockquote>{_inline(_esc(quote))}</blockquote>"
+        )
+    if file_link:
+        pieces.append(file_link)
+    pieces.append("</div>")
+    return "".join(pieces)
+
+
+def render_contradictions_section(rows: list[dict]) -> str:
+    contradiction_rows = select_contradiction_rows(rows)
+    if not contradiction_rows:
+        return ""
+    return "\n".join(render_contradiction_entry(r) for r in contradiction_rows)
+
+
+# ---------- warm-path outreach -------------------------------------------
+
+
+def parse_outreach(outreach_md_text: str | None) -> list[dict]:
+    """Extract outreach entries from outreach.md in source-file order.
+
+    Recognizes pipe-table data rows with a numeric first cell. Captures
+    `name`, `channel`, `warm_path`, `match_evidence`, `post_hook`, and
+    `cluster` (from the most recent `## Cluster: ...` heading).
+    """
+    if not outreach_md_text:
+        return []
+    entries: list[dict] = []
+    current_cluster: str | None = None
+    for raw in outreach_md_text.splitlines():
+        stripped = raw.strip()
+        if stripped.startswith("## Cluster:"):
+            current_cluster = stripped[len("## Cluster:"):].strip()
+            continue
+        if not stripped or "|" not in stripped:
+            continue
+        if PIPE_SEP.match(raw):
+            continue
+        cells = _split_pipe_row(stripped)
+        if not cells:
+            continue
+        # Header row has "#" or "Name" in first cell.
+        first = cells[0].lower()
+        if first in ("#", "name", "") or any(
+            c.lower() in ("name", "channel", "warm path", "match evidence", "post hook")
+            for c in cells
+        ):
+            continue
+        # Data row must have a numeric first cell.
+        try:
+            int(first)
+        except ValueError:
+            continue
+        entries.append(
+            {
+                "name": cells[1] if len(cells) > 1 else "",
+                "channel": cells[2] if len(cells) > 2 else "",
+                "warm_path": cells[3] if len(cells) > 3 else "",
+                "match_evidence": cells[4] if len(cells) > 4 else "",
+                "post_hook": cells[5] if len(cells) > 5 else "",
+                "cluster": current_cluster or "",
+            }
+        )
+    return entries
+
+
+def render_outreach_section(entries: list[dict]) -> str:
+    """Render the warm-path outreach top-N table.
+
+    Returns "" if entries is empty.
+    """
+    if not entries:
+        return ""
+    embedded = entries[: OUTREACH_TOP_N]
+    parts: list[str] = ['<div class="table-wrap"><table class="outreach-table">']
+    parts.append(
+        "<thead><tr>"
+        "<th>#</th><th>Name</th><th>Cluster</th><th>Warm path</th>"
+        "<th>Match evidence</th><th>Channel</th>"
+        "</tr></thead><tbody>"
+    )
+    for idx, e in enumerate(embedded, start=1):
+        parts.append("<tr>")
+        parts.append(f"<td>{idx}</td>")
+        parts.append(f"<td>{_inline(_esc(e['name']))}</td>")
+        parts.append(f"<td>{_inline(_esc(e['cluster']))}</td>")
+        parts.append(f"<td>{_inline(_esc(e['warm_path']))}</td>")
+        parts.append(
+            f'<td class="warm-quote">{_inline(_esc(e["match_evidence"]))}</td>'
+        )
+        parts.append(f"<td>{_inline(_esc(e['channel']))}</td>")
+        parts.append("</tr>")
+    parts.append("</tbody></table></div>")
+    if len(entries) > OUTREACH_TOP_N:
+        parts.append(
+            f'<a class="outreach-more" href="outreach.md">'
+            f"all {len(entries)} — see outreach.md</a>"
+        )
+    return "\n".join(parts)
+
+
+# ---------- recommendation ribbon ----------------------------------------
+
+
+def render_recommendation_ribbon(memo_text: str | None) -> str:
+    """Extract `## Recommendation` (case-insensitive) from MEMO.md and
+    render as a callout ribbon. Returns "" if MEMO is missing or has no
+    such section.
+    """
+    if not memo_text:
+        return ""
+    sections = _split_memo_sections(memo_text)
+    body = sections.get("recommendation")
+    if not body:
+        return ""
+    inner = render_markdown(body, heading_offset=1)
+    if not inner.strip():
+        return ""
+    return (
+        '<aside class="recommendation-ribbon">'
+        "<h3>Recommendation</h3>"
+        f"{inner}"
+        "</aside>"
+    )
+
+
 # ---------- HTML assembly -------------------------------------------------
 
 CSS = """
@@ -355,6 +1000,10 @@ header.report time { font-variant-numeric: tabular-nums; }
 .dots .dot.done { background: #16a34a; }
 .callout { margin: 1rem 2rem 0; padding: 0.75rem 1rem; border-left: 4px solid #f59e0b; background: #fffbeb; color: #78350f; border-radius: 4px; font-size: 0.92rem; }
 
+.recommendation-ribbon { margin: 1rem 2rem 0; padding: 0.85rem 1.1rem; border-left: 4px solid var(--accent); background: #eff6ff; color: #1e3a8a; border-radius: 4px; font-size: 0.95rem; }
+.recommendation-ribbon h3 { font-family: system-ui, -apple-system, sans-serif; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: #1e3a8a; margin: 0 0 0.4rem; padding: 0; border: none; }
+.recommendation-ribbon p { margin: 0.3rem 0; }
+
 .layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 0; align-items: start; }
 nav.toc { position: sticky; top: 0; align-self: start; max-height: 100vh; overflow-y: auto; padding: 1.5rem 1rem 1.5rem 2rem; border-right: 1px solid var(--line); font-size: 0.9rem; background: #fcfcfc; }
 nav.toc h2 { font-family: system-ui, sans-serif; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin: 0 0 0.5rem; padding: 0; border: none; }
@@ -369,6 +1018,7 @@ nav.toc ul.group a { font-size: 0.85rem; padding: 0.15rem 0.4rem; }
 
 main { padding: 2rem 2.5rem; max-width: 800px; }
 section.report-section { scroll-margin-top: 1rem; }
+section.star-section > h2::before { content: "★ "; color: #f59e0b; font-weight: normal; }
 details { margin: 0.5rem 0; border: 1px solid var(--line); border-radius: 6px; padding: 0.5rem 0.9rem; background: #fcfcfc; }
 details > summary { cursor: pointer; font-weight: 600; color: var(--ink); padding: 0.15rem 0; }
 details[open] { background: #fff; }
@@ -378,6 +1028,47 @@ details[open] > summary { margin-bottom: 0.4rem; }
 .chart-title { font-weight: 600; margin-bottom: 0.5rem; font-size: 0.95rem; }
 .chart-legend { font-size: 0.8rem; color: var(--muted); margin-top: 0.35rem; }
 
+.verdict-strip { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.75rem 0 0.4rem; }
+.verdict-strip .vc-pill { padding: 0.25rem 0.7rem; border-radius: 999px; font-size: 0.85rem; font-weight: 600; }
+.verdict-strip .vc-pill.contradicts { background: #fee2e2; color: #991b1b; }
+.verdict-strip .vc-pill.partial { background: #fef3c7; color: #92400e; }
+.verdict-strip .vc-pill.no-evidence { background: #fef3c7; color: #92400e; }
+.verdict-strip .vc-pill.supports { background: #dcfce7; color: #166534; }
+.verdict-strip .vc-pill.pending { background: #f3f4f6; color: #6b7280; font-style: italic; }
+.verdict-strip-caption { font-size: 0.85rem; color: var(--muted); margin: 0.1rem 0; }
+.verdict-strip-legend { font-size: 0.8rem; color: var(--muted); margin: 0.1rem 0 0.75rem; }
+
+.method-badge { display: inline-block; padding: 0.1rem 0.55rem; border-radius: 4px; font-size: 0.78rem; font-weight: 600; white-space: nowrap; }
+.method-badge.persona-reaction { border: 1px solid #9ca3af; color: #4b5563; background: transparent; font-style: italic; }
+.method-badge.cross-artifact { background: #2563eb; color: #fff; }
+.method-badge.external { background: #16a34a; color: #fff; }
+.method-badge.unknown { background: #d1d5db; color: #374151; }
+
+.verdict-badge { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 4px; font-size: 0.78rem; font-weight: 600; white-space: nowrap; }
+.verdict-badge.contradicts { background: #dc2626; color: #fff; }
+.verdict-badge.partial { background: #f59e0b; color: #fff; }
+.verdict-badge.no-evidence { background: #f59e0b; color: #fff; }
+.verdict-badge.supports { background: #16a34a; color: #fff; }
+.verdict-badge.pending { background: #f3f4f6; color: #6b7280; font-style: italic; border: 1px dashed #d1d5db; }
+
+.stance-b-caption { display: block; margin-top: 0.3rem; font-size: 0.78rem; color: #6b7280; font-style: italic; }
+.pending-group-header { display: inline-block; font-style: italic; color: var(--muted); font-size: 0.9rem; margin: 0.3rem 0; }
+.pending-group-row td { background: #fafafa; border-top: 1px dashed var(--line); }
+.evidence-pending { color: var(--muted); font-style: italic; }
+.evidence-loc { color: var(--muted); font-size: 0.85em; }
+
+.ledger-table .claim-cell { min-width: 22ch; }
+.ledger-table .evidence-cell { min-width: 26ch; max-width: 44ch; }
+
+.contradiction-entry { margin: 0.85rem 0; padding: 0.75rem 1rem; border-left: 4px solid #dc2626; background: #fef2f2; border-radius: 4px; }
+.contradiction-entry .claim-text { font-weight: 600; color: #1a1a1a; }
+.contradiction-entry .file-pointer { display: block; margin-top: 0.4rem; font-size: 0.85rem; color: var(--muted); }
+.contradiction-entry blockquote { margin: 0.5rem 0; border-left-color: #dc2626; }
+
+.outreach-table td.warm-quote { font-style: italic; color: #4b5563; }
+.outreach-more { display: inline-block; margin-top: 0.5rem; font-size: 0.9rem; color: var(--muted); }
+.fallback-note { padding: 0.75rem 1rem; border-left: 4px solid var(--muted); background: var(--soft); border-radius: 4px; color: #4b5563; font-style: italic; }
+
 @media (max-width: 900px) {
   .layout { grid-template-columns: minmax(0, 1fr); }
   nav.toc { position: static; max-height: none; border-right: none; border-bottom: 1px solid var(--line); padding: 1rem 1.5rem; display: none; }
@@ -386,6 +1077,7 @@ details[open] > summary { margin-bottom: 0.4rem; }
   main { padding: 1.5rem; max-width: 100%; }
   header.report { padding: 1.25rem 1.5rem; }
   pre, table { max-width: 100%; }
+  .recommendation-ribbon, .callout { margin-left: 1.5rem; margin-right: 1.5rem; }
 }
 
 @media print {
@@ -446,9 +1138,10 @@ def _slug(text: str) -> str:
     return s or "section"
 
 
-def _section(html_id: str, title: str, body_html: str) -> str:
+def _section(html_id: str, title: str, body_html: str, *, star: bool = False) -> str:
+    cls = "report-section star-section" if star else "report-section"
     return (
-        f'<section id="{html_id}" class="report-section">'
+        f'<section id="{html_id}" class="{cls}">'
         f"<h2>{_esc(title)}</h2>{body_html}</section>"
     )
 
@@ -537,26 +1230,31 @@ def _persona_title(name: str) -> str:
     return base[:1].upper() + base[1:]
 
 
-def render_report(deal_dir: Path) -> str:
-    manifest_path = deal_dir / "manifest.json"
-    if not manifest_path.exists():
-        raise SystemExit(f"{manifest_path} not found")
+def _persona_sort_key(path: Path) -> tuple[int, int, str]:
+    stem = path.stem
+    if stem == "_context":
+        return (0, 0, stem)
+    m = re.match(r"persona-(\d+)$", stem)
+    if m:
+        return (1, int(m.group(1)), stem)
+    m = re.match(r"round-(\d+)$", stem)
+    if m:
+        return (2, int(m.group(1)), stem)
+    return (3, 0, stem)
 
-    try:
-        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    except json.JSONDecodeError as e:
-        raise SystemExit(f"{manifest_path} invalid JSON: {e}") from e
 
+def _build_header_html(
+    deal_dir: Path,
+    manifest: dict,
+    memo: str | None,
+) -> tuple[str, str, dict, str | None, str | None]:
+    """Return (header_html, callout_html, manifest_view, slug, company)."""
     company = manifest.get("company") or manifest.get("slug", "Untitled deal")
     slug = manifest.get("slug", deal_dir.name)
     skills = manifest.get("skills_completed", {}) or {}
     pitch_note = manifest.get("pitch_reframe_note")
-
-    memo = _read(deal_dir / "MEMO.md")
-    memo_sections = _split_memo_sections(memo) if memo else {}
     rec = parse_recommendation(memo) if memo else None
 
-    # ---- header ----
     generated = _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     pill_label = rec or ("Diligence in progress" if not memo else "Recommendation")
     pill_class = rec.lower() if rec else "unknown"
@@ -581,8 +1279,160 @@ def render_report(deal_dir: Path) -> str:
         f'<span class="dots" aria-label="Sub-skill status">{"".join(dots_html)}</span>'
         f'<time datetime="{generated}">Generated {generated}</time>'
         "</div></header>"
-        + callout
     )
+    return header_html, callout, manifest, slug, company
+
+
+def _build_html_skeleton(
+    title: str,
+    header_html: str,
+    pre_main_html: str,
+    main_body_html: str,
+    toc_html: str,
+) -> str:
+    toggle_html = '<button class="toc-toggle" type="button">Contents</button>'
+    return (
+        "<!doctype html>\n"
+        '<html lang="en"><head>'
+        '<meta charset="utf-8">'
+        '<meta name="viewport" content="width=device-width,initial-scale=1">'
+        f"<title>{_esc(title)}</title>"
+        f"<style>{CSS}</style>"
+        "</head><body>"
+        + header_html
+        + pre_main_html
+        + toggle_html
+        + '<div class="layout">'
+        + toc_html
+        + "<main>"
+        + main_body_html
+        + "</main></div>"
+        + f"<script>{JS}</script>"
+        "</body></html>\n"
+    )
+
+
+def _build_toc(toc: list[tuple[str, str]], persona_toc: list[tuple[str, str]]) -> str:
+    toc_items: list[str] = []
+    for html_id, label in toc:
+        if html_id == "personas" and persona_toc:
+            toc_items.append(
+                f'<li><a href="#{html_id}">{_esc(label)}</a>'
+                '<ul class="group">'
+                + "".join(
+                    f'<li><a href="#{pid}">{_esc(plabel)}</a></li>'
+                    for pid, plabel in persona_toc
+                )
+                + "</ul></li>"
+            )
+        else:
+            toc_items.append(f'<li><a href="#{html_id}">{_esc(label)}</a></li>')
+    return (
+        '<nav class="toc" aria-label="Table of contents">'
+        '<h2>Contents</h2>'
+        f'<ul>{"".join(toc_items)}</ul>'
+        "</nav>"
+    )
+
+
+def _personas_block(deal_dir: Path, *, all_closed: bool) -> tuple[str, list[tuple[str, str]]]:
+    """Return (group-html, persona_toc). all_closed=True forces every
+    individual persona <details> closed (used in the pmf-led layout).
+    Empty string if no personas exist.
+    """
+    personas_dir = deal_dir / "personas"
+    if not personas_dir.is_dir():
+        return "", []
+    files = sorted(personas_dir.glob("*.md"), key=_persona_sort_key)
+    blocks: list[str] = []
+    persona_toc: list[tuple[str, str]] = []
+    for fpath in files:
+        body = _read(fpath) or ""
+        body = re.sub(r"^#\s+.+\n", "", body, count=1)
+        stem = fpath.stem
+        title = _persona_title(fpath.name)
+        html_id = "persona-" + _slug(stem)
+        persona_toc.append((html_id, title))
+        if all_closed:
+            open_attr = ""
+        else:
+            open_attr = " open" if stem == "_context" else ""
+        blocks.append(
+            f'<details id="{html_id}" data-toc-target{open_attr}>'
+            f"<summary>{_esc(title)}</summary>"
+            f"{render_markdown(body, heading_offset=2)}"
+            "</details>"
+        )
+    if not blocks:
+        return "", []
+    return "\n".join(blocks), persona_toc
+
+
+def _source_artifacts_html(
+    deal_dir: Path,
+    founder_files: list[Path],
+    *,
+    pmf_inputs: PMFInputs | None = None,
+) -> str:
+    """Build the source-artifacts list section body."""
+    artifacts: list[str] = []
+    candidates = [
+        "MEMO.md",
+        "manifest.json",
+        "background.md",
+        "market-context.md",
+        "market-problem.md",
+        "competitive-landscape.md",
+        "market-sizing.md",
+        "pmf-signal.md",
+        "outreach.md",
+        "pitch.yaml",
+        "customer-discovery-prep.md",
+        "customer-discovery.md",
+    ]
+    for name in candidates:
+        if (deal_dir / name).exists():
+            artifacts.append(f'<li><a href="{_esc(name)}">{_esc(name)}</a></li>')
+    # personas/verdicts.yaml + personas/aggregates.yaml (new in pmf-led layout)
+    for sub in ("personas/verdicts.yaml", "personas/aggregates.yaml"):
+        p = deal_dir / sub
+        if p.exists():
+            artifacts.append(f'<li><a href="{_esc(sub)}">{_esc(sub)}</a></li>')
+    for fpath in founder_files:
+        artifacts.append(f'<li><a href="{_esc(fpath.name)}">{_esc(fpath.name)}</a></li>')
+    personas_dir = deal_dir / "personas"
+    if personas_dir.is_dir():
+        for fpath in sorted(personas_dir.glob("*.md"), key=_persona_sort_key):
+            rel = f"personas/{fpath.name}"
+            artifacts.append(f'<li><a href="{_esc(rel)}">{_esc(rel)}</a></li>')
+    if not artifacts:
+        return ""
+    return "<ul>" + "".join(artifacts) + "</ul>"
+
+
+# ---------- legacy branch -------------------------------------------------
+
+
+def render_legacy(deal_dir: Path) -> str:
+    """Render the per-deal HTML in the prior artifact-by-artifact layout.
+
+    Used when none of pitch.yaml / verdicts.yaml / pmf-signal.md exist.
+    Preserves today's behavior byte-for-byte (modulo the small bookkeeping
+    changes shared across both branches: source-artifacts list).
+    """
+    manifest_path = deal_dir / "manifest.json"
+    if not manifest_path.exists():
+        raise SystemExit(f"{manifest_path} not found")
+
+    try:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        raise SystemExit(f"{manifest_path} invalid JSON: {e}") from e
+
+    memo = _read(deal_dir / "MEMO.md")
+    memo_sections = _split_memo_sections(memo) if memo else {}
+
+    header_html, callout, _, _, company = _build_header_html(deal_dir, manifest, memo)
 
     # ---- sections ----
     sections_html: list[str] = []
@@ -598,16 +1448,13 @@ def render_report(deal_dir: Path) -> str:
     # artifact `## Subhead` → <h3>, etc.
     OFFSET = 1
 
-    # TL;DR (from MEMO)
     if "tl;dr" in memo_sections:
         add_section("tldr", "TL;DR", render_markdown(memo_sections["tl;dr"], heading_offset=OFFSET))
 
-    # Founders — one section per founder-*.md (preferred), fallback to MEMO Founders.
     founder_files = sorted(deal_dir.glob("founder-*.md"))
     if founder_files:
         for fpath in founder_files:
             body = _read(fpath) or ""
-            # Strip the file's leading H1 (we use H2 in the report).
             body = re.sub(r"^#\s+.+\n", "", body, count=1)
             html_id = "founder-" + _slug(fpath.stem.removeprefix("founder-"))
             label = "Founder: " + fpath.stem.removeprefix("founder-").replace("-", " ").title()
@@ -615,8 +1462,6 @@ def render_report(deal_dir: Path) -> str:
     elif "founders" in memo_sections:
         add_section("founders", "Founders", render_markdown(memo_sections["founders"], heading_offset=OFFSET))
 
-    # Problem & product — prefer the new market-context.md, fall back to the
-    # legacy market-problem.md (pre-split layout), then to the MEMO section.
     mp = _read(deal_dir / "market-context.md") or _read(deal_dir / "market-problem.md")
     if mp:
         body = re.sub(r"^#\s+.+\n", "", mp, count=1)
@@ -624,7 +1469,6 @@ def render_report(deal_dir: Path) -> str:
     elif "problem and product" in memo_sections:
         add_section("problem", "Problem & Product", render_markdown(memo_sections["problem and product"], heading_offset=OFFSET))
 
-    # Customer signal (prefer customer-discovery.md, then MEMO summary)
     cd = _read(deal_dir / "customer-discovery.md")
     if cd:
         body = re.sub(r"^#\s+.+\n", "", cd, count=1)
@@ -632,14 +1476,12 @@ def render_report(deal_dir: Path) -> str:
     elif "customer signal" in memo_sections:
         add_section("customer-signal", "Customer Signal", render_markdown(memo_sections["customer signal"], heading_offset=OFFSET))
 
-    # Customer-discovery prep (only if no debrief)
     if not cd:
         cdp = _read(deal_dir / "customer-discovery-prep.md")
         if cdp:
             body = re.sub(r"^#\s+.+\n", "", cdp, count=1)
             add_section("customer-discovery-prep", "Discovery Prep", render_markdown(body, heading_offset=OFFSET))
 
-    # Competitive landscape
     cl = _read(deal_dir / "competitive-landscape.md")
     if cl:
         body = re.sub(r"^#\s+.+\n", "", cl, count=1)
@@ -647,7 +1489,6 @@ def render_report(deal_dir: Path) -> str:
     elif "competitive landscape" in memo_sections:
         add_section("competitive-landscape", "Competitive Landscape", render_markdown(memo_sections["competitive landscape"], heading_offset=OFFSET))
 
-    # Market sizing — prepend SVG chart if parseable
     ms = _read(deal_dir / "market-sizing.md")
     if ms:
         body = re.sub(r"^#\s+.+\n", "", ms, count=1)
@@ -662,129 +1503,305 @@ def render_report(deal_dir: Path) -> str:
     elif "market sizing" in memo_sections:
         add_section("market-sizing", "Market Sizing", render_markdown(memo_sections["market sizing"], heading_offset=OFFSET))
 
-    # Cross-artifact synthesis (MEMO only)
     if "cross-artifact synthesis" in memo_sections:
         add_section("synthesis", "Cross-artifact Synthesis", render_markdown(memo_sections["cross-artifact synthesis"], heading_offset=OFFSET))
 
-    # Recommendation (MEMO only)
     if "recommendation" in memo_sections:
         add_section("recommendation", "Recommendation", render_markdown(memo_sections["recommendation"], heading_offset=OFFSET))
 
-    # Personas — collapsible group
-    personas_dir = deal_dir / "personas"
-    persona_html = ""
-    persona_toc: list[tuple[str, str]] = []
-    if personas_dir.is_dir():
-        files = sorted(personas_dir.glob("*.md"), key=_persona_sort_key)
-        blocks: list[str] = []
-        for fpath in files:
-            body = _read(fpath) or ""
-            body = re.sub(r"^#\s+.+\n", "", body, count=1)
-            stem = fpath.stem
-            title = _persona_title(fpath.name)
-            html_id = "persona-" + _slug(stem)
-            persona_toc.append((html_id, title))
-            open_attr = " open" if stem == "_context" else ""
-            blocks.append(
-                f'<details id="{html_id}" data-toc-target{open_attr}>'
-                f"<summary>{_esc(title)}</summary>"
-                f"{render_markdown(body, heading_offset=2)}"
-                "</details>"
-            )
-        if blocks:
-            persona_html = "\n".join(blocks)
-            sections_html.append(
-                f'<section id="personas" class="report-section"><h2>Personas</h2>{persona_html}</section>'
-            )
-            toc.append(("personas", "Personas"))
-
-    # Source artifacts (tolerates both legacy and post-split layouts)
-    artifacts: list[str] = []
-    for name in [
-        "MEMO.md",
-        "manifest.json",
-        "background.md",
-        "market-context.md",
-        "market-problem.md",
-        "competitive-landscape.md",
-        "market-sizing.md",
-        "pmf-signal.md",
-        "outreach.md",
-        "pitch.yaml",
-        "customer-discovery-prep.md",
-        "customer-discovery.md",
-    ]:
-        if (deal_dir / name).exists():
-            artifacts.append(f'<li><a href="{_esc(name)}">{_esc(name)}</a></li>')
-    for fpath in founder_files:
-        artifacts.append(f'<li><a href="{_esc(fpath.name)}">{_esc(fpath.name)}</a></li>')
-    if personas_dir.is_dir():
-        for fpath in sorted(personas_dir.glob("*.md"), key=_persona_sort_key):
-            rel = f"personas/{fpath.name}"
-            artifacts.append(f'<li><a href="{_esc(rel)}">{_esc(rel)}</a></li>')
-    if artifacts:
-        body = "<ul>" + "".join(artifacts) + "</ul>"
+    persona_html, persona_toc = _personas_block(deal_dir, all_closed=False)
+    if persona_html:
         sections_html.append(
-            f'<section id="artifacts" class="report-section"><h2>Source artifacts</h2>{body}</section>'
+            f'<section id="personas" class="report-section"><h2>Personas</h2>{persona_html}</section>'
+        )
+        toc.append(("personas", "Personas"))
+
+    artifacts_body = _source_artifacts_html(deal_dir, founder_files)
+    if artifacts_body:
+        sections_html.append(
+            f'<section id="artifacts" class="report-section"><h2>Source artifacts</h2>{artifacts_body}</section>'
         )
         toc.append(("artifacts", "Source artifacts"))
 
-    # ---- TOC HTML ----
-    toc_items: list[str] = []
-    for html_id, label in toc:
-        if html_id == "personas" and persona_toc:
-            toc_items.append(
-                f'<li><a href="#{html_id}">{_esc(label)}</a>'
-                '<ul class="group">'
-                + "".join(
-                    f'<li><a href="#{pid}">{_esc(plabel)}</a></li>'
-                    for pid, plabel in persona_toc
-                )
-                + "</ul></li>"
-            )
-        else:
-            toc_items.append(f'<li><a href="#{html_id}">{_esc(label)}</a></li>')
-
-    nav_html = (
-        '<nav class="toc" aria-label="Table of contents">'
-        '<h2>Contents</h2>'
-        f'<ul>{"".join(toc_items)}</ul>'
-        "</nav>"
-    )
-    toggle_html = '<button class="toc-toggle" type="button">Contents</button>'
-
+    toc_html = _build_toc(toc, persona_toc)
     title = f"{company} — diligence report"
-    return (
-        "<!doctype html>\n"
-        '<html lang="en"><head>'
-        '<meta charset="utf-8">'
-        '<meta name="viewport" content="width=device-width,initial-scale=1">'
-        f"<title>{_esc(title)}</title>"
-        f"<style>{CSS}</style>"
-        "</head><body>"
-        + header_html
-        + toggle_html
-        + '<div class="layout">'
-        + nav_html
-        + "<main>"
-        + "\n".join(sections_html)
-        + "</main></div>"
-        + f"<script>{JS}</script>"
-        "</body></html>\n"
+    return _build_html_skeleton(
+        title=title,
+        header_html=header_html,
+        pre_main_html=callout,
+        main_body_html="\n".join(sections_html),
+        toc_html=toc_html,
     )
 
 
-def _persona_sort_key(path: Path) -> tuple[int, int, str]:
-    stem = path.stem
-    if stem == "_context":
-        return (0, 0, stem)
-    m = re.match(r"persona-(\d+)$", stem)
-    if m:
-        return (1, int(m.group(1)), stem)
-    m = re.match(r"round-(\d+)$", stem)
-    if m:
-        return (2, int(m.group(1)), stem)
-    return (3, 0, stem)
+# ---------- pmf-led branch ------------------------------------------------
+
+
+def _drilldown_section_specs(
+    deal_dir: Path,
+    memo_sections: dict[str, str],
+    founder_files: list[Path],
+) -> list[tuple[str, str, str]]:
+    """Return (id, label, body_html) tuples for the pmf-led drill-down sections.
+
+    Excludes MEMO sections that duplicate per-artifact files (TL;DR,
+    Founders, Problem and Product, Customer Signal, Competitive Landscape,
+    Market Sizing). Includes per-artifact files plus the cross-artifact
+    synthesis from MEMO at the end.
+    """
+    OFFSET = 2  # rendered inside <details><summary><h2-equivalent>
+    out: list[tuple[str, str, str]] = []
+
+    for fpath in founder_files:
+        body = _read(fpath) or ""
+        body = re.sub(r"^#\s+.+\n", "", body, count=1)
+        html_id = "founder-" + _slug(fpath.stem.removeprefix("founder-"))
+        label = "Founder: " + fpath.stem.removeprefix("founder-").replace("-", " ").title()
+        body_html = render_markdown(body, heading_offset=OFFSET)
+        if body_html.strip():
+            out.append((html_id, label, body_html))
+
+    mp = _read(deal_dir / "market-context.md") or _read(deal_dir / "market-problem.md")
+    if mp:
+        body = re.sub(r"^#\s+.+\n", "", mp, count=1)
+        out.append(("problem", "Problem & Product", render_markdown(body, heading_offset=OFFSET)))
+
+    cd = _read(deal_dir / "customer-discovery.md")
+    if cd:
+        body = re.sub(r"^#\s+.+\n", "", cd, count=1)
+        out.append(("customer-signal", "Customer Signal", render_markdown(body, heading_offset=OFFSET)))
+    else:
+        cdp = _read(deal_dir / "customer-discovery-prep.md")
+        if cdp:
+            body = re.sub(r"^#\s+.+\n", "", cdp, count=1)
+            out.append(("customer-discovery-prep", "Discovery Prep", render_markdown(body, heading_offset=OFFSET)))
+
+    cl = _read(deal_dir / "competitive-landscape.md")
+    if cl:
+        body = re.sub(r"^#\s+.+\n", "", cl, count=1)
+        out.append(("competitive-landscape", "Competitive Landscape", render_markdown(body, heading_offset=OFFSET)))
+
+    ms = _read(deal_dir / "market-sizing.md")
+    if ms:
+        body = re.sub(r"^#\s+.+\n", "", ms, count=1)
+        chart = ""
+        try:
+            data = parse_market_sizing(ms)
+            if data:
+                chart = _market_chart_svg(data)
+        except Exception:
+            chart = ""
+        out.append(("market-sizing", "Market Sizing", chart + render_markdown(body, heading_offset=OFFSET)))
+
+    if "cross-artifact synthesis" in memo_sections:
+        out.append(
+            (
+                "synthesis",
+                "Cross-artifact Synthesis",
+                render_markdown(memo_sections["cross-artifact synthesis"], heading_offset=OFFSET),
+            )
+        )
+
+    return out
+
+
+def _wrap_details(html_id: str, label: str, body_html: str) -> str:
+    return (
+        f'<details id="{html_id}" class="drilldown" data-toc-target>'
+        f"<summary>{_esc(label)}</summary>"
+        f"{body_html}"
+        "</details>"
+    )
+
+
+def _star_section(html_id: str, label: str, body_html: str) -> str:
+    return _section(html_id, label, body_html, star=True)
+
+
+def render_pmf_led(deal_dir: Path, inputs: PMFInputs, *, branch: str = "full") -> str:
+    """Render the new star-led layout for the full or pitch-only branches.
+
+    branch="full"        — verdicts.yaml present, render contradictions normally
+    branch="pitch-only"  — verdicts.yaml missing, all rows pending; replace
+                           contradictions section with a "PMF run incomplete" note
+    """
+    manifest_path = deal_dir / "manifest.json"
+    if not manifest_path.exists():
+        raise SystemExit(f"{manifest_path} not found")
+    try:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        raise SystemExit(f"{manifest_path} invalid JSON: {e}") from e
+
+    memo = _read(deal_dir / "MEMO.md")
+    memo_sections = _split_memo_sections(memo) if memo else {}
+    header_html, callout, _, _, company = _build_header_html(deal_dir, manifest, memo)
+    ribbon = render_recommendation_ribbon(memo)
+
+    rows = sort_ledger_rows(
+        inputs.pitch,
+        inputs.verdicts,
+        force_pending=(branch == "pitch-only"),
+    )
+
+    sections_html: list[str] = []
+    toc: list[tuple[str, str]] = []
+
+    # Star sections
+    ledger_html = render_ledger_section(rows)
+    if ledger_html:
+        sections_html.append(_star_section("ledger", "Claim ledger × verdict matrix", ledger_html))
+        toc.append(("ledger", "Claim ledger"))
+
+    if branch == "pitch-only":
+        sections_html.append(
+            _star_section(
+                "contradictions",
+                "Cross-artifact contradictions",
+                '<p class="fallback-note">'
+                "PMF run incomplete — verdicts not yet generated."
+                "</p>",
+            )
+        )
+        toc.append(("contradictions", "Contradictions"))
+    else:
+        contradictions_html = render_contradictions_section(rows)
+        if contradictions_html:
+            sections_html.append(
+                _star_section("contradictions", "Cross-artifact contradictions", contradictions_html)
+            )
+            toc.append(("contradictions", "Contradictions"))
+
+    outreach_entries = parse_outreach(inputs.outreach_md)
+    outreach_html = render_outreach_section(outreach_entries)
+    if outreach_html:
+        sections_html.append(_star_section("outreach", "Warm-path outreach top-N", outreach_html))
+        toc.append(("outreach", "Outreach"))
+
+    # Drill-down sections (collapsed)
+    founder_files = sorted(deal_dir.glob("founder-*.md"))
+    drilldowns = _drilldown_section_specs(deal_dir, memo_sections, founder_files)
+    if drilldowns:
+        drill_blocks: list[str] = []
+        for html_id, label, body_html in drilldowns:
+            drill_blocks.append(_wrap_details(html_id, label, body_html))
+            toc.append((html_id, label))
+        sections_html.append(
+            f'<section id="drilldown" class="report-section">'
+            f"<h2>Drill-down</h2>{''.join(drill_blocks)}</section>"
+        )
+
+    # Personas drill-down (collapsed)
+    persona_html, persona_toc = _personas_block(deal_dir, all_closed=True)
+    if persona_html:
+        # Wrap the entire personas group as a single drill-down details
+        sections_html.append(
+            f'<section id="personas" class="report-section">'
+            f'<h2>Personas</h2>{persona_html}</section>'
+        )
+        toc.append(("personas", "Personas"))
+
+    # Source artifacts
+    artifacts_body = _source_artifacts_html(deal_dir, founder_files, pmf_inputs=inputs)
+    if artifacts_body:
+        sections_html.append(
+            f'<section id="artifacts" class="report-section"><h2>Source artifacts</h2>{artifacts_body}</section>'
+        )
+        toc.append(("artifacts", "Source artifacts"))
+
+    toc_html = _build_toc(toc, persona_toc)
+    pre_main = callout + ribbon
+    title = f"{company} — diligence report"
+    return _build_html_skeleton(
+        title=title,
+        header_html=header_html,
+        pre_main_html=pre_main,
+        main_body_html="\n".join(sections_html),
+        toc_html=toc_html,
+    )
+
+
+def render_pitch_only(deal_dir: Path, inputs: PMFInputs) -> str:
+    return render_pmf_led(deal_dir, inputs, branch="pitch-only")
+
+
+def render_markdown_fallback(deal_dir: Path, inputs: PMFInputs) -> str:
+    """Render pmf-signal.md as a single section in place of the three star sections."""
+    manifest_path = deal_dir / "manifest.json"
+    if not manifest_path.exists():
+        raise SystemExit(f"{manifest_path} not found")
+    try:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        raise SystemExit(f"{manifest_path} invalid JSON: {e}") from e
+
+    memo = _read(deal_dir / "MEMO.md")
+    memo_sections = _split_memo_sections(memo) if memo else {}
+    header_html, callout, _, _, company = _build_header_html(deal_dir, manifest, memo)
+    ribbon = render_recommendation_ribbon(memo)
+
+    sections_html: list[str] = []
+    toc: list[tuple[str, str]] = []
+
+    pmf_md = inputs.pmf_signal_md or ""
+    body = re.sub(r"^#\s+.+\n", "", pmf_md, count=1)
+    pmf_signal_body = render_markdown(body, heading_offset=1)
+    if pmf_signal_body.strip():
+        sections_html.append(_star_section("pmf-signal", "PMF signal", pmf_signal_body))
+        toc.append(("pmf-signal", "PMF signal"))
+
+    founder_files = sorted(deal_dir.glob("founder-*.md"))
+    drilldowns = _drilldown_section_specs(deal_dir, memo_sections, founder_files)
+    if drilldowns:
+        drill_blocks: list[str] = []
+        for html_id, label, body_html in drilldowns:
+            drill_blocks.append(_wrap_details(html_id, label, body_html))
+            toc.append((html_id, label))
+        sections_html.append(
+            f'<section id="drilldown" class="report-section">'
+            f"<h2>Drill-down</h2>{''.join(drill_blocks)}</section>"
+        )
+
+    persona_html, persona_toc = _personas_block(deal_dir, all_closed=True)
+    if persona_html:
+        sections_html.append(
+            f'<section id="personas" class="report-section"><h2>Personas</h2>{persona_html}</section>'
+        )
+        toc.append(("personas", "Personas"))
+
+    artifacts_body = _source_artifacts_html(deal_dir, founder_files, pmf_inputs=inputs)
+    if artifacts_body:
+        sections_html.append(
+            f'<section id="artifacts" class="report-section"><h2>Source artifacts</h2>{artifacts_body}</section>'
+        )
+        toc.append(("artifacts", "Source artifacts"))
+
+    toc_html = _build_toc(toc, persona_toc)
+    pre_main = callout + ribbon
+    title = f"{company} — diligence report"
+    return _build_html_skeleton(
+        title=title,
+        header_html=header_html,
+        pre_main_html=pre_main,
+        main_body_html="\n".join(sections_html),
+        toc_html=toc_html,
+    )
+
+
+# ---------- top-level dispatcher ------------------------------------------
+
+
+def render_report(deal_dir: Path) -> str:
+    """Top-level entry point: detect input shape and dispatch."""
+    inputs = load_pmf_inputs(deal_dir)
+    branch = detect_branch(inputs, deal_dir)
+    if branch == "full":
+        return render_pmf_led(deal_dir, inputs, branch="full")
+    if branch == "pitch-only":
+        return render_pitch_only(deal_dir, inputs)
+    if branch == "markdown-fallback":
+        return render_markdown_fallback(deal_dir, inputs)
+    return render_legacy(deal_dir)
 
 
 def main(argv: list[str]) -> int:

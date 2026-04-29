@@ -1,0 +1,15 @@
+product:
+  name: Pitch Only Co
+target_market:
+  stated_icp: SMBs
+claims:
+  - claim_id: c-001
+    claim: "Sample claim 1"
+    category: pain
+    source: "deck p.3"
+    verification_method: persona-reaction
+  - claim_id: c-002
+    claim: "Sample claim 2"
+    category: customer-count
+    source: "deck p.4"
+    verification_method: cross-artifact
