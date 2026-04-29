@@ -55,6 +55,34 @@ Goal: produce a target list, outreach drafts, and an interview script.
    - What would it be worth to you to solve this properly?
    - Have you looked for solutions? Why didn't they work?
 
+4. **Optional: place screener calls via `callagent`.** Skip this step entirely if `callagent` is not on PATH or if no candidate has explicit opt-in.
+
+   For each candidate in the target list with explicit opt-in (i.e. they responded to outreach and agreed to a 5-minute screener):
+
+   1. Confirm with the VC, per call: "Did <candidate> explicitly opt in to this call?" If not, skip.
+   2. Generate a task brief inline based on this deal's specifics — do not use a fixed template. Author the markdown yourself, drawing on the deal context (company, ICP from `personas/persona-*.md`, the wedge under evaluation) and the interview methodology you established in Step 3. The brief should:
+      - Open with frontmatter `voice: alloy`, `language: en-US`, `disclosure_required: true`
+      - Identify the firm and its research domain (use `<FIRM>` and `<COMPANY_DOMAIN>` placeholders for context substitution)
+      - Include a verbatim disclosure paragraph under `## Disclosure`
+      - Describe how the agent should interview (anchor on past concrete behavior, follow tangents, use silence, treat "I'd pay" as a yellow flag — Mom Test–style methodology)
+      - Capture the specific topic of curiosity for THIS deal in the body
+      - List hard rules (no portfolio company name, no pitching, end on first request)
+   3. Write the task brief to `deals/<slug>/calls/task-cd-screener.md` and a context file to `deals/<slug>/calls/context.md` (frontmatter with `FIRM:`, `COMPANY_DOMAIN:`, etc.).
+   4. **Iterate first with simulate.** Run `callagent simulate --task deals/<slug>/calls/task-cd-screener.md --context deals/<slug>/calls/context.md --schema deals/<slug>/calls/cd-schema.json` (author the schema inline too — fields like `specific_story_captured`, `pain_evidence`, `current_solution`, `wtp_signal`, `interesting_tangent`, `your_overall_read`, all optional). Play the recipient yourself for 2-3 turns. Adjust the brief if the agent feels off.
+   5. Generate a consent token (e.g., output of `uuidgen`).
+   6. Place the real call:
+      ```
+      callagent place \
+        --to "<candidate-phone>" \
+        --task deals/<slug>/calls/task-cd-screener.md \
+        --context deals/<slug>/calls/context.md \
+        --schema deals/<slug>/calls/cd-schema.json \
+        --consent-token "<uuid>" \
+        --output deals/<slug>/calls/<candidate-id>.json
+      ```
+
+   The result file (transcript + structured data) feeds the `debrief` sub-action.
+
 ### Artifact: `deals/<slug>/customer-discovery-prep.md`
 
 ```markdown
@@ -107,7 +135,11 @@ Goal: synthesize the VC's actual interview notes into a research artifact.
 
 ### Steps
 
-1. Read transcripts/notes from `deals/<slug>/inputs/` or from VC's pasted text. Each interview becomes one input section.
+1. Read interview material from two sources, treating each as one interview section:
+   a. Files under `deals/<slug>/inputs/` — transcripts and notes the VC pasted in
+   b. Files under `deals/<slug>/calls/*.json` — `callagent` screener-call results, if present (skip if the dir doesn't exist)
+
+   For (b), the JSON's `transcript` field is the conversation text; the `structured_data` field pre-fills pain/WTP/current-solution rows in the debrief — but you must still cross-reference quotes from the transcript and write the verdict in your own words. The structured fields are agent-extracted, not authoritative.
 2. For each interview, extract:
    - Pain intensity (1-10) with quote
    - Current solution with quote
