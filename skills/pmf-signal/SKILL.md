@@ -178,9 +178,151 @@ Default total N=60. Allocate:
 
 Adjust if `--n` was passed.
 
-## Stage 2 — Population synthesis
+## Stage 2 — Population synthesis (5W scenario-driven)
 
-(Filled in Tasks 9–11.)
+Goal: produce `deals/<slug>/personas/rows/p-<id>.yaml` × N — a structured population built by causal reasoning from scenario seeds, never by attribute fill.
+
+### 2.1 Scenario-seed mining
+
+Read `_context.md` and extract scenario seeds — specific triggering moments grounded in cited evidence. Examples: a Reddit complaint quote, a regulatory event date, a growth milestone described in an interview, a switching event mentioned in a review.
+
+Each seed:
+
+```yaml
+seed_id: s-014
+trigger: "hit VAT threshold mid-fundraise, mid-Q3"
+trigger_type: <regulatory-growth-collision | switching-cost | onboarding-friction | scaling-stress | exit-prep | onboarding-trust | other>
+source_quote: "<verbatim quote from _context.md>"
+source_ref: "_context.md L<line>"
+implied_attributes:
+  stage: [<list of plausible stages>]
+  geography: <free-text region>
+  vertical: <free-text vertical hint>
+```
+
+Aim for 30–60 seeds total. Each must have a verbatim source quote. If you can't find a seed for a particular trigger type, that's evidence of a context-bundle gap — note it for the refusals report.
+
+Save seeds to `deals/<slug>/personas/seeds.yaml`.
+
+### 2.2 Mode-collapse pre-check
+
+Run `python3 scripts/pmf-signal-mode-collapse.py deals/<slug>/personas/seeds.yaml` (implementation in Task 10).
+
+If the script reports `MODE-COLLAPSE` (top-1 trigger_type share > 0.6), surface to user:
+
+> Scenario-seed pool is heavily concentrated in `<trigger_type>` (X% of seeds). The synthetic population will inherit this bias. Options: (a) extend `_context.md` with sources covering other triggers, then re-run; (b) proceed knowing the population will be biased. Reply `proceed` or `extend`.
+
+Block on user response. If `proceed`, continue but flag in `refusals.md` and the final report.
+
+### 2.3 5W persona construction (strict)
+
+For each persona slot, walk the 5W chain in order. **All five must be filled and traceable, or generation fails for that slot** — the failure goes to `refusals.md`, which is itself diligence signal.
+
+1. **Why (now)** — sample a scenario seed from `seeds.yaml`. The seed becomes Layer 0.
+2. **When** — temporal shape: `quarterly | continuous | trigger-only | one-time-haunting`.
+3. **Who** — derived from the scenario; do not pre-decide. Role, stage, demographics, authority must follow causally from the seed + frame's must-cover cell (if generating for a must-cover slot).
+4. **Where** — physical + channel context (e.g. "kitchen table 11pm, fundraise data room open in next tab").
+5. **What** — verbatim phrasing of how this persona talks and acts. This is the Layer 3 voice fuel.
+
+Layer 1 attributes (clustering) and Layer 2 framework-specific fields are OUTPUTS of this chain.
+
+### 2.4 Persona row schema
+
+Each persona is one structured record at `deals/<slug>/personas/rows/p-<id>.yaml`. Schema:
+
+```yaml
+persona_id: p-007
+schema_version: 1
+frame_id: <frame_id>
+segment: <segment_id>
+generated_at: <ISO timestamp>
+
+scenario:                            # Layer 0 — provenance unit
+  trigger: "<seed.trigger>"
+  trigger_type: "<seed.trigger_type>"
+  source_seed: <seed_id>
+  source_ref: "<seed.source_ref>"
+  when: <quarterly | continuous | trigger-only | one-time-haunting>
+  where: "<physical + channel context>"
+  why_unsolved: "<why current solutions don't address this>"
+
+attributes:                          # Layer 1 — clustering dimensions
+  role: <string>
+  geography: <string>
+  stage: <string>
+  vertical: <string>
+  team_size: <int>
+  revenue_band_mrr_zar: [<low>, <high>]
+  buying_authority: <sole | shared | committee>
+
+# Layer 2 — pick the right block for the frame_id's purpose:
+framework_jtbd:                       # only present if frame_id ends with .jtbd-discovery
+  pain_intensity: <1-10>
+  pain_frequency: <quarterly | continuous | trigger-only>
+  current_solution: <string>
+  switching_forces:
+    push: <string>
+    pull: <string>
+    anxiety: <string>
+    habit: <string>
+  progress_blockers: [<string>]
+
+framework_bant:                       # only if frame_id ends with .bant-qualification
+  budget_band_annual_usd: [<low>, <high>]
+  authority_level: <sole | influencer | blocker | none>
+  need_urgency: <1-10>
+  timeline_to_purchase: <quarter | half | year | longer>
+
+framework_pmf_validation:             # only if frame_id ends with .pmf-validation
+  use_intent_prior: <high | medium | low>
+  primary_anxiety_axis: <cost | trust | switching | integration | other>
+
+framework_founder_claim:              # only if frame_id ends with .founder-claim-validation
+  centered_on_claim: <claim_id>       # the one claim this row most pressures
+
+voice:                                # Layer 3 — NLP / matching fuel (every frame)
+  pain_phrases: [<string>]            # 3-5
+  objections: [<string>]              # 2-3
+  purchase_trigger: <string>
+
+discoverability_signals:
+  job_titles: [<string>]
+  communities: [<string>]
+  post_patterns: [<string>]
+  query_strings: [<string>]
+
+context_grounding:
+  - {claim: <string>, source: <_context.md ref>}
+fabrication_flags: [<string>]         # populated when LLM had to extrapolate
+```
+
+### 2.5 Generation strategy (stratified hybrid)
+
+1. Enumerate must-cover cells across all enabled frames (≈10–12 per frame). Generate 1–3 personas per cell. The founder's stated ICP center is always a must-cover cell — those rows feed founder-claim-validation directly.
+2. Distribution-sample the remaining slots up to N (default 60), weighted by the frame budget allocation in Stage 1.
+3. **Refuse** any slot where the 5W chain cannot be grounded in `_context.md`. Append to `personas/refusals.md`:
+
+```markdown
+# Population synthesis refusals
+
+## Refusal 1
+**Slot:** frame=<frame_id>, must_cover=<cell>
+**Reason:** could not ground 5W chain — no seed in `_context.md` covers <trigger description>
+**Implication:** context bundle gap; re-run `dudu:market-problem` with sources covering <X>
+```
+
+### 2.6 Parallelization
+
+Population synthesis is embarrassingly parallel per frame. Dispatch one worker subagent per enabled frame using your host's parallel-agent dispatch primitive (see `lib/research-protocol.md` § Parallelization).
+
+Each subagent receives:
+- Full `_context.md` text
+- Full `pitch.yaml`
+- The frame's `frames.yaml` entry
+- The seed pool (full `seeds.yaml`)
+- This row schema
+
+Returns: row YAML files as text. Main session writes them to `personas/rows/p-<id>.yaml` (assigning `persona_id` sequentially) and the `refusals.md` accumulator.
 
 ## Stage 3 — Claim verification
 
