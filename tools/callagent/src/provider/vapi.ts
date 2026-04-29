@@ -14,8 +14,9 @@ export class VapiProvider implements Provider {
   assembleDTO(spec: CallSpec): any {
     const systemMessage =
       spec.persona.body.trim() +
-      "\n\n## Goal for this call\n" +
-      spec.goal;
+      "\n\n## What you're curious about today\n" +
+      spec.goal +
+      "\n\nThat's the territory you're exploring on this call. It's a starting point, not a destination — the conversation goes where the conversation goes. Don't treat it as a checklist.";
 
     const messages: Array<{ role: string; content: string }> = [
       { role: "system", content: systemMessage },
