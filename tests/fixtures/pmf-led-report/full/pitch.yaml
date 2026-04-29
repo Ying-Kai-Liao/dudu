@@ -1,0 +1,35 @@
+product:
+  name: Full Fixture Co
+target_market:
+  stated_icp: SA freelancers
+claims:
+  - claim_id: c-001
+    claim: "Compliance pain costs 2 days/quarter"
+    category: pain
+    source: "deck p.3"
+    verification_method: persona-reaction
+  - claim_id: c-010
+    claim: "12 paying customers"
+    category: customer-count
+    source: "deck p.4"
+    verification_method: cross-artifact
+  - claim_id: c-020
+    claim: "Co-founder previously exited to Stripe"
+    category: founder-background
+    source: "deck p.2"
+    verification_method: cross-artifact
+  - claim_id: c-030
+    claim: "TAM is $50B globally"
+    category: market-size
+    source: "deck p.5"
+    verification_method: cross-artifact
+  - claim_id: c-040
+    claim: "No direct competitors in SA"
+    category: competitive
+    source: "deck p.6"
+    verification_method: cross-artifact
+  - claim_id: c-050
+    claim: "buyers find us via accountant referrals"
+    category: gtm-distribution
+    source: "deck p.9"
+    verification_method: persona-reaction

@@ -41,6 +41,10 @@ header.report time { font-variant-numeric: tabular-nums; }
 .dots .dot.done { background: #16a34a; }
 .callout { margin: 1rem 2rem 0; padding: 0.75rem 1rem; border-left: 4px solid #f59e0b; background: #fffbeb; color: #78350f; border-radius: 4px; font-size: 0.92rem; }
 
+.recommendation-ribbon { margin: 1rem 2rem 0; padding: 0.85rem 1.1rem; border-left: 4px solid var(--accent); background: #eff6ff; color: #1e3a8a; border-radius: 4px; font-size: 0.95rem; }
+.recommendation-ribbon h3 { font-family: system-ui, -apple-system, sans-serif; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: #1e3a8a; margin: 0 0 0.4rem; padding: 0; border: none; }
+.recommendation-ribbon p { margin: 0.3rem 0; }
+
 .layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 0; align-items: start; }
 nav.toc { position: sticky; top: 0; align-self: start; max-height: 100vh; overflow-y: auto; padding: 1.5rem 1rem 1.5rem 2rem; border-right: 1px solid var(--line); font-size: 0.9rem; background: #fcfcfc; }
 nav.toc h2 { font-family: system-ui, sans-serif; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin: 0 0 0.5rem; padding: 0; border: none; }
@@ -55,6 +59,7 @@ nav.toc ul.group a { font-size: 0.85rem; padding: 0.15rem 0.4rem; }
 
 main { padding: 2rem 2.5rem; max-width: 800px; }
 section.report-section { scroll-margin-top: 1rem; }
+section.star-section > h2::before { content: "★ "; color: #f59e0b; font-weight: normal; }
 details { margin: 0.5rem 0; border: 1px solid var(--line); border-radius: 6px; padding: 0.5rem 0.9rem; background: #fcfcfc; }
 details > summary { cursor: pointer; font-weight: 600; color: var(--ink); padding: 0.15rem 0; }
 details[open] { background: #fff; }
@@ -64,6 +69,47 @@ details[open] > summary { margin-bottom: 0.4rem; }
 .chart-title { font-weight: 600; margin-bottom: 0.5rem; font-size: 0.95rem; }
 .chart-legend { font-size: 0.8rem; color: var(--muted); margin-top: 0.35rem; }
 
+.verdict-strip { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.75rem 0 0.4rem; }
+.verdict-strip .vc-pill { padding: 0.25rem 0.7rem; border-radius: 999px; font-size: 0.85rem; font-weight: 600; }
+.verdict-strip .vc-pill.contradicts { background: #fee2e2; color: #991b1b; }
+.verdict-strip .vc-pill.partial { background: #fef3c7; color: #92400e; }
+.verdict-strip .vc-pill.no-evidence { background: #fef3c7; color: #92400e; }
+.verdict-strip .vc-pill.supports { background: #dcfce7; color: #166534; }
+.verdict-strip .vc-pill.pending { background: #f3f4f6; color: #6b7280; font-style: italic; }
+.verdict-strip-caption { font-size: 0.85rem; color: var(--muted); margin: 0.1rem 0; }
+.verdict-strip-legend { font-size: 0.8rem; color: var(--muted); margin: 0.1rem 0 0.75rem; }
+
+.method-badge { display: inline-block; padding: 0.1rem 0.55rem; border-radius: 4px; font-size: 0.78rem; font-weight: 600; white-space: nowrap; }
+.method-badge.persona-reaction { border: 1px solid #9ca3af; color: #4b5563; background: transparent; font-style: italic; }
+.method-badge.cross-artifact { background: #2563eb; color: #fff; }
+.method-badge.external { background: #16a34a; color: #fff; }
+.method-badge.unknown { background: #d1d5db; color: #374151; }
+
+.verdict-badge { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 4px; font-size: 0.78rem; font-weight: 600; white-space: nowrap; }
+.verdict-badge.contradicts { background: #dc2626; color: #fff; }
+.verdict-badge.partial { background: #f59e0b; color: #fff; }
+.verdict-badge.no-evidence { background: #f59e0b; color: #fff; }
+.verdict-badge.supports { background: #16a34a; color: #fff; }
+.verdict-badge.pending { background: #f3f4f6; color: #6b7280; font-style: italic; border: 1px dashed #d1d5db; }
+
+.stance-b-caption { display: block; margin-top: 0.3rem; font-size: 0.78rem; color: #6b7280; font-style: italic; }
+.pending-group-header { display: inline-block; font-style: italic; color: var(--muted); font-size: 0.9rem; margin: 0.3rem 0; }
+.pending-group-row td { background: #fafafa; border-top: 1px dashed var(--line); }
+.evidence-pending { color: var(--muted); font-style: italic; }
+.evidence-loc { color: var(--muted); font-size: 0.85em; }
+
+.ledger-table .claim-cell { min-width: 22ch; }
+.ledger-table .evidence-cell { min-width: 26ch; max-width: 44ch; }
+
+.contradiction-entry { margin: 0.85rem 0; padding: 0.75rem 1rem; border-left: 4px solid #dc2626; background: #fef2f2; border-radius: 4px; }
+.contradiction-entry .claim-text { font-weight: 600; color: #1a1a1a; }
+.contradiction-entry .file-pointer { display: block; margin-top: 0.4rem; font-size: 0.85rem; color: var(--muted); }
+.contradiction-entry blockquote { margin: 0.5rem 0; border-left-color: #dc2626; }
+
+.outreach-table td.warm-quote { font-style: italic; color: #4b5563; }
+.outreach-more { display: inline-block; margin-top: 0.5rem; font-size: 0.9rem; color: var(--muted); }
+.fallback-note { padding: 0.75rem 1rem; border-left: 4px solid var(--muted); background: var(--soft); border-radius: 4px; color: #4b5563; font-style: italic; }
+
 @media (max-width: 900px) {
   .layout { grid-template-columns: minmax(0, 1fr); }
   nav.toc { position: static; max-height: none; border-right: none; border-bottom: 1px solid var(--line); padding: 1rem 1.5rem; display: none; }
@@ -72,6 +118,7 @@ details[open] > summary { margin-bottom: 0.4rem; }
   main { padding: 1.5rem; max-width: 100%; }
   header.report { padding: 1.25rem 1.5rem; }
   pre, table { max-width: 100%; }
+  .recommendation-ribbon, .callout { margin-left: 1.5rem; margin-right: 1.5rem; }
 }
 
 @media print {
@@ -82,7 +129,7 @@ details[open] > summary { margin-bottom: 0.4rem; }
   section.report-section { page-break-before: always; }
   section.report-section:first-of-type { page-break-before: auto; }
   a { color: var(--ink); text-decoration: underline; }
-}</style></head><body><header class="report"><span class="slug">ledgerloop</span><h1>LedgerLoop</h1><div class="meta"><span class="pill pass">Pass</span><span class="dots" aria-label="Sub-skill status"><span class="dot done" title="Founder check: 2026-04-28T08:25:00Z"></span><span class="dot done" title="Market &amp; problem: 2026-04-28T08:55:00Z"></span><span class="dot done" title="Discovery prep: 2026-04-28T09:00:00Z"></span><span class="dot done" title="Competitive landscape: 2026-04-28T09:10:00Z"></span><span class="dot done" title="Market sizing: 2026-04-28T09:20:00Z"></span><span class="dot" title="Discovery debrief: pending"></span></span><time datetime="2026-04-29T13:50:55Z">Generated 2026-04-29T13:50:55Z</time></div></header><div class="callout">Original pitch supplied was &#x27;Embedded working-capital and cashflow tools for Southeast Asian wholesalers.&#x27; Founder-check found no SEA presence; LedgerLoop&#x27;s public footprint and Dylan Martens&#x27;s own LinkedIn describe a Cape Town accounting/tax practice. VC reframed on 2026-04-28 to evaluate the actual practice.</div><button class="toc-toggle" type="button">Contents</button><div class="layout"><nav class="toc" aria-label="Table of contents"><h2>Contents</h2><ul><li><a href="#tldr">TL;DR</a></li><li><a href="#founder-dylan-martens">Founder: Dylan Martens</a></li><li><a href="#problem">Problem &amp; Product</a></li><li><a href="#customer-signal">Customer Signal</a></li><li><a href="#customer-discovery-prep">Discovery Prep</a></li><li><a href="#competitive-landscape">Competitive Landscape</a></li><li><a href="#market-sizing">Market Sizing</a></li><li><a href="#synthesis">Cross-artifact Synthesis</a></li><li><a href="#recommendation">Recommendation</a></li><li><a href="#personas">Personas</a><ul class="group"><li><a href="#persona-context">Problem-space context</a></li><li><a href="#persona-persona-1">Persona 1</a></li><li><a href="#persona-persona-2">Persona 2</a></li><li><a href="#persona-persona-3">Persona 3</a></li><li><a href="#persona-round-1">Round 1</a></li><li><a href="#persona-round-2">Round 2</a></li><li><a href="#persona-round-3">Round 3</a></li><li><a href="#persona-round-4">Round 4</a></li><li><a href="#persona-round-5">Round 5</a></li><li><a href="#persona-round-6">Round 6</a></li></ul></li><li><a href="#artifacts">Source artifacts</a></li></ul></nav><main><section id="tldr" class="report-section"><h2>TL;DR</h2><p>LedgerLoop is a 10-month-old Cape Town–based accounting and tax practice founded by Dylan Martens CA(SA) (KPMG alum, also concurrently CEO of LucroTech). It does not match the original deal pitch (&quot;embedded working-capital and cashflow tools for Southeast Asian wholesalers&quot;) — public sources unambiguously describe a South African owner-managed accounting firm targeting freelancers, SMEs, and startups at R4,500–R17,500/month. Bottom-up sizing puts a realistic five-year revenue ceiling at roughly R6–24m ARR for the Cape Town wedge, which is services-business scale rather than venture scale, and there is no structural moat visible against ~17 named direct SA competitors who use indistinguishable &quot;modern, fixed-fee, Xero-led&quot; positioning. The founder profile is competent and credible (CA(SA), 15-year career, Big-4 audit origin, prior product role at a DeFi platform), but he runs LedgerLoop alongside a full-time CEO role at LucroTech, which is a focus risk. <strong>Recommendation: Pass on the deal as currently scoped, with conditions under which it could become a Watch (see Recommendation).</strong></p></section>
+}</style></head><body><header class="report"><span class="slug">ledgerloop</span><h1>LedgerLoop</h1><div class="meta"><span class="pill pass">Pass</span><span class="dots" aria-label="Sub-skill status"><span class="dot done" title="Founder check: 2026-04-28T08:25:00Z"></span><span class="dot done" title="Market &amp; problem: 2026-04-28T08:55:00Z"></span><span class="dot done" title="Discovery prep: 2026-04-28T09:00:00Z"></span><span class="dot done" title="Competitive landscape: 2026-04-28T09:10:00Z"></span><span class="dot done" title="Market sizing: 2026-04-28T09:20:00Z"></span><span class="dot" title="Discovery debrief: pending"></span></span><time datetime="2026-04-29T15:22:04Z">Generated 2026-04-29T15:22:04Z</time></div></header><div class="callout">Original pitch supplied was &#x27;Embedded working-capital and cashflow tools for Southeast Asian wholesalers.&#x27; Founder-check found no SEA presence; LedgerLoop&#x27;s public footprint and Dylan Martens&#x27;s own LinkedIn describe a Cape Town accounting/tax practice. VC reframed on 2026-04-28 to evaluate the actual practice.</div><button class="toc-toggle" type="button">Contents</button><div class="layout"><nav class="toc" aria-label="Table of contents"><h2>Contents</h2><ul><li><a href="#tldr">TL;DR</a></li><li><a href="#founder-dylan-martens">Founder: Dylan Martens</a></li><li><a href="#problem">Problem &amp; Product</a></li><li><a href="#customer-signal">Customer Signal</a></li><li><a href="#customer-discovery-prep">Discovery Prep</a></li><li><a href="#competitive-landscape">Competitive Landscape</a></li><li><a href="#market-sizing">Market Sizing</a></li><li><a href="#synthesis">Cross-artifact Synthesis</a></li><li><a href="#recommendation">Recommendation</a></li><li><a href="#personas">Personas</a><ul class="group"><li><a href="#persona-context">Problem-space context</a></li><li><a href="#persona-persona-1">Persona 1</a></li><li><a href="#persona-persona-2">Persona 2</a></li><li><a href="#persona-persona-3">Persona 3</a></li><li><a href="#persona-round-1">Round 1</a></li><li><a href="#persona-round-2">Round 2</a></li><li><a href="#persona-round-3">Round 3</a></li><li><a href="#persona-round-4">Round 4</a></li><li><a href="#persona-round-5">Round 5</a></li><li><a href="#persona-round-6">Round 6</a></li></ul></li><li><a href="#artifacts">Source artifacts</a></li></ul></nav><main><section id="tldr" class="report-section"><h2>TL;DR</h2><p>LedgerLoop is a 10-month-old Cape Town–based accounting and tax practice founded by Dylan Martens CA(SA) (KPMG alum, also concurrently CEO of LucroTech). It does not match the original deal pitch (&quot;embedded working-capital and cashflow tools for Southeast Asian wholesalers&quot;) — public sources unambiguously describe a South African owner-managed accounting firm targeting freelancers, SMEs, and startups at R4,500–R17,500/month. Bottom-up sizing puts a realistic five-year revenue ceiling at roughly R6–24m ARR for the Cape Town wedge, which is services-business scale rather than venture scale, and there is no structural moat visible against ~17 named direct SA competitors who use indistinguishable &quot;modern, fixed-fee, Xero-led&quot; positioning. The founder profile is competent and credible (CA(SA), 15-year career, Big-4 audit origin, prior product role at a DeFi platform), but he runs LedgerLoop alongside a full-time CEO role at LucroTech, which is a focus risk. <strong>Recommendation: Pass on the deal as currently scoped, with conditions under which it could become a Watch (see Recommendation).</strong></p></section>
 <section id="founder-dylan-martens" class="report-section"><h2>Founder: Dylan Martens</h2><p><strong>Deal:</strong> ledgerloop <strong>Generated:</strong> 2026-04-28T08:25:00Z</p>
 <blockquote><p>⚠️ <strong>Critical disambiguation flag.</strong> Public sources and the founder&#x27;s own LinkedIn describe <strong>LedgerLoop as a Cape Town-based accounting and tax practice</strong> founded June 2025, <strong>not</strong> an embedded working-capital fintech for Southeast Asian wholesalers. The deal pitch supplied to dudu does not match the public footprint of either the company name or the founder. This dossier covers the only publicly identifiable Dylan Martens with a LedgerLoop affiliation; the VC must reconcile the mismatch before further skills are run. See <strong>Open questions</strong> at the bottom.</p></blockquote>
 <h3>Career timeline</h3>

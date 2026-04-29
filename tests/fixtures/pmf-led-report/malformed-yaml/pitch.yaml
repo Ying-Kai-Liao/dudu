@@ -1,0 +1,7 @@
+product:
+  name: Malformed YAML Co
+claims:
+  - claim_id: c-001
+    claim: [unclosed list
+    category: pain
+        bad: indent

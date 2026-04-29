@@ -1,0 +1,19 @@
+schema_version: 1
+n: 10
+grounded: 9
+fabricated: 1
+would_use:
+  yes: 4
+  no: 3
+  yes-with-caveats: 3
+willing_to_pay:
+  yes: 3
+  no: 5
+  maybe: 2
+wtp_ceiling_zar_per_month:
+  n: 3
+  median: 10000
+  mean: 10000.0
+by_trigger_type:
+  regulatory-growth-collision: 6
+  switching-cost: 4

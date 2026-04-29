@@ -1,6 +1,9 @@
 # Per-deal artifacts contain VC research and should never be committed
 deals/
 
+# Test-fixture renderer outputs — regenerated on every test run
+tests/fixtures/**/report.html
+
 # Playwright MCP runtime logs and page snapshots — tool output, not source
 .playwright-mcp/
 
