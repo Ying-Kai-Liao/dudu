@@ -405,6 +405,64 @@ verdict_rationale: "<1-3 sentences explaining the verdict>"
 
 Group claims by `cross_artifact` (founder-check / market-sizing / competitive-landscape). Dispatch one worker subagent per group; each subagent receives the full text of its target artifact plus the claim list it owns.
 
+### Stage 3c — External-evidence verification
+
+For each claim with `verification_method: external-evidence`, run a bounded targeted web check.
+
+**Budget caps:** 5 fetches per claim; 30 fetches total across stage 3c.
+
+**Architecture:** Claude fetches URLs with WebFetch and saves raw HTML to `deals/<slug>/.tmp/3c/<claim_id>/<recipe>/<seq>.html`. Then for each claim, Claude calls the recipe Python module on the saved HTML files. The recipe returns a finding string; Claude composes the verdict.
+
+#### Recipe library (v1)
+
+| Recipe slug | URLs to fetch | Module | What it returns |
+|---|---|---|---|
+| `customer-list-on-website` | homepage + `/customers` + `/case-studies` (max 3) | `pmf-signal-recipes/customer_list.py` | "homepage shows N named logo(s); M detailed case stud(ies)" |
+| `testimonial-count` | homepage + `/about` + `/testimonials` (max 3) | `pmf-signal-recipes/testimonial_count.py` | "X testimonial(s) with named attribution; Y unattributed quote(s)" |
+| `wayback-machine-claim-history` | 3–5 Wayback snapshots of the relevant page | `pmf-signal-recipes/wayback_history.py` | "N snapshot(s); claim numbers found: [...]; trajectory: a → b → c" |
+
+If a claim's category needs a recipe that's not in v1 (e.g. SEO ranking, G2 presence), emit the verdict with `flag_if_unverifiable: requires-data-room` and `verdict: requires-data-room`.
+
+#### Calling a recipe
+
+The recipe modules are loaded via `importlib.util.spec_from_file_location` (the package directory `pmf-signal-recipes/` contains hyphens, which Python's regular import system can't handle). Use this template:
+
+```bash
+python3 -c "
+import importlib.util
+from pathlib import Path
+recipes = Path('scripts/pmf-signal-recipes')
+spec = importlib.util.spec_from_file_location('_pmf_recipe_customer_list', recipes / 'customer_list.py')
+mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
+htmls = [p.read_text(encoding='utf-8') for p in sorted(Path('deals/<slug>/.tmp/3c/<claim_id>/customer-list-on-website').glob('*.html'))]
+print(mod.run(htmls))
+"
+```
+
+The recipe-slug-to-module mapping replaces hyphens with underscores: `customer-list-on-website` → `customer_list.py`, `testimonial-count` → `testimonial_count.py`, `wayback-machine-claim-history` → `wayback_history.py`.
+
+#### Verdict shape (one file per claim, stored at `personas/verdicts-3c/<claim_id>.yaml`)
+
+```yaml
+claim_id: c-010
+claim: "<verbatim claim text>"
+verification_method: external-evidence
+external_check_results:
+  - recipe: customer-list-on-website
+    finding: "homepage shows 18 named logo(s); 7 detailed case stud(ies)"
+    fetched: ["<url>", "<url>"]
+  - recipe: testimonial-count
+    finding: "12 testimonial(s) with named attribution; 0 unattributed quote(s)"
+    fetched: ["<url>"]
+verdict: <supports | partial | contradicts | insufficient-evidence-for-<X> | requires-data-room>
+verdict_rationale: "<1-3 sentences synthesizing across recipes>"
+flags: [<requires-data-room | classifier-uncertain | ...>]
+```
+
+#### Parallelization
+
+Dispatch one worker subagent per claim. Concurrency cap: 5. Each subagent owns its 5-fetch budget for one claim.
+
 ## Stage 4 — PMF signal report
 
 (Filled in Task 17.)
