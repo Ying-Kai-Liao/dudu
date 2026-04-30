@@ -52,6 +52,20 @@ CALLAGENT_AUDIT_LOG=/var/log/callagent/consent.jsonl   # override audit log loca
 CALLAGENT_PROVIDER=vapi                                 # default; only vapi is supported in v1
 ```
 
+### Privacy allowlist
+
+`place` rejects any `--to` that is not on the allowlist. The allowlist is **hardcoded** in `src/allowlist.ts` and cannot be changed via environment variables — to call a different number, edit the source and rebuild.
+
+Currently allowed:
+
+```
++61423366127
++61405244282
++61459529124
+```
+
+A rejected number exits with code 2 and prints the active allowlist so you can self-diagnose.
+
 ---
 
 ## Quick start: simulate first (recommended)
@@ -327,7 +341,7 @@ The audit log location resolves as:
 |---|---|
 | `0` | Success |
 | `1` | Provider or network error |
-| `2` | Input validation error (bad flag, missing env var, unsupported feature) |
+| `2` | Input validation error (bad flag, missing env var, unsupported feature, **`--to` not on the privacy allowlist**) |
 | `3` | Consent gate refused (missing or empty `--consent-token`) |
 | `4` | Call ended without extraction, or polling timed out |
 

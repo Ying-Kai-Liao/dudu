@@ -9,6 +9,7 @@ import {
   emitBannerAndSleep,
   hashToken,
 } from "../consent.js";
+import { validateAllowedNumber } from "../allowlist.js";
 import { getProvider } from "../provider/index.js";
 import { VapiProvider } from "../provider/vapi.js";
 import { writeCallResult } from "../output.js";
@@ -29,6 +30,7 @@ export interface PlaceOptions {
 const ABORT_WINDOW_SECONDS = 5;
 
 export async function placeCommand(opts: PlaceOptions): Promise<void> {
+  validateAllowedNumber(opts.to);
   validateConsentToken(opts.consentToken);
 
   if (opts.tools) {

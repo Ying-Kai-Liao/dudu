@@ -7,6 +7,10 @@ import { placeCommand } from "../src/commands/place.js";
 const TASK = resolve(__dirname, "fixtures/task-basic.md");
 const SCHEMA = resolve(__dirname, "fixtures/schema-basic.json");
 
+// First entry in the hardcoded privacy allowlist. Tests dial it because the
+// allowlist has no env-var override.
+const TEST_TO = "+61423366127";
+
 let tmp: string;
 beforeEach(() => {
   tmp = mkdtempSync(`${tmpdir()}/callagent-place-`);
@@ -25,7 +29,7 @@ describe("placeCommand", () => {
     const log = vi.spyOn(console, "log").mockImplementation(() => {});
     const fetchSpy = vi.spyOn(globalThis, "fetch");
     await placeCommand({
-      to: "+15551234567",
+      to: TEST_TO,
       task: TASK,
       schema: SCHEMA,
       consentToken: "tok-1",
@@ -36,12 +40,28 @@ describe("placeCommand", () => {
     expect(fetchSpy).not.toHaveBeenCalled();
     const printed = log.mock.calls.map((c) => c[0]).join("\n");
     expect(printed).toContain("structuredDataSchema");
-    expect(printed).toContain("+15551234567");
+    expect(printed).toContain(TEST_TO);
+  });
+
+  it("rejects --to that is not on the privacy allowlist with exit code 2", async () => {
+    await expect(placeCommand({
+      to: "+15551234567",
+      task: TASK,
+      schema: SCHEMA,
+      // Valid consent token — this proves the allowlist gate fires first.
+      consentToken: "tok-1",
+      maxDuration: 60,
+      record: true,
+      dryRun: true,
+    } as any)).rejects.toMatchObject({
+      exitCode: 2,
+      message: expect.stringContaining("not in the callagent allowlist"),
+    });
   });
 
   it("rejects empty consent token with exit code 3", async () => {
     await expect(placeCommand({
-      to: "+15551234567",
+      to: TEST_TO,
       task: TASK,
       schema: SCHEMA,
       consentToken: "",
@@ -55,7 +75,7 @@ describe("placeCommand", () => {
     const toolsPath = `${tmp}/tools.json`;
     writeFileSync(toolsPath, JSON.stringify([{ type: "function", function: { name: "x" } }]));
     await expect(placeCommand({
-      to: "+15551234567",
+      to: TEST_TO,
       task: TASK,
       schema: SCHEMA,
       consentToken: "tok-1",
@@ -70,7 +90,7 @@ describe("placeCommand", () => {
     const log = vi.spyOn(console, "log").mockImplementation(() => {});
     const fetchSpy = vi.spyOn(globalThis, "fetch");
     await placeCommand({
-      to: "+15551234567",
+      to: TEST_TO,
       task: TASK,
       consentToken: "tok-1",
       maxDuration: 60,
@@ -81,7 +101,7 @@ describe("placeCommand", () => {
     const printed = log.mock.calls.map((c) => c[0]).join("\n");
     const dto = JSON.parse(printed);
     expect(dto.assistant.analysisPlan).toBeUndefined();
-    expect(dto.customer.number).toBe("+15551234567");
+    expect(dto.customer.number).toBe(TEST_TO);
   });
 
   it("throws with exitCode 4 when call status is failed", async () => {
@@ -93,7 +113,7 @@ describe("placeCommand", () => {
       endedAt: undefined,
       artifact: { transcript: "", stereoRecordingUrl: undefined, messages: [] },
       analysis: { structuredData: null },
-      customer: { number: "+15551234567" },
+      customer: { number: TEST_TO },
     };
 
     let callCount = 0;
@@ -113,7 +133,7 @@ describe("placeCommand", () => {
     const outputPath = `${tmp}/failed-call.json`;
     await expect(
       placeCommand({
-        to: "+15551234567",
+        to: TEST_TO,
         task: TASK,
         consentToken: "tok-failed",
         maxDuration: 60,
