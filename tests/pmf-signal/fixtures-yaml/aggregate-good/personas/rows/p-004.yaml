@@ -1,0 +1,7 @@
+persona_id: p-004
+frame_id: x.pmf-validation
+scenario:
+  trigger_type: regulatory-growth-collision
+attributes:
+  role: founder-ceo
+fabrication_flags: []

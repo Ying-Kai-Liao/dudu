@@ -28,6 +28,31 @@ Same idempotency check as other skills (read `lib/deal.md`). Artifact path: `dea
 5. **Google Patents** — search the core technique or product noun. Filed-and-granted vs filed-and-abandoned matters.
 6. **News and tech press** — search the category for the last 18 months.
 
+## Parallelization (Layer 2 — per competitor)
+
+Competitor research splits cleanly per competitor. Run this skill in two stages:
+
+**Stage A — discovery (main session, ~10 fetches).** Identify the candidate competitor list via batched parallel `WebFetch` (Layer 1) across Product Hunt, GitHub category search, and news/tech-press for the category. Output: a list of up to ~30 competitors with names + one-line positioning each.
+
+**Stage B — per-competitor deep dive (fan out).** For the discovered list, dispatch **one worker subagent per competitor**, all concurrently in a single turn. See `lib/research-protocol.md` § Parallelization for the cross-platform mapping (Claude Code: `Agent` with `subagent_type="general-purpose"`; Codex: `spawn_agent` with `agent_type="worker"` and `multi_agent = true` in config).
+
+Each subagent prompt MUST include:
+
+- Competitor name, one-line positioning, and the deal's product description (so the subagent can judge direct vs indirect).
+- A **per-competitor budget of ~4 public-web fetches** (reserve ~1 for main-session Crunchbase work).
+- The citation and source-honesty rules from `lib/research-protocol.md` (paste, don't reference).
+- Sources to consult: items **1, 3, 4, 5, 6** above. **Skip item 2 (Crunchbase)** — Playwright with VC session is main-session only.
+- Required return shape: a single row each for the Direct-competitors table and (if applicable) the Indirect-competitors table from the artifact, plus any moat-relevant evidence quotes with sources, plus an `Activity verdict` (Active / Abandoned / Unknown) with last-commit or last-news date.
+
+For incumbents specifically, the subagent additionally returns: shipping evidence link, hiring-signal count + link, public-statement quotes with sources.
+
+After all subagents return, in the **main session**:
+
+1. For each competitor that warrants it, do Crunchbase Playwright lookups (item 2) to fill funding/headcount/last-raise.
+2. Merge subagent summaries + Crunchbase data into the artifact tables and the moat analysis.
+
+If the discovered competitor list has fewer than 3 entries, skip fan-out and use Layer 1 inline.
+
 ## Artifact template
 
 ```markdown

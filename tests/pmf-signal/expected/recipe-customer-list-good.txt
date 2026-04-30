@@ -1,0 +1,2 @@
+homepage shows 5 named logo(s); 2 detailed case stud(ies)
+EXIT=0

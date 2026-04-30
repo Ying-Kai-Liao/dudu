@@ -1,0 +1,5 @@
+pmf-signal cannot start — Layer 1 bundle is incomplete for deal "preflight-missing":
+  ✗ deals/preflight-missing/background.md (the L1 sentinel — produced by dudu:background-check)
+
+Run dudu:background-check to produce the L1 bundle, then re-invoke dudu:pmf-signal.
+EXIT=2

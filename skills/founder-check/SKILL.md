@@ -58,6 +58,25 @@ In rough priority order, capping at ~30 fetches per founder:
 9. **Crunchbase founder page** — Playwright. Prior ventures with funding/exit data.
 10. **Court records / litigation** — search "<founder name> lawsuit OR litigation OR settled" with the company name as additional context. Only include results clearly tied to this person.
 
+## Parallelization (Layer 2 — per founder)
+
+Founders are independent research units. With **2 or more** founders, dispatch **one worker subagent per founder**, all concurrently in a single turn. See `lib/research-protocol.md` § Parallelization for the cross-platform mapping (Claude Code: `Agent` with `subagent_type="general-purpose"`; Codex: `spawn_agent` with `agent_type="worker"` and `multi_agent = true` in config).
+
+Each subagent prompt MUST include:
+
+- The founder's name, company name, and any disambiguator (e.g., LinkedIn URL if supplied).
+- A **per-founder budget of ~25 public-web fetches** (reserve ~5 for main-session Playwright work below).
+- The full citation and source-honesty rules from `lib/research-protocol.md` (paste, don't reference — subagents don't auto-load it).
+- Sources to consult: items **1–7 and 10** from the list above. **Skip items 8 (LinkedIn) and 9 (Crunchbase)** — those require the VC's authenticated session and cannot be delegated.
+- Required return shape: a markdown summary with sections matching the artifact template (Career timeline, Domain credibility, Prior ventures, Public controversies, Communication style with one verbatim quote, Open questions) plus a `Sources` list. **Do not let the subagent write to `deals/`** — it returns text only.
+
+After all subagents return, in the **main session**:
+
+1. For each founder, do the LinkedIn + Crunchbase Playwright work (items 8, 9). Authenticated browsers cannot run in subagents.
+2. Merge the subagent summary + Playwright findings into the artifact and write `deals/<slug>/founder-<kebab-name>.md`.
+
+With a single founder, skip fan-out and run inline using Layer 1 (batch parallel fetches in a single message).
+
 ## Artifact template
 
 Write to `deals/<slug>/founder-<kebab-name>.md`:
