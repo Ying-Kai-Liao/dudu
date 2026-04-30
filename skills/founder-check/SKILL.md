@@ -128,3 +128,51 @@ Write to `deals/<slug>/founder-<kebab-name>.md`:
 
 1. Update `deals/<slug>/manifest.json` `skills_completed["founder-check"]` to the current ISO-8601 UTC timestamp.
 2. Print a one-line summary: `Wrote founder-check for N founder(s) to deals/<slug>/`.
+
+## Optional: reference calls via `callagent`
+
+Skip this section entirely if `callagent` is not on PATH or if the founder has not provided a reference list.
+
+The founder MUST supply the reference list — do not synthesize references from the dossier. Save the reference list at `deals/<slug>/inputs/founder-<kebab-name>-references.md` with at minimum, per reference:
+- Name
+- Phone (E.164)
+- How the founder knows them (peer / manager / customer / advisor)
+- Explicit confirmation that the reference has agreed to be contacted
+
+If any of those fields are missing for a reference, do not call them.
+
+### For each reference
+
+1. Confirm with the VC, per call: "Did <reference> explicitly opt in to this call?" If not, skip.
+2. Author a task brief inline for THIS founder and reference. Do not use a fixed template — write the brief based on what the dossier surfaced. The brief should:
+   - Open with frontmatter `voice: alloy`, `language: en-US`, `disclosure_required: true`
+   - Identify the firm and the founder under evaluation (use `<FIRM>` and `<FOUNDER_NAME>` placeholders for context substitution)
+   - Include a verbatim disclosure paragraph under `## Disclosure` that names the founder and references them ("<FOUNDER_NAME> listed you as a reference")
+   - Describe how the agent should interview a reference: anchor on specific events the reference can recall, never accept generic praise without an example, politely re-ask once if they say "no concerns", listen for what isn't said (hesitations, refusals to specify), don't push for a yes/no on "would you invest"
+   - State the territory of curiosity for THIS reference (working relationship, strengths with examples, growth areas, would-they-work-with-again)
+   - List hard rules (don't reveal what other references said, don't share the founder's pitch or what the firm is investing in, end on first request)
+3. Write the task brief to `deals/<slug>/calls/task-founder-<kebab-name>-ref-<n>.md` and a context file to `deals/<slug>/calls/founder-<kebab-name>-context.md` (frontmatter with `FIRM:`, `FOUNDER_NAME:`).
+4. Author a JSON Schema for end-of-call extraction at `deals/<slug>/calls/founder-reference-schema.json`. Suggested fields, all optional: `relationship_context`, `working_dates`, `strength_examples` (array of specific moments), `concern_examples` (array), `would_work_with_again` (enum: yes/no/qualified/unclear), `would_work_with_again_reason`, `reference_quality` (enum: high/medium/low), `what_was_not_said`, `your_overall_read`. Set `"required": []`.
+5. **Iterate first with simulate.** Run `callagent simulate --task <task-path> --context <context-path> --schema deals/<slug>/calls/founder-reference-schema.json`. Play the reference yourself for 2-3 turns. Adjust the brief if the agent feels off — too pushy, too shallow, off-tone.
+6. Generate a consent token (e.g., output of `uuidgen`).
+7. Place the call:
+   ```
+   callagent place \
+     --to "<reference-phone>" \
+     --task deals/<slug>/calls/task-founder-<kebab-name>-ref-<n>.md \
+     --context deals/<slug>/calls/founder-<kebab-name>-context.md \
+     --schema deals/<slug>/calls/founder-reference-schema.json \
+     --consent-token "<uuid>" \
+     --output deals/<slug>/calls/founder-<kebab-name>-ref-<n>.json
+   ```
+
+### After all reference calls complete
+
+Append a new section to `deals/<slug>/founder-<kebab-name>.md` titled `## Reference checks` that summarizes each call's transcript and `structured_data`. For each reference:
+- One paragraph anchored in the verbatim `transcript` (cite exact quotes for any concern)
+- The structured fields (would_work_with_again, key strengths, key concerns, what_was_not_said) listed for scanability
+- A link to the call result file (`./calls/founder-<kebab-name>-ref-<n>.json`)
+
+Then update `deals/<slug>/manifest.json` with a per-founder `reference_calls_completed_at` ISO timestamp.
+
+If any reference call ended early (`status` other than `ended` in the result JSON), note that in the Reference checks section rather than dropping it silently.
