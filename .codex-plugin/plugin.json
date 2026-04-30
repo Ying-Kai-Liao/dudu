@@ -1,7 +1,7 @@
 {
   "name": "dudu",
   "version": "0.2.0",
-  "description": "Layered VC due-diligence skills: auto-diligence (full e2e from a company name), background-check (L1 cheap public-source) and pmf-signal (L2 deep claim ledger × verdict matrix), plus founder-check, market-context, competitive-landscape, market-sizing, standalone customer-debrief, and fleet-run for fleet-scale orchestration.",
+  "description": "Layered VC due-diligence skills: auto-diligence (full e2e from a company name), background-check (L1 cheap public-source) and pmf-signal (L2 deep claim ledger × verdict matrix), plus founder-check, market-context, competitive-landscape, market-sizing, standalone customer-debrief, fleet-run for fleet-scale orchestration, and place-call for delegating one outbound voice call via callagent.",
   "author": {
     "name": "Ying-Kai Liao",
     "email": "lykevin890919@gmail.com"

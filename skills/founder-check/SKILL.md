@@ -139,11 +139,11 @@ If no credible public contacts are found, write: "No previous managers, partners
 1. Update `deals/<slug>/manifest.json` `skills_completed["founder-check"]` to the current ISO-8601 UTC timestamp.
 2. Print a one-line summary: `Wrote founder-check for N founder(s) to deals/<slug>/`.
 
-## Optional: reference calls via `callagent`
+## Optional: reference calls via `dudu:place-call`
 
 Skip this section entirely if `callagent` is not on PATH or if the founder has not provided a reference list.
 
-The founder MUST supply the reference list — do not synthesize references from the dossier. Save the reference list at `deals/<slug>/inputs/founder-<kebab-name>-references.md` with at minimum, per reference:
+The founder MUST supply the reference list — do not synthesize references from the dossier. Save the reference list at `deals/<slug>/inputs/founder-<kebab-name>-references.md` with, per reference:
 - Name
 - Phone (E.164)
 - How the founder knows them (peer / manager / customer / advisor)
@@ -151,41 +151,25 @@ The founder MUST supply the reference list — do not synthesize references from
 
 If any of those fields are missing for a reference, do not call them.
 
-`callagent` enforces a privacy allowlist on `--to` (default: 3 pre-approved test numbers, exit code 2 otherwise). To call real references, the operator must override `CALLAGENT_ALLOWED_NUMBERS` for the session — do not bake real numbers into committed `.env` files. The allowlist is intentional belt-and-suspenders on top of the per-reference opt-in check.
+For each opted-in reference, invoke `dudu:place-call` with:
 
-For dry-running the full reference-call pipeline end-to-end without dialing a real reference, append `--demo` to the `callagent place` invocation. It rewires the call to the first allowlisted number, tags the result + audit log with `demo:true`, and the placement banner is prefixed `[DEMO MODE]`. Use this when smoke-testing the integration before a real dossier has references.
+- `slug` = this deal
+- `purpose = reference-check`
+- `target.name` = reference name
+- `target.phone` = reference phone (E.164)
+- `consent.opted_in = true`
+- `consent.token` = a fresh `uuidgen` value (one per call)
+- Optionally `--simulate-first` for the first reference of a deal so the brief can be tuned before real calls go out
+- Pass `--demo` to smoke the pipeline end-to-end before any real reference exists — it routes to the privacy allowlist and tags the result `demo:true`
 
-### For each reference
-
-1. Confirm with the VC, per call: "Did <reference> explicitly opt in to this call?" If not, skip.
-2. Author a task brief inline for THIS founder and reference. Do not use a fixed template — write the brief based on what the dossier surfaced. The brief should:
-   - Open with frontmatter `voice: alloy`, `language: en-US`, `disclosure_required: true`
-   - Identify the firm and the founder under evaluation (use `<FIRM>` and `<FOUNDER_NAME>` placeholders for context substitution)
-   - Include a verbatim disclosure paragraph under `## Disclosure` that names the founder and references them ("<FOUNDER_NAME> listed you as a reference")
-   - Describe how the agent should interview a reference: anchor on specific events the reference can recall, never accept generic praise without an example, politely re-ask once if they say "no concerns", listen for what isn't said (hesitations, refusals to specify), don't push for a yes/no on "would you invest"
-   - State the territory of curiosity for THIS reference (working relationship, strengths with examples, growth areas, would-they-work-with-again)
-   - List hard rules (don't reveal what other references said, don't share the founder's pitch or what the firm is investing in, end on first request)
-3. Write the task brief to `deals/<slug>/calls/task-founder-<kebab-name>-ref-<n>.md` and a context file to `deals/<slug>/calls/founder-<kebab-name>-context.md` (frontmatter with `FIRM:`, `FOUNDER_NAME:`).
-4. Author a JSON Schema for end-of-call extraction at `deals/<slug>/calls/founder-reference-schema.json`. Suggested fields, all optional: `relationship_context`, `working_dates`, `strength_examples` (array of specific moments), `concern_examples` (array), `would_work_with_again` (enum: yes/no/qualified/unclear), `would_work_with_again_reason`, `reference_quality` (enum: high/medium/low), `what_was_not_said`, `your_overall_read`. Set `"required": []`.
-5. **Iterate first with simulate.** Run `callagent simulate --task <task-path> --context <context-path> --schema deals/<slug>/calls/founder-reference-schema.json`. Play the reference yourself for 2-3 turns. Adjust the brief if the agent feels off — too pushy, too shallow, off-tone.
-6. Generate a consent token (e.g., output of `uuidgen`).
-7. Place the call:
-   ```
-   callagent place \
-     --to "<reference-phone>" \
-     --task deals/<slug>/calls/task-founder-<kebab-name>-ref-<n>.md \
-     --context deals/<slug>/calls/founder-<kebab-name>-context.md \
-     --schema deals/<slug>/calls/founder-reference-schema.json \
-     --consent-token "<uuid>" \
-     --output deals/<slug>/calls/founder-<kebab-name>-ref-<n>.json
-   ```
+`dudu:place-call` authors the reference-check brief from this founder's dossier, writes it to `deals/<slug>/calls/`, simulates if asked, dials, and writes a result JSON. callagent enforces a privacy allowlist on `--to`; to call real references the operator must export `CALLAGENT_ALLOWED_NUMBERS` for the session — do not bake real numbers into committed `.env` files.
 
 ### After all reference calls complete
 
-Append a new section to `deals/<slug>/founder-<kebab-name>.md` titled `## Reference checks` that summarizes each call's transcript and `structured_data`. For each reference:
-- One paragraph anchored in the verbatim `transcript` (cite exact quotes for any concern)
-- The structured fields (would_work_with_again, key strengths, key concerns, what_was_not_said) listed for scanability
-- A link to the call result file (`./calls/founder-<kebab-name>-ref-<n>.json`)
+Append a new section to `deals/<slug>/founder-<kebab-name>.md` titled `## Reference checks` that summarizes each call. For each reference:
+- One paragraph anchored in the verbatim `transcript` from the result JSON (cite exact quotes for any concern)
+- The structured fields (`would_work_with_again`, key strengths, key concerns, `what_was_not_said`) listed for scanability
+- A link to the call result file under `./calls/`
 
 Then update `deals/<slug>/manifest.json` with a per-founder `reference_calls_completed_at` ISO timestamp.
 
