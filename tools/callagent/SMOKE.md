@@ -14,7 +14,10 @@ dry-run, plus the duration of one real call for the place phase.
 - **Vapi account** — needed for Phases 2–4. A provisioned outbound phone number
   (`VAPI_PHONE_NUMBER_ID`) must exist in the Vapi dashboard (Phone Numbers page — copy the UUID).
 - **A test phone you control** — the number that receives the real call in Phase 3.
-  Do not use a number you do not own.
+  Do not use a number you do not own. The default privacy allowlist only permits:
+  `+61423366127`, `+61405244282`, `+61459529124`. To smoke a different number,
+  export `CALLAGENT_ALLOWED_NUMBERS=<your-e164>` for the session, or run from a
+  shell where `.env` sets it.
 
 All commands below assume `tools/callagent/` as the working directory.
 

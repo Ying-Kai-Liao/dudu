@@ -12,12 +12,15 @@ beforeEach(() => {
   tmp = mkdtempSync(`${tmpdir()}/callagent-place-`);
   process.env.VAPI_API_KEY = "test";
   process.env.VAPI_PHONE_NUMBER_ID = "vapi-phone-uuid-test";
+  // Tests use the +1555… fake range; widen the privacy allowlist for the suite.
+  process.env.CALLAGENT_ALLOWED_NUMBERS = "+15551234567";
 });
 
 afterEach(() => {
   vi.restoreAllMocks();
   delete process.env.VAPI_API_KEY;
   delete process.env.VAPI_PHONE_NUMBER_ID;
+  delete process.env.CALLAGENT_ALLOWED_NUMBERS;
 });
 
 describe("placeCommand", () => {
@@ -37,6 +40,38 @@ describe("placeCommand", () => {
     const printed = log.mock.calls.map((c) => c[0]).join("\n");
     expect(printed).toContain("structuredDataSchema");
     expect(printed).toContain("+15551234567");
+  });
+
+  it("rejects --to that is not on the privacy allowlist with exit code 2", async () => {
+    delete process.env.CALLAGENT_ALLOWED_NUMBERS;
+    await expect(placeCommand({
+      to: "+15551234567",
+      task: TASK,
+      schema: SCHEMA,
+      // Valid consent token — this proves the allowlist gate fires first.
+      consentToken: "tok-1",
+      maxDuration: 60,
+      record: true,
+      dryRun: true,
+    } as any)).rejects.toMatchObject({
+      exitCode: 2,
+      message: expect.stringContaining("not in the callagent allowlist"),
+    });
+  });
+
+  it("accepts a default-allowlisted number without env override", async () => {
+    delete process.env.CALLAGENT_ALLOWED_NUMBERS;
+    const log = vi.spyOn(console, "log").mockImplementation(() => {});
+    await placeCommand({
+      to: "+61423366127",
+      task: TASK,
+      consentToken: "tok-1",
+      maxDuration: 60,
+      record: true,
+      dryRun: true,
+    } as any);
+    const printed = log.mock.calls.map((c) => c[0]).join("\n");
+    expect(printed).toContain("+61423366127");
   });
 
   it("rejects empty consent token with exit code 3", async () => {

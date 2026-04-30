@@ -1000,6 +1000,13 @@ header.report time { font-variant-numeric: tabular-nums; }
 .dots .dot.done { background: #16a34a; }
 .callout { margin: 1rem 2rem 0; padding: 0.75rem 1rem; border-left: 4px solid #f59e0b; background: #fffbeb; color: #78350f; border-radius: 4px; font-size: 0.92rem; }
 
+.recordings-block { margin: 0 0 1.25rem; padding: 0.85rem 1rem; border: 1px solid var(--line); border-radius: 6px; background: var(--soft); }
+.recordings-block h3 { font-family: system-ui, -apple-system, sans-serif; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin: 0 0 0.6rem; padding: 0; border: none; }
+.recordings-list { list-style: none; margin: 0; padding: 0; }
+.recordings-list li { margin: 0.4rem 0; }
+.recordings-list .recording-label { font-size: 0.85rem; color: var(--muted); margin-bottom: 0.2rem; }
+.recordings-list audio { width: 100%; max-width: 480px; }
+
 .recommendation-ribbon { margin: 1rem 2rem 0; padding: 0.85rem 1.1rem; border-left: 4px solid var(--accent); background: #eff6ff; color: #1e3a8a; border-radius: 4px; font-size: 0.95rem; }
 .recommendation-ribbon h3 { font-family: system-ui, -apple-system, sans-serif; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: #1e3a8a; margin: 0 0 0.4rem; padding: 0; border: none; }
 .recommendation-ribbon p { margin: 0.3rem 0; }
@@ -1220,6 +1227,55 @@ def _read(path: Path) -> str | None:
         return path.read_text(encoding="utf-8")
     except OSError:
         return None
+
+
+AUDIO_EXTS: dict[str, str] = {
+    ".mp3": "audio/mpeg",
+    ".wav": "audio/wav",
+    ".m4a": "audio/mp4",
+    ".webm": "audio/webm",
+    ".ogg": "audio/ogg",
+}
+
+
+def _recordings_html(deal_dir: Path) -> str:
+    """Discover audio files under calls/ and inputs/ and emit <audio> tags.
+
+    Uses relative paths — report.html ships alongside its deal directory,
+    so the browser resolves calls/foo.mp3 against the deal dir.
+    """
+    blocks: list[str] = []
+    for sub, heading in (("calls", "Screener calls"), ("inputs", "Interview recordings")):
+        sub_dir = deal_dir / sub
+        if not sub_dir.is_dir():
+            continue
+        files = sorted(
+            p for p in sub_dir.iterdir()
+            if p.is_file() and p.suffix.lower() in AUDIO_EXTS
+        )
+        if not files:
+            continue
+        items: list[str] = []
+        for f in files:
+            mime = AUDIO_EXTS[f.suffix.lower()]
+            label = f.stem.replace("_", " ").replace("-", " ").strip()
+            rel = f"{sub}/{f.name}"
+            items.append(
+                f'<li>'
+                f'<div class="recording-label">{_esc(label)}</div>'
+                f'<audio controls preload="none" src="{_esc(rel)}" type="{mime}">'
+                f'Your browser does not support audio playback. '
+                f'<a href="{_esc(rel)}">Download {_esc(f.name)}</a>'
+                f'</audio>'
+                f'</li>'
+            )
+        blocks.append(
+            f'<div class="recordings-block">'
+            f'<h3>{_esc(heading)}</h3>'
+            f'<ul class="recordings-list">{"".join(items)}</ul>'
+            f'</div>'
+        )
+    return "".join(blocks)
 
 
 def _persona_title(name: str) -> str:
@@ -1470,11 +1526,14 @@ def render_legacy(deal_dir: Path) -> str:
         add_section("problem", "Problem & Product", render_markdown(memo_sections["problem and product"], heading_offset=OFFSET))
 
     cd = _read(deal_dir / "customer-discovery.md")
+    recordings = _recordings_html(deal_dir)
     if cd:
         body = re.sub(r"^#\s+.+\n", "", cd, count=1)
-        add_section("customer-signal", "Customer Signal", render_markdown(body, heading_offset=OFFSET))
+        add_section("customer-signal", "Customer Signal", recordings + render_markdown(body, heading_offset=OFFSET))
     elif "customer signal" in memo_sections:
-        add_section("customer-signal", "Customer Signal", render_markdown(memo_sections["customer signal"], heading_offset=OFFSET))
+        add_section("customer-signal", "Customer Signal", recordings + render_markdown(memo_sections["customer signal"], heading_offset=OFFSET))
+    elif recordings:
+        add_section("customer-signal", "Customer Signal", recordings)
 
     if not cd:
         cdp = _read(deal_dir / "customer-discovery-prep.md")
@@ -1567,9 +1626,12 @@ def _drilldown_section_specs(
         out.append(("problem", "Problem & Product", render_markdown(body, heading_offset=OFFSET)))
 
     cd = _read(deal_dir / "customer-discovery.md")
+    recordings = _recordings_html(deal_dir)
     if cd:
         body = re.sub(r"^#\s+.+\n", "", cd, count=1)
-        out.append(("customer-signal", "Customer Signal", render_markdown(body, heading_offset=OFFSET)))
+        out.append(("customer-signal", "Customer Signal", recordings + render_markdown(body, heading_offset=OFFSET)))
+    elif recordings:
+        out.append(("customer-signal", "Customer Signal", recordings))
     else:
         cdp = _read(deal_dir / "customer-discovery-prep.md")
         if cdp:

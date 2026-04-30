@@ -50,7 +50,20 @@ Optional:
 ```dotenv
 CALLAGENT_AUDIT_LOG=/var/log/callagent/consent.jsonl   # override audit log location
 CALLAGENT_PROVIDER=vapi                                 # default; only vapi is supported in v1
+CALLAGENT_ALLOWED_NUMBERS=+15551234567,+15557654321     # override the privacy allowlist (comma-separated E.164)
 ```
+
+### Privacy allowlist (default)
+
+`place` rejects any `--to` that is not on the allowlist. By default, the allowlist contains three pre-approved numbers used for testing this repo:
+
+```
++61423366127
++61405244282
++61459529124
+```
+
+To call other numbers, set `CALLAGENT_ALLOWED_NUMBERS` to a comma-separated list of E.164 numbers. The override **replaces** the default — there is no merge. Empty/whitespace-only values fall back to the default. A rejected number exits with code 2 and prints the active allowlist so you can self-diagnose.
 
 ---
 
@@ -327,7 +340,7 @@ The audit log location resolves as:
 |---|---|
 | `0` | Success |
 | `1` | Provider or network error |
-| `2` | Input validation error (bad flag, missing env var, unsupported feature) |
+| `2` | Input validation error (bad flag, missing env var, unsupported feature, **`--to` not on the privacy allowlist**) |
 | `3` | Consent gate refused (missing or empty `--consent-token`) |
 | `4` | Call ended without extraction, or polling timed out |
 

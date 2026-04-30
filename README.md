@@ -99,6 +99,7 @@ To install from a local clone instead (for development), substitute the path:
 
 | Skill | Layer | What it does | Output |
 |-------|-------|--------------|--------|
+| `dudu:auto-diligence` | full e2e | One trigger from a company name: auto-discovers founders + pitch, then runs L1 → L2 → optional callagent → debrief → MEMO + report.html (audio recordings embedded) | `deals/<slug>/report.html` |
 | `dudu:background-check` | L1 orchestrator | Runs the four cheap sub-skills + writes the L1 sentinel | `deals/<slug>/background.md` |
 | `dudu:founder-check` | L1 sub-skill | Public-web + LinkedIn dossier per founder | `founder-<name>.md` |
 | `dudu:market-context` | L1 sub-skill | Public-source market & problem context (no personas) | `market-context.md` |
@@ -111,6 +112,14 @@ To install from a local clone instead (for development), substitute the path:
 | `dudu:diligence` | deprecated wrapper | Backward-compat: runs L1 + L2 + debrief + stitch + render | `MEMO.md` + `report.html` |
 | `dudu:market-problem` | deprecated stub | Forwards to `dudu:market-context` for one release window | (forwards) |
 | `dudu:customer-discovery` | deprecated stub | Forwards `prep` → pmf-signal, `debrief` → customer-debrief | (forwards) |
+
+## Quick start: one trigger from a company name
+
+```
+dudu:auto-diligence on <Company Name>
+```
+
+`auto-diligence` resolves the slug, founders, and pitch from public sources, then runs the full chain (L1 → L2 → optional `callagent` screener calls → `customer-debrief` if interview material exists → MEMO + `report.html`). Pass `--auto-call` to drive the top-N warm-path candidates through `callagent` automatically; recordings under `deals/<slug>/calls/` are embedded as `<audio>` tags in `report.html`'s Customer Signal section. For deeper control, use the layered call below.
 
 ## Typical workflow (recommended layered call)
 
@@ -232,6 +241,14 @@ four layouts in priority order:
    artifact-by-artifact layout (`MEMO.md` + per-skill files), unchanged
    from the pre-PMF behavior. `test/ledgerloop/` and any legacy demo
    deal continue to render under this branch.
+
+Across all four layouts, the renderer auto-discovers audio files
+under `deals/<slug>/calls/` (callagent recordings) and
+`deals/<slug>/inputs/` (real-interview recordings) and embeds them as
+`<audio controls>` tags in the Customer Signal section. Supported
+extensions: `.mp3`, `.wav`, `.m4a`, `.webm`, `.ogg`. Audio uses
+relative paths — `report.html` and the deal directory must travel
+together.
 
 ## License
 
