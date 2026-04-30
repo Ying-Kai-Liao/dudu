@@ -1,0 +1,135 @@
+import { readFile } from "node:fs/promises";
+import { resolve } from "node:path";
+import { parseTask } from "../task/parse.js";
+import { loadSchema } from "../schema/load.js";
+import {
+  validateConsentToken,
+  appendAuditLog,
+  resolveAuditLogPath,
+  emitBannerAndSleep,
+  hashToken,
+} from "../consent.js";
+import { getProvider } from "../provider/index.js";
+import { VapiProvider } from "../provider/vapi.js";
+import { writeCallResult } from "../output.js";
+
+export interface PlaceOptions {
+  to: string;
+  task: string;
+  schema?: string;
+  tools?: string;
+  context?: string;
+  maxDuration: number;
+  record: boolean;
+  dryRun: boolean;
+  output?: string;
+  consentToken: string;
+}
+
+const ABORT_WINDOW_SECONDS = 5;
+
+export async function placeCommand(opts: PlaceOptions): Promise<void> {
+  validateConsentToken(opts.consentToken);
+
+  if (opts.tools) {
+    const raw = await readFile(opts.tools, "utf8");
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed) && parsed.length > 0) {
+      const e: any = new Error(
+        "Mid-call tools are not supported in callagent v1. " +
+        "See docs/callagent/v1.1-tools.md for the v1.1 plan.",
+      );
+      e.exitCode = 2;
+      throw e;
+    }
+  }
+
+  const contextStr = opts.context ? await readFile(opts.context, "utf8") : undefined;
+  const ctxVars = parseContextVars(contextStr);
+  const task = await parseTask(opts.task, ctxVars);
+  const schema = opts.schema ? await loadSchema(opts.schema) : undefined;
+
+  const spec = {
+    to: opts.to,
+    task,
+    schema,
+    context: contextStr,
+    maxDurationSeconds: opts.maxDuration,
+    record: opts.record,
+  };
+
+  const outputPath = opts.output ?? `./call-pending.json`;
+
+  if (opts.dryRun) {
+    const provider = tryGetProviderOrStub();
+    const dto = provider.assembleDTO(spec);
+    console.log(JSON.stringify(dto, null, 2));
+    return;
+  }
+
+  const auditLogPath = resolveAuditLogPath({
+    env: process.env.CALLAGENT_AUDIT_LOG,
+    outputPath,
+  });
+  const placedAt = new Date().toISOString();
+
+  await emitBannerAndSleep({
+    to: opts.to,
+    taskName: opts.task.split("/").pop() ?? opts.task,
+    consentTokenHash: hashToken(opts.consentToken),
+    auditLogPath,
+    abortSeconds: ABORT_WINDOW_SECONDS,
+  });
+
+  const provider = getProvider();
+  const callId = await provider.placeCall(spec);
+
+  // Only log once the call is actually accepted by Vapi
+  await appendAuditLog(auditLogPath, {
+    consent_token: opts.consentToken,
+    to: opts.to,
+    task_path: resolve(opts.task),
+    placed_at: placedAt,
+    call_id: callId,
+  });
+
+  const finalRec = await provider.pollUntilTerminal(callId, opts.maxDuration * 1000 + 60_000);
+  const finalPath = opts.output ?? `./call-${callId}.json`;
+  await writeCallResult(finalPath, { ...finalRec, consent_token: opts.consentToken });
+  process.stderr.write(`[callagent] Wrote ${finalPath}\n`);
+
+  if (finalRec.status === "failed") {
+    const e: any = new Error(
+      `Call ended with status "failed" (reason: ${finalRec.ended_reason ?? "unknown"}). Result file written to ${finalPath}.`,
+    );
+    e.exitCode = 4;
+    throw e;
+  }
+}
+
+function parseContextVars(ctx: string | undefined): Record<string, string> {
+  if (!ctx) return {};
+  const out: Record<string, string> = {};
+  const m = ctx.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+  if (!m) return out;
+  for (const line of m[1].split("\n")) {
+    const kv = line.match(/^([A-Z_][A-Z0-9_]*):\s*(.+)$/);
+    if (kv) out[kv[1]] = kv[2].trim();
+  }
+  return out;
+}
+
+function tryGetProviderOrStub() {
+  try {
+    const p = getProvider();
+    // For dry-run, fill in a placeholder phoneNumberId so assembleDTO doesn't throw.
+    // We do this by wrapping: if the real provider would fail on missing phoneNumberId,
+    // a stub is harmless in a dry-run context.
+    if (p instanceof VapiProvider && !process.env.VAPI_PHONE_NUMBER_ID) {
+      return new VapiProvider({ apiKey: "stub", phoneNumberId: "<stub>" });
+    }
+    return p;
+  } catch {
+    return new VapiProvider({ apiKey: "stub", phoneNumberId: "<stub>" });
+  }
+}

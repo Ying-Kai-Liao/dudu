@@ -17,14 +17,18 @@ Synthesize the VC's actual interview notes into a research artifact. Read `lib/r
 
 Required:
 - Deal slug
-- At least one transcript file under `deals/<slug>/inputs/` — `.md`, `.txt`, or `.vtt` accepted
+- At least one transcript file under `deals/<slug>/inputs/` (`.md`, `.txt`, or `.vtt`) **or** at least one `callagent` result JSON under `deals/<slug>/calls/`
 
 Optional:
 - Pasted transcript text (the skill writes it to `deals/<slug>/inputs/transcript-<N>.md` before processing)
 
 ## Pre-flight
 
-1. Confirm `deals/<slug>/inputs/` exists and contains at least one transcript file (`.md`, `.txt`, `.vtt`). If not, exit with: `No transcripts found under deals/<slug>/inputs/. Save interview transcripts there (.md, .txt, or .vtt) and re-run.`
+1. Confirm at least one input source exists:
+   - `deals/<slug>/inputs/` containing `.md`, `.txt`, or `.vtt` files, **or**
+   - `deals/<slug>/calls/` containing `*.json` `callagent` result files
+
+   If neither is present, exit with: `No interview material found. Save transcripts under deals/<slug>/inputs/ (.md, .txt, .vtt) or callagent results under deals/<slug>/calls/ (.json) and re-run.`
 2. Idempotency: if `deals/<slug>/customer-discovery.md` exists and `--force` was not passed, print `Artifact already exists at deals/<slug>/customer-discovery.md. Pass --force to overwrite.` and stop.
 
 There is no other precondition. Specifically:
@@ -35,7 +39,9 @@ There is no other precondition. Specifically:
 
 ## Steps
 
-1. Read every transcript under `deals/<slug>/inputs/` matching `*.md`, `*.txt`, `*.vtt`. Each becomes one input section. If filenames suggest interview names (e.g., `transcript-pm-acme.md`), use the suggestive part as the interviewee label; otherwise use `C1`, `C2`, etc.
+1. Read interview material from two sources, treating each as one interview section:
+   a. Files under `deals/<slug>/inputs/` matching `*.md`, `*.txt`, `*.vtt`. If filenames suggest interview names (e.g., `transcript-pm-acme.md`), use the suggestive part as the interviewee label; otherwise use `C1`, `C2`, etc.
+   b. Files under `deals/<slug>/calls/*.json` — `callagent` screener-call results, if present (skip if the dir doesn't exist). The JSON's `transcript` field is the conversation text; the `structured_data` field pre-fills pain/WTP/current-solution rows — but you must still cross-reference quotes from the transcript and write the verdict in your own words. The structured fields are agent-extracted, not authoritative. If a call ended early (`status` other than `ended`), note that in the debrief rather than dropping it silently.
 2. For each interview, extract:
    - Pain intensity (1-10) with verbatim quote
    - Current solution with quote
