@@ -50,13 +50,12 @@ Optional:
 ```dotenv
 CALLAGENT_AUDIT_LOG=/var/log/callagent/consent.jsonl   # override audit log location
 CALLAGENT_PROVIDER=vapi                                 # default; only vapi is supported in v1
+CALLAGENT_ALLOWED_NUMBERS=+15551234567,+15557654321     # override the privacy allowlist (comma-separated E.164)
 ```
 
-### Privacy allowlist
+### Privacy allowlist (default)
 
-`place` rejects any `--to` that is not on the allowlist. The allowlist is **hardcoded** in `src/allowlist.ts` and cannot be changed via environment variables — to call a different number, edit the source and rebuild.
-
-Currently allowed:
+`place` rejects any `--to` that is not on the allowlist. By default, the allowlist contains three pre-approved numbers used for testing this repo:
 
 ```
 +61423366127
@@ -64,7 +63,7 @@ Currently allowed:
 +61459529124
 ```
 
-A rejected number exits with code 2 and prints the active allowlist so you can self-diagnose.
+To call other numbers, set `CALLAGENT_ALLOWED_NUMBERS` to a comma-separated list of E.164 numbers. The override **replaces** the default — there is no merge. Empty/whitespace-only values fall back to the default. A rejected number exits with code 2 and prints the active allowlist so you can self-diagnose.
 
 ---
 
