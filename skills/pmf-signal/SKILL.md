@@ -624,6 +624,8 @@ Skip this step entirely if `callagent` is not on PATH or if no candidate has exp
 
 `callagent` enforces a privacy allowlist on `--to` (default: 3 pre-approved test numbers, exit code 2 otherwise). To dial real candidates, the operator must override `CALLAGENT_ALLOWED_NUMBERS` for the session — do not commit real numbers to `.env`. The allowlist is intentional belt-and-suspenders on top of the per-candidate opt-in check.
 
+For dry-running the screener-call pipeline end-to-end without dialing a real candidate, append `--demo` to the `callagent place` invocation. It rewires the call to the first allowlisted number, tags the result + audit log with `demo:true`, and the placement banner is prefixed `[DEMO MODE]`. Use this when smoke-testing the integration before any candidate has opted in.
+
 For each candidate from Stage 5b that has explicit opt-in (i.e. they responded to outreach and agreed to a 5-minute screener):
 
 1. Confirm with the VC, per call: "Did <candidate> explicitly opt in to this call?" If not, skip.

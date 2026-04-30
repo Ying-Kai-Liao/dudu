@@ -17,7 +17,9 @@ dry-run, plus the duration of one real call for the place phase.
   Do not use a number you do not own. The default privacy allowlist only permits:
   `+61423366127`, `+61405244282`, `+61459529124`. To smoke a different number,
   export `CALLAGENT_ALLOWED_NUMBERS=<your-e164>` for the session, or run from a
-  shell where `.env` sets it.
+  shell where `.env` sets it. The shortcut for end-to-end demos is `--demo`,
+  which auto-routes the call to the first allowlisted number and tags the
+  result + audit-log entry with `demo:true`.
 
 All commands below assume `tools/callagent/` as the working directory.
 

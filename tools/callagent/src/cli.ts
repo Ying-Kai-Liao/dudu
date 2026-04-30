@@ -14,7 +14,7 @@ program
 program
   .command("place")
   .description("Place an outbound call and return a structured transcript.")
-  .requiredOption("--to <e164>", "phone number in E.164 format")
+  .option("--to <e164>", "phone number in E.164 format (required unless --demo)")
   .requiredOption("--task <path>", "path to task markdown briefing")
   .requiredOption("--consent-token <token>", "opaque consent token from caller")
   .option("--schema <path>", "optional path to JSON Schema for structured extraction")
@@ -23,6 +23,7 @@ program
   .option("--max-duration <seconds>", "max call duration", (v) => parseInt(v, 10), 600)
   .option("--record <bool>", "record the call", (v) => v !== "false", true)
   .option("--dry-run", "print the resolved CreateCallDTO and exit", false)
+  .option("--demo", "route the call to the first allowlisted number (overrides --to); tags the result and audit-log entry with demo:true", false)
   .option("--output <path>", "where to write the result JSON")
   .action(async (opts) => {
     try { await placeCommand(opts); }
