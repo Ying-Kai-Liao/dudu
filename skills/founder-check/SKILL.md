@@ -151,6 +151,8 @@ The founder MUST supply the reference list — do not synthesize references from
 
 If any of those fields are missing for a reference, do not call them.
 
+`callagent` enforces a privacy allowlist on `--to` (default: 3 pre-approved test numbers, exit code 2 otherwise). To call real references, the operator must override `CALLAGENT_ALLOWED_NUMBERS` for the session — do not bake real numbers into committed `.env` files. The allowlist is intentional belt-and-suspenders on top of the per-reference opt-in check.
+
 ### For each reference
 
 1. Confirm with the VC, per call: "Did <reference> explicitly opt in to this call?" If not, skip.
