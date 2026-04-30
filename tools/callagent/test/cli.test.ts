@@ -18,7 +18,7 @@ describe("cli", () => {
 
   it("place --help mentions all required flags", () => {
     const out = runCli(["place", "--help"]);
-    for (const flag of ["--to", "--task", "--consent-token"]) {
+    for (const flag of ["--to", "--task", "--consent-token", "--demo"]) {
       expect(out).toContain(flag);
     }
     expect(out).not.toContain("--persona");

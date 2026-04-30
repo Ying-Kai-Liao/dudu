@@ -9,13 +9,13 @@ import {
   emitBannerAndSleep,
   hashToken,
 } from "../consent.js";
-import { validateAllowedNumber } from "../allowlist.js";
+import { validateAllowedNumber, getAllowedNumbers } from "../allowlist.js";
 import { getProvider } from "../provider/index.js";
 import { VapiProvider } from "../provider/vapi.js";
 import { writeCallResult } from "../output.js";
 
 export interface PlaceOptions {
-  to: string;
+  to?: string;
   task: string;
   schema?: string;
   tools?: string;
@@ -25,11 +25,36 @@ export interface PlaceOptions {
   dryRun: boolean;
   output?: string;
   consentToken: string;
+  demo?: boolean;
 }
 
 const ABORT_WINDOW_SECONDS = 5;
 
 export async function placeCommand(opts: PlaceOptions): Promise<void> {
+  if (opts.demo) {
+    const target = getAllowedNumbers()[0];
+    if (!target) {
+      const e: any = new Error(
+        "--demo: cannot route call — the resolved allowlist is empty. " +
+        "Check CALLAGENT_ALLOWED_NUMBERS or remove --demo and pass --to explicitly.",
+      );
+      e.exitCode = 2;
+      throw e;
+    }
+    if (opts.to && opts.to !== target) {
+      process.stderr.write(
+        `[callagent] [DEMO MODE] ignoring --to=${opts.to}, routing to ${target} instead.\n`,
+      );
+    }
+    opts.to = target;
+  }
+  if (!opts.to) {
+    const e: any = new Error(
+      "--to is required (or pass --demo to route to the first allowlisted number).",
+    );
+    e.exitCode = 2;
+    throw e;
+  }
   validateAllowedNumber(opts.to);
   validateConsentToken(opts.consentToken);
 
@@ -81,6 +106,7 @@ export async function placeCommand(opts: PlaceOptions): Promise<void> {
     consentTokenHash: hashToken(opts.consentToken),
     auditLogPath,
     abortSeconds: ABORT_WINDOW_SECONDS,
+    demo: opts.demo === true,
   });
 
   const provider = getProvider();
@@ -93,11 +119,16 @@ export async function placeCommand(opts: PlaceOptions): Promise<void> {
     task_path: resolve(opts.task),
     placed_at: placedAt,
     call_id: callId,
+    ...(opts.demo === true ? { demo: true } : {}),
   });
 
   const finalRec = await provider.pollUntilTerminal(callId, opts.maxDuration * 1000 + 60_000);
   const finalPath = opts.output ?? `./call-${callId}.json`;
-  await writeCallResult(finalPath, { ...finalRec, consent_token: opts.consentToken });
+  await writeCallResult(finalPath, {
+    ...finalRec,
+    consent_token: opts.consentToken,
+    ...(opts.demo === true ? { demo: true } : {}),
+  });
   process.stderr.write(`[callagent] Wrote ${finalPath}\n`);
 
   if (finalRec.status === "failed") {

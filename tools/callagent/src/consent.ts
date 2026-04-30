@@ -22,6 +22,7 @@ export interface AuditLogEntry {
   task_path: string;
   placed_at: string;
   call_id?: string;
+  demo?: boolean;
 }
 
 export async function appendAuditLog(path: string, entry: AuditLogEntry): Promise<void> {
@@ -44,12 +45,14 @@ export async function emitBannerAndSleep(opts: {
   consentTokenHash: string;
   auditLogPath: string;
   abortSeconds: number;
+  demo?: boolean;
 }): Promise<void> {
   const redactedTo = opts.to.replace(/\d(?=\d{4})/g, "*");
+  const demoTag = opts.demo ? "[DEMO MODE] " : "";
   process.stderr.write(
-    `[callagent] Placing call to ${redactedTo} with task ${opts.taskName}.\n` +
+    `[callagent] ${demoTag}Placing call to ${redactedTo} with task ${opts.taskName}.\n` +
     `[callagent] Consent token: ${opts.consentTokenHash}. Audit log: ${opts.auditLogPath}.\n` +
-    `[callagent] If you do not have explicit opt-in from this target, abort now (Ctrl+C).\n` +
+    `[callagent] ${demoTag}If you do not have explicit opt-in from this target, abort now (Ctrl+C).\n` +
     `[callagent] Sleeping ${opts.abortSeconds}s before placing call.\n`,
   );
   await sleep(opts.abortSeconds * 1000);

@@ -265,7 +265,7 @@ Places an outbound call via Vapi and polls until it ends.
 
 | Flag | Required | Default | Description |
 |---|---|---|---|
-| `--to <e164>` | yes | — | Destination phone number in E.164 format |
+| `--to <e164>` | yes (unless `--demo`) | — | Destination phone number in E.164 format |
 | `--task <path>` | yes | — | Path to task markdown briefing |
 | `--consent-token <token>` | yes | — | Opaque token proving caller has opt-in |
 | `--context <path>` | no | — | Context markdown; frontmatter supplies substitution variables |
@@ -273,8 +273,18 @@ Places an outbound call via Vapi and polls until it ends.
 | `--max-duration <seconds>` | no | `600` | Maximum call duration |
 | `--record <bool>` | no | `true` | Whether to record the call |
 | `--dry-run` | no | `false` | Print the Vapi DTO and exit without placing the call |
+| `--demo` | no | `false` | Route the call to the first allowlisted number; tags result and audit-log entry with `demo:true` |
 | `--output <path>` | no | `./call-<id>.json` | Where to write the result JSON |
 | `--tools <path>` | no | — | Not supported in v1 (see [What's not in v1](#whats-not-in-v1)) |
+
+#### Demo mode
+
+`--demo` rewires `place` so any call is routed to the **first entry** in the resolved allowlist (the default `+61423366127`, or the first number in `CALLAGENT_ALLOWED_NUMBERS` if set). This lets you exercise the full pipeline — task brief → Vapi → real phone → transcript → schema extraction — using the privacy allowlist as your demo target, without changing the `--to` argument that the caller (e.g. a diligence skill) has already constructed.
+
+- `--to` is optional under `--demo`; pass it or omit it.
+- If `--to` is passed and differs from the demo target, callagent prints a `[DEMO MODE]` notice on stderr and routes to the demo target anyway.
+- The result JSON gets `"demo": true`. The audit-log entry gets `"demo": true`. The placement banner is prefixed `[DEMO MODE]`.
+- Allowlist enforcement is unchanged — `--demo` cannot reach a number that the allowlist would otherwise reject.
 
 ### `callagent status <call-id>`
 
