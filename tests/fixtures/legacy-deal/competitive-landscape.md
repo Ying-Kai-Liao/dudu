@@ -1,0 +1,3 @@
+# Competitive landscape
+
+Minimal.

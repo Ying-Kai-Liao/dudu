@@ -1,0 +1,41 @@
+verdicts:
+  - claim_id: c-001
+    verification_method: persona-reaction
+    verdict_counts:
+      agree: 7
+      partial: 2
+      disagree: 1
+    representative_verbatims:
+      agree: "Two days minimum"
+      partial: "kinda"
+      disagree: "not really"
+  - claim_id: c-010
+    verification_method: cross-artifact
+    verdict: contradicts
+    verdict_rationale: "customer-discovery interviews show pilots, not paid customers"
+    contradicting_quotes:
+      - quote: "Three of the named accounts described themselves as pilots, not paid"
+        location: "customer-discovery.md"
+  - claim_id: c-020
+    verification_method: cross-artifact
+    verdict: partial
+    verdict_rationale: "exit happened but no shareholder return"
+    contradicting_quotes:
+      - quote: "exit happened but no shareholder return"
+        location: "founder-sample-founder.md"
+  - claim_id: c-030
+    verification_method: cross-artifact
+    verdict: partial
+    verdict_rationale: "global TAM band per market-sizing is $12B-$28B"
+  - claim_id: c-040
+    verification_method: cross-artifact
+    verdict: supports
+    verdict_rationale: "competitive-landscape confirms limited direct overlap"
+  - claim_id: c-050
+    verification_method: persona-reaction
+    verdict_counts:
+      agree: 1
+      disagree: 9
+    representative_verbatims:
+      agree: "yes"
+      disagree: "My CA would never recommend a tool that replaces his work"

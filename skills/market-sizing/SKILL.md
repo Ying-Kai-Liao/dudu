@@ -25,6 +25,8 @@ Idempotency check (per `lib/deal.md`). Artifact: `deals/<slug>/market-sizing.md`
 
 ## Method
 
+This skill does **not** fan out to subagents — its sources are tightly coupled (population, ACV, expansion all reference the same wedge) and several require Playwright. Instead, follow Layer 1 from `lib/research-protocol.md` § Parallelization: when reading multiple population sources, multiple ACV references, or multiple expansion-segment sources, batch those `WebFetch` calls in a single message. Sequential fetches are only justified when the next URL is chosen based on the previous fetch's content.
+
 1. **Define the wedge.** Write a one-sentence ICP that names a job title, a company size band, and a buying trigger.
 2. **Count the reachable population.** Use public data:
    - Industry directories (e.g. SIC/NAICS counts, association memberships)

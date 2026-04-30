@@ -12,15 +12,12 @@ Enable the dudu VC diligence skills in Codex via native skill discovery. Clone t
 
 1. **Clone the dudu repository:**
 
-   Public clone (when the repo is public):
    ```bash
    git clone https://github.com/Ying-Kai-Liao/dudu.git ~/.codex/dudu
    ```
 
-   The repo is currently private. Clone with `gh` (if you have access) or set up an SSH key:
+   SSH alternative:
    ```bash
-   gh repo clone Ying-Kai-Liao/dudu ~/.codex/dudu
-   # or
    git clone git@github.com:Ying-Kai-Liao/dudu.git ~/.codex/dudu
    ```
 

@@ -1,0 +1,2 @@
+Artifact already exists at deals/preflight-already-done/pmf-signal.md. Pass --force to overwrite.
+EXIT=3

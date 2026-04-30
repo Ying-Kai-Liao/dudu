@@ -1,6 +1,9 @@
 # Per-deal artifacts contain VC research and should never be committed
 deals/
 
+# Test-fixture renderer outputs — regenerated on every test run
+tests/fixtures/**/report.html
+
 # Playwright MCP runtime logs and page snapshots — tool output, not source
 .playwright-mcp/
 
@@ -10,5 +13,16 @@ deals/
 .idea/
 .vscode/
 
+# Python bytecode cache
+__pycache__/
+*.pyc
+
 # Local git worktrees
 .worktrees/
+
+# Local Claude Code session state (settings, installed skills/commands)
+# .claude-plugin/ is the published plugin manifest and IS tracked.
+.claude/
+
+# Local Codex skill installations (the published plugin manifest .codex-plugin/ IS tracked)
+.codex/skills/

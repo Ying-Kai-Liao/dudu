@@ -1,11 +1,21 @@
 ---
 name: diligence
-description: Orchestrates the full dudu due-diligence workflow for a deal. Runs founder-check, market-problem, customer-discovery prep, competitive-landscape, market-sizing, pauses for the VC's real customer interviews, then runs customer-discovery debrief and stitches the final memo.
+description: DEPRECATED — thin wrapper around dudu:background-check → dudu:pmf-signal → optional dudu:customer-debrief, then stitches MEMO.md and renders report.html. Prefer the layered skills directly.
 ---
 
-# Diligence orchestrator
+# Diligence orchestrator (deprecated)
 
-Run the full dudu workflow end-to-end on one deal. Read `lib/deal.md`, `lib/playwright-auth.md`, and `lib/research-protocol.md` before starting.
+> ⚠️ **Deprecated.** This skill is now a thin pass-through over the layered skills. Prefer invoking the layers directly:
+>
+> ```
+> dudu:background-check     # Layer 1: founder + market context + competitive + sizing
+> dudu:pmf-signal           # Layer 2: claim ledger × verdict matrix + warm-path outreach
+> dudu:customer-debrief     # standalone, runs whenever transcripts exist under inputs/
+> ```
+>
+> The wrapper will be removed by the `deprecate-diligence-orchestrator` change after one release of overlap.
+
+Read `lib/deal.md`, `lib/playwright-auth.md`, and `lib/research-protocol.md` before starting.
 
 ## Inputs (prompt if missing)
 
@@ -13,31 +23,29 @@ Run the full dudu workflow end-to-end on one deal. Read `lib/deal.md`, `lib/play
 - Company name
 - Founder names (one or more)
 - One-line pitch
-- Pitch deck (file path or pasted text), optional but strongly preferred
+- Pitch deck (file path or pasted text), optional — strengthens PMF Stage 0 if supplied; manifest.pitch + L1 artifacts carry through if not
 
 ## Steps
 
-1. **Initialize deal directory.** If `deals/<slug>/` does not exist, create it. Write `manifest.json` per the schema in `lib/deal.md`. If supplied, save the deck to `deals/<slug>/inputs/deck.<ext>` (or `deck.md` if pasted text).
+1. **Print deprecation notice** (the block above) before doing anything else, so users see the layered alternative on every invocation.
 
-2. **Run sub-skills in this order**, each as a sub-invocation. After each, confirm the artifact exists before moving on. If the user passed `--force`, propagate it to each sub-skill.
+2. **Initialize deal directory.** If `deals/<slug>/` does not exist, create it. Write `manifest.json` per the schema in `lib/deal.md`. If a deck was supplied, save it to `deals/<slug>/inputs/`.
 
-   1. `dudu:founder-check` — for each founder
-   2. `dudu:market-problem`
-   3. `dudu:customer-discovery prep`
-   4. `dudu:competitive-landscape`
-   5. `dudu:market-sizing`
+3. **Run Layer 1: `dudu:background-check`** with the same arguments. Propagate `--force` if supplied. This produces `founder-*.md`, `market-context.md`, `competitive-landscape.md`, `market-sizing.md`, and the L1 sentinel `background.md`.
 
-3. **Pause for real interviews.** After the five sub-skills, print:
+4. **Run Layer 2: `dudu:pmf-signal`**. Propagate `--force` if supplied. This produces `pmf-signal.md`, `outreach.md`, and the legacy-shape `customer-discovery-prep.md` (Stage 5 side effect).
 
-   > Prep complete. The next step is yours: reach out to the candidates in `deals/<slug>/customer-discovery-prep.md` and run 5–10 real interviews. Save transcripts under `deals/<slug>/inputs/`. When done, re-run `dudu:diligence` and I'll continue with the debrief and final memo.
+5. **Pause for real interviews.** After Layer 2, print:
+
+   > Prep complete. The next step is yours: read `deals/<slug>/pmf-signal.md` for the calibrated PMF signal and consolidated claim ledger, then reach out to the candidates in `deals/<slug>/outreach.md` (sorted by warm-path quality) and run 5–10 real interviews. Save transcripts under `deals/<slug>/inputs/`. When done, re-invoke (either `dudu:diligence` to continue here, or `dudu:customer-debrief` directly — the layered call is the recommended path).
 
    Stop. Do not proceed.
 
-4. **On re-invocation**, detect that prep is done and inputs exist:
-   - If `customer-discovery-prep.md` exists AND `inputs/` contains at least one file AND `customer-discovery.md` does not exist → run `dudu:customer-discovery debrief`, then continue to step 5.
-   - If everything is done → skip straight to step 5.
+6. **On re-invocation**, detect whether the debrief should run:
+   - If `deals/<slug>/inputs/` contains transcript files (anything beyond `deck.*`) AND `customer-discovery.md` does not exist → invoke `dudu:customer-debrief`, then continue to step 7.
+   - If `customer-discovery.md` exists → skip straight to step 7.
 
-5. **Stitch `MEMO.md`.** Read every artifact under `deals/<slug>/` and produce `deals/<slug>/MEMO.md`:
+7. **Stitch `MEMO.md`.** Read every artifact under `deals/<slug>/` and produce `deals/<slug>/MEMO.md`:
 
 ```markdown
 # Investment memo: <Company>
@@ -55,7 +63,11 @@ Run the full dudu workflow end-to-end on one deal. Read `lib/deal.md`, `lib/play
 
 ## Problem and product
 
-[Summary from `market-problem.md` (4-6 sentences) + the strongest pattern + the most valuable contradiction. Link to the full file.]
+[Summary from `market-context.md` (4-6 sentences) + the strongest pattern + the most valuable contradiction. Link to the full file.]
+
+## PMF signal & claim verification (calibrated prior + cross-artifact + external)
+
+[Headline read from `pmf-signal.md`. The top 5 rows of the consolidated claim ledger (worst-news-first ordering). The 1 strongest cluster pattern. Explicit Stance B disclaimer for the persona-reaction rows; cross-artifact and external-evidence rows do not need the same disclaimer because they triangulate against actual evidence. List of `requires-data-room` flags for the VC to follow up on.]
 
 ## Customer signal
 
@@ -71,7 +83,7 @@ Run the full dudu workflow end-to-end on one deal. Read `lib/deal.md`, `lib/play
 
 ## Cross-artifact synthesis
 
-[New section. Surfaces contradictions ACROSS artifacts. e.g.: "Founder claims engineering teams are the buyer (deck p.3), but customer interviews showed product managers driving the purchase (interview-2)." This is where the orchestrator earns its keep.]
+[Surfaces contradictions ACROSS artifacts. e.g.: "Founder claims engineering teams are the buyer (deck p.3), but customer interviews showed product managers driving the purchase (interview-2)." This is where the orchestrator earns its keep.]
 
 ## Recommendation
 
@@ -82,16 +94,37 @@ Run the full dudu workflow end-to-end on one deal. Read `lib/deal.md`, `lib/play
 ## Source artifacts
 
 - founder-<name>.md
-- market-problem.md
+- market-context.md
+- pmf-signal.md
+- outreach.md
 - customer-discovery.md
 - competitive-landscape.md
 - market-sizing.md
 ```
 
-6. **Verify manifest completeness.** All six sub-skill keys in `skills_completed` should now be non-null (`founder-check`, `market-problem`, `customer-discovery-prep`, `customer-discovery-debrief`, `competitive-landscape`, `market-sizing`). Do not invent additional keys; the orchestrator's completion is implicit in those six.
+8. **Render `report.html`.** Run `python3 scripts/render-report.py deals/<slug>`. The script reads `MEMO.md` and the artifacts and writes a single self-contained `deals/<slug>/report.html` — embedded CSS/JS, no network assets. Markdown stays canonical; HTML is a derived view.
 
-7. **Print** the path to `MEMO.md`.
+   - If the script exits non-zero (missing `manifest.json`, parse error), surface the stderr message but **do not** block — `MEMO.md` is still useful on its own.
+   - If `python3` isn't on PATH, print: `report.html skipped — install Python 3 or run python3 scripts/render-report.py deals/<slug> manually.`
+
+9. **Print** the paths to `MEMO.md` and (if rendered) `report.html`.
 
 ## Re-runnability
 
-Each sub-skill checks its own artifact and skips if present (unless `--force`). The orchestrator therefore can be re-run safely; only missing pieces will be filled.
+The layered skills below this wrapper each check their own artifacts and skip if present (unless `--force`). The wrapper therefore inherits re-runnability for free. To re-run: invoke this skill again; only missing pieces will be filled.
+
+## Migration to layered skills
+
+Drop-in replacement for users with `dudu:diligence` muscle memory:
+
+```bash
+# Old, single-call (still works for now)
+dudu:diligence
+
+# New, layered (recommended — the canonical surface)
+dudu:background-check                 # produces L1 bundle
+dudu:pmf-signal                       # produces the unique value
+# ... run real interviews, save transcripts to deals/<slug>/inputs/ ...
+dudu:customer-debrief                 # synthesizes transcripts
+# ... then stitch MEMO + render manually, OR re-invoke dudu:diligence which handles those steps ...
+```

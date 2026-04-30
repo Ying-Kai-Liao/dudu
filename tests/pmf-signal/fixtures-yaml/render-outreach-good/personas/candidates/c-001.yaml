@@ -1,0 +1,23 @@
+candidate_id: c-001
+cluster_id: regulatory-growth-collision__pmf-validation
+match_evidence:
+  url: "https://reddit.com/r/SouthAfrica/comments/abc"
+  quote: "just got a R45k SARS penalty for missing my first provisional"
+  date: "2026-04-12"
+person:
+  name: "Daniel M."
+  handle_or_link: "https://www.linkedin.com/in/daniel-marlin"
+  role_inferred: "founder, B2B SaaS"
+  geography_inferred: "Cape Town"
+warm_path:
+  exists: true
+  degree: 1
+  bridge_name: "John Doe"
+  confidence: high
+post_hooks:
+  - url: "https://reddit.com/r/SouthAfrica/comments/abc"
+    date: "2026-04-12"
+    summary: "VAT penalty rant"
+recommended_outreach:
+  channel: warm-intro-via-John-Doe
+  draft: "Hi Daniel — John Doe suggested I reach out. Saw your VAT penalty post; researching how SA founders handle SARS in 2026. 20 min call?"

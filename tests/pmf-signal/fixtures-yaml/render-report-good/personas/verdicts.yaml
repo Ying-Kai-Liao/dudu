@@ -1,0 +1,35 @@
+verdicts:
+  - claim_id: c-001
+    verification_method: persona-reaction
+    verdict_counts:
+      agree: 7
+      partial: 2
+      disagree: 1
+    representative_verbatims:
+      agree: "Two days minimum"
+      partial: "kinda"
+      disagree: "not really"
+  - claim_id: c-003
+    verification_method: persona-reaction
+    verdict_counts:
+      agree: 1
+      disagree: 9
+    representative_verbatims:
+      agree: "yes"
+      disagree: "My CA would never recommend a tool that replaces his work"
+  - claim_id: c-010
+    verification_method: external-evidence
+    verdict: insufficient-evidence-for-200
+    verdict_rationale: "public surface area inconsistent with 200"
+  - claim_id: c-020
+    verification_method: cross-artifact
+    verdict: partial
+    verdict_rationale: "exit happened but no shareholder return"
+  - claim_id: c-030
+    verification_method: cross-artifact
+    verdict: partial
+    verdict_rationale: "global TAM band per market-sizing is $12B-$28B"
+  - claim_id: c-040
+    verification_method: cross-artifact
+    verdict: contradicts
+    verdict_rationale: "Pastel-to-Xero migration firms compete directly"

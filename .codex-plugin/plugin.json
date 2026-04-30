@@ -1,7 +1,7 @@
 {
   "name": "dudu",
-  "version": "0.1.0",
-  "description": "VC due diligence skills: founder checks, market/problem persona self-play, customer discovery, competitive landscape, and market sizing.",
+  "version": "0.2.0",
+  "description": "Layered VC due-diligence skills: background-check (L1 cheap public-source) and pmf-signal (L2 deep claim ledger × verdict matrix), plus founder-check, market-context, competitive-landscape, market-sizing, standalone customer-debrief, and fleet-run for fleet-scale orchestration.",
   "author": {
     "name": "Ying-Kai Liao",
     "email": "lykevin890919@gmail.com"
@@ -16,10 +16,15 @@
     "skills"
   ],
   "skills": "./skills/",
+  "deprecatedSkills": [
+    "diligence",
+    "market-problem",
+    "customer-discovery"
+  ],
   "interface": {
     "displayName": "dudu",
-    "shortDescription": "VC due diligence workflow for early-stage deals",
-    "longDescription": "Run end-to-end early-stage diligence on a deal: founder checks (with optional discovery), market/product/problem persona self-play, your-own customer discovery prep and debrief, competitive landscape, and bottom-up market sizing. Each skill produces a citation-backed markdown artifact under deals/<slug>/, stitched into a final investment memo.",
+    "shortDescription": "Layered VC due-diligence workflow with calibrated claim verification",
+    "longDescription": "Run layered diligence on a deal: Layer 1 background-check (founder + market context + competitive + sizing — cheap, public-source) and Layer 2 pmf-signal (the unique deliverable: claim ledger × verdict matrix from N=15–200 grounded persona simulation, plus warm-path outreach). Standalone customer-debrief synthesizes real interview transcripts. fleet-run composes those layers across many deals at once with concurrency caps and a sortable cross-deal dashboard. Each skill produces a citation-backed markdown artifact under deals/<slug>/, optionally stitched into a final investment memo via the deprecated dudu:diligence wrapper.",
     "developerName": "Ying-Kai Liao",
     "category": "Research",
     "capabilities": [
@@ -28,8 +33,9 @@
       "Write"
     ],
     "defaultPrompt": [
-      "I'm evaluating a new deal. Help me run dudu:diligence on it.",
-      "Run dudu:founder-check on the founders of this company."
+      "I'm evaluating a new deal. Run dudu:background-check followed by dudu:pmf-signal on it.",
+      "Run dudu:founder-check on the founders of this company.",
+      "I have N startups to triage. Run dudu:fleet-run on them and render the dashboard."
     ]
   }
 }
