@@ -107,13 +107,9 @@ Read every artifact under `deals/<slug>/` and produce `deals/<slug>/MEMO.md` usi
 **Deal:** <slug>
 **Generated:** <ISO timestamp>
 
-## TL;DR
+## Founder background
 
-[3-5 sentences. Founder credibility, problem severity, market size, competitive position, recommendation tilt.]
-
-## Founders
-
-[For each founder, summarize from `founder-<name>.md` in 3-5 bullets. Link to the full dossier.]
+[For each founder, summarize from `founder-<name>.md` in 3-5 bullets. Include prior managers, coworkers, collaborators, co-founders, board members, or senior operating partners when publicly identified. Show only intentionally public professional/social contact links such as LinkedIn, X/Twitter, GitHub, personal site, or company bio. Do not include private emails, phone numbers, or inferred/private relationship data. Link to the full dossier.]
 
 ## Problem and product
 

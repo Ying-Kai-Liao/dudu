@@ -1024,7 +1024,7 @@ nav.toc ul.group a { font-size: 0.85rem; padding: 0.15rem 0.4rem; }
 .toc-toggle { display: none; }
 
 main { padding: 2rem 2.5rem; max-width: 800px; }
-section.report-section { scroll-margin-top: 1rem; }
+section.report-section, details.report-section { scroll-margin-top: 1rem; }
 section.star-section > h2::before { content: "★ "; color: #f59e0b; font-weight: normal; }
 details { margin: 0.5rem 0; border: 1px solid var(--line); border-radius: 6px; padding: 0.5rem 0.9rem; background: #fcfcfc; }
 details > summary { cursor: pointer; font-weight: 600; color: var(--ink); padding: 0.15rem 0; }
@@ -1092,8 +1092,8 @@ details[open] > summary { margin-bottom: 0.4rem; }
   .layout { grid-template-columns: 1fr; }
   main { max-width: none; padding: 0 1rem; }
   header.report { background: none; }
-  section.report-section { page-break-before: always; }
-  section.report-section:first-of-type { page-break-before: auto; }
+  section.report-section, details.report-section { page-break-before: always; }
+  section.report-section:first-of-type, details.report-section:first-of-type { page-break-before: auto; }
   a { color: var(--ink); text-decoration: underline; }
 }
 """.strip()
@@ -1150,6 +1150,13 @@ def _section(html_id: str, title: str, body_html: str, *, star: bool = False) ->
     return (
         f'<section id="{html_id}" class="{cls}">'
         f"<h2>{_esc(title)}</h2>{body_html}</section>"
+    )
+
+
+def _details_section(html_id: str, title: str, body_html: str) -> str:
+    return (
+        f'<details id="{html_id}" class="report-section drilldown" data-toc-target>'
+        f"<summary>{_esc(title)}</summary>{body_html}</details>"
     )
 
 
@@ -1466,6 +1473,20 @@ def _source_artifacts_html(
     return "<ul>" + "".join(artifacts) + "</ul>"
 
 
+def _founder_background_specs(founder_files: list[Path]) -> list[tuple[str, str, str]]:
+    """Return expanded founder dossier sections for the front of the report."""
+    specs: list[tuple[str, str, str]] = []
+    for fpath in founder_files:
+        body = _read(fpath) or ""
+        body = re.sub(r"^#\s+.+\n", "", body, count=1)
+        html_id = "founder-" + _slug(fpath.stem.removeprefix("founder-"))
+        label = "Founder Background: " + fpath.stem.removeprefix("founder-").replace("-", " ").title()
+        body_html = render_markdown(body, heading_offset=1)
+        if body_html.strip():
+            specs.append((html_id, label, body_html))
+    return specs
+
+
 # ---------- legacy branch -------------------------------------------------
 
 
@@ -1504,49 +1525,64 @@ def render_legacy(deal_dir: Path) -> str:
     # artifact `## Subhead` → <h3>, etc.
     OFFSET = 1
 
-    if "tl;dr" in memo_sections:
-        add_section("tldr", "TL;DR", render_markdown(memo_sections["tl;dr"], heading_offset=OFFSET))
-
     founder_files = sorted(deal_dir.glob("founder-*.md"))
     if founder_files:
-        for fpath in founder_files:
-            body = _read(fpath) or ""
-            body = re.sub(r"^#\s+.+\n", "", body, count=1)
-            html_id = "founder-" + _slug(fpath.stem.removeprefix("founder-"))
-            label = "Founder: " + fpath.stem.removeprefix("founder-").replace("-", " ").title()
-            add_section(html_id, label, render_markdown(body, heading_offset=OFFSET))
+        for html_id, label, body_html in _founder_background_specs(founder_files):
+            add_section(html_id, label, body_html)
     elif "founders" in memo_sections:
-        add_section("founders", "Founders", render_markdown(memo_sections["founders"], heading_offset=OFFSET))
+        add_section("founders", "Founder Background", render_markdown(memo_sections["founders"], heading_offset=OFFSET))
 
     mp = _read(deal_dir / "market-context.md") or _read(deal_dir / "market-problem.md")
     if mp:
         body = re.sub(r"^#\s+.+\n", "", mp, count=1)
-        add_section("problem", "Problem & Product", render_markdown(body, heading_offset=OFFSET))
+        sections_html.append(
+            _details_section("problem", "Problem & Product", render_markdown(body, heading_offset=OFFSET))
+        )
+        toc.append(("problem", "Problem & Product"))
     elif "problem and product" in memo_sections:
-        add_section("problem", "Problem & Product", render_markdown(memo_sections["problem and product"], heading_offset=OFFSET))
+        sections_html.append(
+            _details_section("problem", "Problem & Product", render_markdown(memo_sections["problem and product"], heading_offset=OFFSET))
+        )
+        toc.append(("problem", "Problem & Product"))
 
     cd = _read(deal_dir / "customer-discovery.md")
     recordings = _recordings_html(deal_dir)
     if cd:
         body = re.sub(r"^#\s+.+\n", "", cd, count=1)
-        add_section("customer-signal", "Customer Signal", recordings + render_markdown(body, heading_offset=OFFSET))
+        sections_html.append(
+            _details_section("customer-signal", "Customer Signal", recordings + render_markdown(body, heading_offset=OFFSET))
+        )
+        toc.append(("customer-signal", "Customer Signal"))
     elif "customer signal" in memo_sections:
-        add_section("customer-signal", "Customer Signal", recordings + render_markdown(memo_sections["customer signal"], heading_offset=OFFSET))
+        sections_html.append(
+            _details_section("customer-signal", "Customer Signal", recordings + render_markdown(memo_sections["customer signal"], heading_offset=OFFSET))
+        )
+        toc.append(("customer-signal", "Customer Signal"))
     elif recordings:
-        add_section("customer-signal", "Customer Signal", recordings)
+        sections_html.append(_details_section("customer-signal", "Customer Signal", recordings))
+        toc.append(("customer-signal", "Customer Signal"))
 
     if not cd:
         cdp = _read(deal_dir / "customer-discovery-prep.md")
         if cdp:
             body = re.sub(r"^#\s+.+\n", "", cdp, count=1)
-            add_section("customer-discovery-prep", "Discovery Prep", render_markdown(body, heading_offset=OFFSET))
+            sections_html.append(
+                _details_section("customer-discovery-prep", "Discovery Prep", render_markdown(body, heading_offset=OFFSET))
+            )
+            toc.append(("customer-discovery-prep", "Discovery Prep"))
 
     cl = _read(deal_dir / "competitive-landscape.md")
     if cl:
         body = re.sub(r"^#\s+.+\n", "", cl, count=1)
-        add_section("competitive-landscape", "Competitive Landscape", render_markdown(body, heading_offset=OFFSET))
+        sections_html.append(
+            _details_section("competitive-landscape", "Competitive Landscape", render_markdown(body, heading_offset=OFFSET))
+        )
+        toc.append(("competitive-landscape", "Competitive Landscape"))
     elif "competitive landscape" in memo_sections:
-        add_section("competitive-landscape", "Competitive Landscape", render_markdown(memo_sections["competitive landscape"], heading_offset=OFFSET))
+        sections_html.append(
+            _details_section("competitive-landscape", "Competitive Landscape", render_markdown(memo_sections["competitive landscape"], heading_offset=OFFSET))
+        )
+        toc.append(("competitive-landscape", "Competitive Landscape"))
 
     ms = _read(deal_dir / "market-sizing.md")
     if ms:
@@ -1558,28 +1594,36 @@ def render_legacy(deal_dir: Path) -> str:
                 chart = _market_chart_svg(data)
         except Exception:
             chart = ""
-        add_section("market-sizing", "Market Sizing", chart + render_markdown(body, heading_offset=OFFSET))
+        sections_html.append(
+            _details_section("market-sizing", "Market Sizing", chart + render_markdown(body, heading_offset=OFFSET))
+        )
+        toc.append(("market-sizing", "Market Sizing"))
     elif "market sizing" in memo_sections:
-        add_section("market-sizing", "Market Sizing", render_markdown(memo_sections["market sizing"], heading_offset=OFFSET))
+        sections_html.append(
+            _details_section("market-sizing", "Market Sizing", render_markdown(memo_sections["market sizing"], heading_offset=OFFSET))
+        )
+        toc.append(("market-sizing", "Market Sizing"))
 
     if "cross-artifact synthesis" in memo_sections:
-        add_section("synthesis", "Cross-artifact Synthesis", render_markdown(memo_sections["cross-artifact synthesis"], heading_offset=OFFSET))
+        sections_html.append(
+            _details_section("synthesis", "Cross-artifact Synthesis", render_markdown(memo_sections["cross-artifact synthesis"], heading_offset=OFFSET))
+        )
+        toc.append(("synthesis", "Cross-artifact Synthesis"))
 
     if "recommendation" in memo_sections:
-        add_section("recommendation", "Recommendation", render_markdown(memo_sections["recommendation"], heading_offset=OFFSET))
+        sections_html.append(
+            _details_section("recommendation", "Recommendation", render_markdown(memo_sections["recommendation"], heading_offset=OFFSET))
+        )
+        toc.append(("recommendation", "Recommendation"))
 
     persona_html, persona_toc = _personas_block(deal_dir, all_closed=False)
     if persona_html:
-        sections_html.append(
-            f'<section id="personas" class="report-section"><h2>Personas</h2>{persona_html}</section>'
-        )
+        sections_html.append(_details_section("personas", "Personas", persona_html))
         toc.append(("personas", "Personas"))
 
     artifacts_body = _source_artifacts_html(deal_dir, founder_files)
     if artifacts_body:
-        sections_html.append(
-            f'<section id="artifacts" class="report-section"><h2>Source artifacts</h2>{artifacts_body}</section>'
-        )
+        sections_html.append(_details_section("artifacts", "Source artifacts", artifacts_body))
         toc.append(("artifacts", "Source artifacts"))
 
     toc_html = _build_toc(toc, persona_toc)
@@ -1603,22 +1647,13 @@ def _drilldown_section_specs(
 ) -> list[tuple[str, str, str]]:
     """Return (id, label, body_html) tuples for the pmf-led drill-down sections.
 
-    Excludes MEMO sections that duplicate per-artifact files (TL;DR,
-    Founders, Problem and Product, Customer Signal, Competitive Landscape,
-    Market Sizing). Includes per-artifact files plus the cross-artifact
-    synthesis from MEMO at the end.
+    Excludes MEMO sections that duplicate visible or per-artifact files
+    (Founder Background, Problem and Product, Customer Signal, Competitive
+    Landscape, Market Sizing). Includes per-artifact files plus the
+    cross-artifact synthesis from MEMO at the end.
     """
     OFFSET = 2  # rendered inside <details><summary><h2-equivalent>
     out: list[tuple[str, str, str]] = []
-
-    for fpath in founder_files:
-        body = _read(fpath) or ""
-        body = re.sub(r"^#\s+.+\n", "", body, count=1)
-        html_id = "founder-" + _slug(fpath.stem.removeprefix("founder-"))
-        label = "Founder: " + fpath.stem.removeprefix("founder-").replace("-", " ").title()
-        body_html = render_markdown(body, heading_offset=OFFSET)
-        if body_html.strip():
-            out.append((html_id, label, body_html))
 
     mp = _read(deal_dir / "market-context.md") or _read(deal_dir / "market-problem.md")
     if mp:
@@ -1709,11 +1744,18 @@ def render_pmf_led(deal_dir: Path, inputs: PMFInputs, *, branch: str = "full") -
     sections_html: list[str] = []
     toc: list[tuple[str, str]] = []
 
-    # Star sections
+    # First visible section: founder background dossiers, including the
+    # Prior managers / partners table from founder-check when available.
+    founder_files = sorted(deal_dir.glob("founder-*.md"))
+    for html_id, label, body_html in _founder_background_specs(founder_files):
+        sections_html.append(_section(html_id, label, body_html))
+        toc.append((html_id, label))
+
+    # Second visible part: PMF signal.
     ledger_html = render_ledger_section(rows)
     if ledger_html:
-        sections_html.append(_star_section("ledger", "Claim ledger × verdict matrix", ledger_html))
-        toc.append(("ledger", "Claim ledger"))
+        sections_html.append(_star_section("ledger", "PMF Signal", ledger_html))
+        toc.append(("ledger", "PMF signal"))
 
     if branch == "pitch-only":
         sections_html.append(
@@ -1741,7 +1783,6 @@ def render_pmf_led(deal_dir: Path, inputs: PMFInputs, *, branch: str = "full") -
         toc.append(("outreach", "Outreach"))
 
     # Drill-down sections (collapsed)
-    founder_files = sorted(deal_dir.glob("founder-*.md"))
     drilldowns = _drilldown_section_specs(deal_dir, memo_sections, founder_files)
     if drilldowns:
         drill_blocks: list[str] = []
@@ -1766,9 +1807,7 @@ def render_pmf_led(deal_dir: Path, inputs: PMFInputs, *, branch: str = "full") -
     # Source artifacts
     artifacts_body = _source_artifacts_html(deal_dir, founder_files, pmf_inputs=inputs)
     if artifacts_body:
-        sections_html.append(
-            f'<section id="artifacts" class="report-section"><h2>Source artifacts</h2>{artifacts_body}</section>'
-        )
+        sections_html.append(_details_section("artifacts", "Source artifacts", artifacts_body))
         toc.append(("artifacts", "Source artifacts"))
 
     toc_html = _build_toc(toc, persona_toc)
@@ -1805,6 +1844,11 @@ def render_markdown_fallback(deal_dir: Path, inputs: PMFInputs) -> str:
     sections_html: list[str] = []
     toc: list[tuple[str, str]] = []
 
+    founder_files = sorted(deal_dir.glob("founder-*.md"))
+    for html_id, label, body_html in _founder_background_specs(founder_files):
+        sections_html.append(_section(html_id, label, body_html))
+        toc.append((html_id, label))
+
     pmf_md = inputs.pmf_signal_md or ""
     body = re.sub(r"^#\s+.+\n", "", pmf_md, count=1)
     pmf_signal_body = render_markdown(body, heading_offset=1)
@@ -1812,7 +1856,6 @@ def render_markdown_fallback(deal_dir: Path, inputs: PMFInputs) -> str:
         sections_html.append(_star_section("pmf-signal", "PMF signal", pmf_signal_body))
         toc.append(("pmf-signal", "PMF signal"))
 
-    founder_files = sorted(deal_dir.glob("founder-*.md"))
     drilldowns = _drilldown_section_specs(deal_dir, memo_sections, founder_files)
     if drilldowns:
         drill_blocks: list[str] = []
@@ -1833,9 +1876,7 @@ def render_markdown_fallback(deal_dir: Path, inputs: PMFInputs) -> str:
 
     artifacts_body = _source_artifacts_html(deal_dir, founder_files, pmf_inputs=inputs)
     if artifacts_body:
-        sections_html.append(
-            f'<section id="artifacts" class="report-section"><h2>Source artifacts</h2>{artifacts_body}</section>'
-        )
+        sections_html.append(_details_section("artifacts", "Source artifacts", artifacts_body))
         toc.append(("artifacts", "Source artifacts"))
 
     toc_html = _build_toc(toc, persona_toc)
