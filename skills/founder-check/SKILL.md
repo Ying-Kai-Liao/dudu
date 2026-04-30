@@ -57,6 +57,7 @@ In rough priority order, capping at ~30 fetches per founder:
 8. **LinkedIn** — Playwright with the VC's authenticated session. Career timeline, current role, notable connections (only count, not names, in the artifact). Follow `lib/playwright-auth.md` exactly.
 9. **Crunchbase founder page** — Playwright. Prior ventures with funding/exit data.
 10. **Court records / litigation** — search "<founder name> lawsuit OR litigation OR settled" with the company name as additional context. Only include results clearly tied to this person.
+11. **Prior managers / partners / co-founders** — identify publicly visible previous managers, direct collaborators, co-founders, board members, or senior operating partners from LinkedIn, company pages, press releases, GitHub orgs, and prior-venture pages. Capture only professional/public social contact links (LinkedIn, X/Twitter, GitHub, personal site, company bio). Do not infer private contact details, scrape emails/phone numbers, or expose non-public relationship data.
 
 ## Parallelization (Layer 2 — per founder)
 
@@ -67,8 +68,9 @@ Each subagent prompt MUST include:
 - The founder's name, company name, and any disambiguator (e.g., LinkedIn URL if supplied).
 - A **per-founder budget of ~25 public-web fetches** (reserve ~5 for main-session Playwright work below).
 - The full citation and source-honesty rules from `lib/research-protocol.md` (paste, don't reference — subagents don't auto-load it).
-- Sources to consult: items **1–7 and 10** from the list above. **Skip items 8 (LinkedIn) and 9 (Crunchbase)** — those require the VC's authenticated session and cannot be delegated.
+- Sources to consult: items **1–7, 10, and the public-web portions of 11** from the list above. **Skip items 8 (LinkedIn) and 9 (Crunchbase)** — those require the VC's authenticated session and cannot be delegated.
 - Required return shape: a markdown summary with sections matching the artifact template (Career timeline, Domain credibility, Prior ventures, Public controversies, Communication style with one verbatim quote, Open questions) plus a `Sources` list. **Do not let the subagent write to `deals/`** — it returns text only.
+- Include a `Prior managers / partners` section when public sources identify credible previous managers, direct collaborators, co-founders, board members, or senior operating partners. For each person, return name, role/relationship, shared company or project, visible timeframe if known, and public professional/social profile links. Exclude private emails, phone numbers, and anything not intentionally public.
 
 After all subagents return, in the **main session**:
 
@@ -112,6 +114,14 @@ Write to `deals/<slug>/founder-<kebab-name>.md`:
 ## Network density
 
 [Notable co-founders, advisors, or employer alumni. Count of LinkedIn connections if available. Source.]
+
+## Prior managers / partners
+
+| Person | Relationship | Shared company/project | Timeframe | Public social/professional links | Source |
+|--------|--------------|------------------------|-----------|----------------------------------|--------|
+| ... | Previous manager / co-founder / board member / operating partner / collaborator | ... | ... | LinkedIn / X / GitHub / personal site / company bio | [link] |
+
+If no credible public contacts are found, write: "No previous managers, partners, or direct collaborators with public professional/social profiles were confidently identified."
 
 ## Open questions a partner would ask
 
