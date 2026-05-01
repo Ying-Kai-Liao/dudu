@@ -1,0 +1,11 @@
+{
+  "id": "demo-billing-test",
+  "status": "ended",
+  "endedReason": "customer-ended-call",
+  "recording_url": "https://storage.vapi.ai/example-stereo.wav",
+  "structured_data": {
+    "pain_described": "Manual billing reconciliation costs us 3 days per close.",
+    "current_solution_friction": "Excel + Stripe + slack pings",
+    "wtp_signal": "yes-with-caveats"
+  }
+}

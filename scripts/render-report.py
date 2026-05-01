@@ -1300,6 +1300,46 @@ def _recordings_html(deal_dir: Path) -> str:
     return "".join(blocks)
 
 
+def _ensure_local_recording(deal_dir: Path, call_json_path: Path) -> Path | None:
+    """Download recording_url from a call JSON to calls/recordings/<id>.wav.
+
+    Returns the local path on success, None on any failure.
+    Idempotent: if the local file already exists with non-zero size, returns it.
+    """
+    try:
+        data = json.loads(call_json_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    url = data.get("recording_url")
+    if not url:
+        return None
+
+    call_id = call_json_path.stem  # e.g. "demo-billing-reconciliation"
+    target_dir = deal_dir / "calls" / "recordings"
+    target = target_dir / f"{call_id}.wav"
+    if target.exists() and target.stat().st_size > 0:
+        return target
+
+    target_dir.mkdir(parents=True, exist_ok=True)
+    tmp = target.with_suffix(".wav.tmp")
+    try:
+        import urllib.request
+        with urllib.request.urlopen(url, timeout=30) as resp:
+            data_bytes = resp.read()
+        if not data_bytes:
+            return None
+        tmp.write_bytes(data_bytes)
+        tmp.replace(target)
+        return target
+    except Exception as exc:  # noqa: BLE001 — network/disk failure shouldn't crash render
+        print(f"warning: could not download recording for {call_id}: {exc}", file=sys.stderr)
+        try:
+            tmp.unlink(missing_ok=True)
+        except OSError:
+            pass
+        return None
+
+
 def _persona_title(name: str) -> str:
     base = name.removesuffix(".md")
     if base == "_context":

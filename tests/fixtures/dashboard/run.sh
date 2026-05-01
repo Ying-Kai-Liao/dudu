@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+# Smoke tests for the dashboard cards in scripts/render-report.py.
+set -u
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+repo_root="$(cd "$script_dir/../../.." && pwd)"
+renderer="$repo_root/scripts/render-report.py"
+fail=0
+
+assert_contains() {
+    local label="$1" needle="$2" haystack="$3"
+    if [[ "$haystack" == *"$needle"* ]]; then
+        echo "  PASS: $label"
+    else
+        echo "  FAIL: $label — did not find '$needle'"
+        fail=1
+    fi
+}
+
+assert_not_contains() {
+    local label="$1" needle="$2" haystack="$3"
+    if [[ "$haystack" != *"$needle"* ]]; then
+        echo "  PASS: $label"
+    else
+        echo "  FAIL: $label — unexpectedly found '$needle'"
+        fail=1
+    fi
+}
+
+run_unit_test() {
+    local label="$1" expected="$2" actual="$3"
+    if [[ "$actual" == "$expected" ]]; then
+        echo "  PASS: $label"
+    else
+        echo "  FAIL: $label — expected '$expected' got '$actual'"
+        fail=1
+    fi
+}
+
+echo "[ensure_local_recording] returns None when recording_url missing"
+out="$(python3 -c "
+import sys, json, tempfile, pathlib
+sys.path.insert(0, '$repo_root/scripts')
+from importlib import import_module
+m = import_module('render-report')
+with tempfile.TemporaryDirectory() as td:
+    deal = pathlib.Path(td)
+    (deal / 'calls').mkdir()
+    p = deal / 'calls' / 'no-url.json'
+    p.write_text(json.dumps({'id': 'x'}))
+    r = m._ensure_local_recording(deal, p)
+    print('None' if r is None else r)
+")"
+run_unit_test "no recording_url -> None" "None" "$out"
+
+echo "[ensure_local_recording] returns existing local file (cache hit)"
+out="$(python3 -c "
+import sys, json, tempfile, pathlib
+sys.path.insert(0, '$repo_root/scripts')
+from importlib import import_module
+m = import_module('render-report')
+with tempfile.TemporaryDirectory() as td:
+    deal = pathlib.Path(td)
+    (deal / 'calls' / 'recordings').mkdir(parents=True)
+    cached = deal / 'calls' / 'recordings' / 'demo-x.wav'
+    cached.write_bytes(b'RIFFXXXX')
+    p = deal / 'calls' / 'demo-x.json'
+    p.write_text(json.dumps({'id': 'x', 'recording_url': 'http://example/x.wav'}))
+    r = m._ensure_local_recording(deal, p)
+    print('hit' if r == cached else 'miss')
+")"
+run_unit_test "cache hit returns local file" "hit" "$out"
+
+echo
+if [[ $fail -eq 0 ]]; then
+    echo "OK — all dashboard fixtures pass"
+    exit 0
+else
+    echo "FAIL — see above"
+    exit 1
+fi
