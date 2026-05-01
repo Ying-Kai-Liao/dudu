@@ -1150,6 +1150,10 @@ DASHBOARD_CSS = """
 .dash-metric-num { font-family: Georgia, serif; font-size: 1.5rem; color: #16a34a; font-weight: 600; }
 .dash-quote { margin: 0; padding: 0.5rem 0.7rem; border-left: 3px solid #7c5cff; background: #f5f3ff; border-radius: 4px; font-size: 0.82rem; color: #4c1d95; font-style: italic; }
 .dash-empty { color: var(--muted); font-style: italic; }
+.dash-sparkline { margin-top: 0.5rem; max-height: 110px; overflow: hidden; }
+.dash-sparkline figure.chart { margin: 0; padding: 0.4rem 0.6rem; background: #f8fafc; border-radius: 6px; }
+.dash-sparkline figure.chart .chart-title, .dash-sparkline figure.chart .chart-legend { display: none; }
+.dash-sparkline svg { max-height: 90px; }
 
 @media (max-width: 900px) {
   .dashboard-wrap { margin: 1rem 1rem; padding: 1rem; }
@@ -1687,6 +1691,8 @@ def _card_founders(deal_dir: Path) -> str | None:
 def _personas_consensus(supports: int, contradicts: int, fit_score: float | None) -> str:
     if fit_score is None:
         return "LOW"
+    if supports + contradicts == 0:
+        return "LOW"
     if supports >= 2 * contradicts and fit_score >= 7:
         return "HIGH"
     if supports >= contradicts:
@@ -1853,7 +1859,7 @@ def _card_calls(deal_dir: Path) -> str | None:
     if not call_jsons:
         return None
 
-    total = len(call_jsons)
+    total = 0
     positive = 0
     hero_path: Path | None = None
     hero_audio_src: str | None = None
@@ -1862,6 +1868,7 @@ def _card_calls(deal_dir: Path) -> str | None:
             data = json.loads(p.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError):
             continue
+        total += 1
         if _is_positive_call(data.get("structured_data")):
             positive += 1
         if hero_path is None:
@@ -1873,7 +1880,9 @@ def _card_calls(deal_dir: Path) -> str | None:
                 hero_path = p
                 hero_audio_src = data["recording_url"]
 
-    pct = round(positive / total * 100) if total else 0
+    if total == 0:
+        return None
+    pct = round(positive / total * 100)
     pull_quote = _read_pull_quote(deal_dir)
 
     if hero_audio_src:
@@ -1971,12 +1980,17 @@ def _card_market(deal_dir: Path, memo_text: str | None) -> str | None:
         if cagr is not None else ''
     )
 
+    sparkline_html = (
+        f'<div class="dash-sparkline">{sparkline}</div>'
+        if sparkline else ''
+    )
+
     return (
         f'<article class="dash-card dash-card-market">'
         f'<header class="dash-card-head"><span class="dash-num">4</span>'
         f'<h3>Market Sizing</h3></header>'
         f'<div class="dash-card-body">'
-        f'{industry_html}{tam_html}{cagr_html}'
+        f'{industry_html}{tam_html}{cagr_html}{sparkline_html}'
         f'</div>'
         f'<footer class="dash-card-foot">'
         f'<a class="dash-more" href="#market-sizing">Read more →</a>'

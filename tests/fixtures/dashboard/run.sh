@@ -114,6 +114,8 @@ assert_contains "industry tag" "Fintech / B2B SaaS" "$out"
 assert_contains "TAM upper" 'data-tam="2400"' "$out"
 assert_contains "growth rate" 'data-cagr="18.4"' "$out"
 assert_contains "read more anchor" 'href="#market-sizing"' "$out"
+assert_contains "sparkline rendered" 'class="dash-sparkline"' "$out"
+assert_contains "sparkline svg" '<svg ' "$out"
 
 echo "[card-competitors] renders for competitors-only fixture"
 python3 "$renderer" "$script_dir/competitors-only" >/dev/null 2>&1
@@ -123,6 +125,37 @@ assert_contains "competitor 1" "Stripe Billing" "$out"
 assert_contains "competitor 2" "Maxio" "$out"
 assert_contains "competitor 3" "Tabs" "$out"
 assert_contains "opportunity HIGH" 'data-opportunity="HIGH"' "$out"
+
+echo "[personas-consensus] zero verdicts -> LOW (not HIGH)"
+out="$(python3 -c "
+import sys
+sys.path.insert(0, '$repo_root/scripts')
+from importlib import import_module
+m = import_module('render-report')
+print(m._personas_consensus(0, 0, 8.5))
+")"
+run_unit_test "zero verdicts with high fit -> LOW" "LOW" "$out"
+
+echo "[card-calls] unreadable JSON does not deflate positive %"
+out="$(python3 -c "
+import sys, json, tempfile, pathlib
+sys.path.insert(0, '$repo_root/scripts')
+from importlib import import_module
+m = import_module('render-report')
+with tempfile.TemporaryDirectory() as td:
+    deal = pathlib.Path(td)
+    (deal / 'calls').mkdir()
+    (deal / 'calls' / 'demo-good.json').write_text(json.dumps({
+        'id': 'g', 'structured_data': {'pain_described': 'real pain'}
+    }))
+    (deal / 'calls' / 'demo-broken.json').write_text('{ this is not valid json')
+    html = m._card_calls(deal) or ''
+    import re
+    pct = re.search(r'data-positive-pct=\"(\d+)\"', html)
+    total = re.search(r'data-calls-completed=\"(\d+)\"', html)
+    print(f'{total.group(1) if total else None}/{pct.group(1) if pct else None}')
+")"
+run_unit_test "1 good + 1 broken -> 1 / 100" "1/100" "$out"
 
 echo "[dashboard] grid wrapper present when at least one card renders"
 python3 "$renderer" "$script_dir/founders-only" >/dev/null 2>&1
