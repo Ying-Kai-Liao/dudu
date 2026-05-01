@@ -6,8 +6,8 @@ on which pmf-signal artifacts exist in the deal directory. They are tried
 in priority order; the first matching branch wins:
 
   1. full              — pitch.yaml AND personas/verdicts.yaml both present.
-                         Renders the star-led layout: header → recommendation
-                         ribbon → claim ledger × verdict matrix →
+                         Renders the star-led layout: header →
+                         claim ledger × verdict matrix →
                          cross-artifact contradictions → warm-path outreach
                          top-N → drill-down (collapsed) → source artifacts.
   2. pitch-only        — pitch.yaml present, verdicts.yaml absent.
@@ -285,22 +285,6 @@ SECTION_FILES = [
     ("competitive-landscape", "Competitive Landscape", "competitive-landscape.md"),
     ("market-sizing", "Market Sizing", "market-sizing.md"),
 ]
-
-
-REC_RE = re.compile(
-    r"\*\*Pass\s*/\s*Watch\s*/\s*Pursue:\*\*\s*\*?\*?([A-Za-z]+)",
-    re.IGNORECASE,
-)
-
-
-def parse_recommendation(memo: str) -> str | None:
-    m = REC_RE.search(memo)
-    if not m:
-        return None
-    verdict = m.group(1).strip().lower()
-    if verdict in ("pass", "watch", "pursue"):
-        return verdict.capitalize()
-    return None
 
 
 # Strict declarative pattern: a `**Label ...:** ... Rlo m – Rhi m` line.
@@ -640,7 +624,7 @@ def sort_ledger_rows(
     is forced to "pending" regardless of what verdicts.yaml says.
     """
     claims = (pitch or {}).get("claims") or []
-    verdicts_list = (verdicts or {}).get("verdicts") or []
+    verdicts_list = (verdicts or {}).get("verdicts") or (verdicts or {}).get("claim_verdicts") or []
     verdicts_by_id = {v.get("claim_id"): v for v in verdicts_list if v.get("claim_id")}
 
     rows: list[dict] = []
@@ -930,31 +914,6 @@ def render_outreach_section(entries: list[dict]) -> str:
     return "\n".join(parts)
 
 
-# ---------- recommendation ribbon ----------------------------------------
-
-
-def render_recommendation_ribbon(memo_text: str | None) -> str:
-    """Extract `## Recommendation` (case-insensitive) from MEMO.md and
-    render as a callout ribbon. Returns "" if MEMO is missing or has no
-    such section.
-    """
-    if not memo_text:
-        return ""
-    sections = _split_memo_sections(memo_text)
-    body = sections.get("recommendation")
-    if not body:
-        return ""
-    inner = render_markdown(body, heading_offset=1)
-    if not inner.strip():
-        return ""
-    return (
-        '<aside class="recommendation-ribbon">'
-        "<h3>Recommendation</h3>"
-        f"{inner}"
-        "</aside>"
-    )
-
-
 # ---------- HTML assembly -------------------------------------------------
 
 CSS = """
@@ -1007,9 +966,6 @@ header.report time { font-variant-numeric: tabular-nums; }
 .recordings-list .recording-label { font-size: 0.85rem; color: var(--muted); margin-bottom: 0.2rem; }
 .recordings-list audio { width: 100%; max-width: 480px; }
 
-.recommendation-ribbon { margin: 1rem 2rem 0; padding: 0.85rem 1.1rem; border-left: 4px solid var(--accent); background: #eff6ff; color: #1e3a8a; border-radius: 4px; font-size: 0.95rem; }
-.recommendation-ribbon h3 { font-family: system-ui, -apple-system, sans-serif; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: #1e3a8a; margin: 0 0 0.4rem; padding: 0; border: none; }
-.recommendation-ribbon p { margin: 0.3rem 0; }
 
 .layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 0; align-items: start; }
 nav.toc { position: sticky; top: 0; align-self: start; max-height: 100vh; overflow-y: auto; padding: 1.5rem 1rem 1.5rem 2rem; border-right: 1px solid var(--line); font-size: 0.9rem; background: #fcfcfc; }
@@ -1023,13 +979,84 @@ nav.toc ul.group { margin: 0.25rem 0 0.5rem 0.6rem; border-left: 1px solid var(-
 nav.toc ul.group a { font-size: 0.85rem; padding: 0.15rem 0.4rem; }
 .toc-toggle { display: none; }
 
-main { padding: 2rem 2.5rem; max-width: 800px; }
+main { padding: 2rem 2.5rem; max-width: 1280px; }
 section.report-section, details.report-section { scroll-margin-top: 1rem; }
 section.star-section > h2::before { content: "★ "; color: #f59e0b; font-weight: normal; }
 details { margin: 0.5rem 0; border: 1px solid var(--line); border-radius: 6px; padding: 0.5rem 0.9rem; background: #fcfcfc; }
 details > summary { cursor: pointer; font-weight: 600; color: var(--ink); padding: 0.15rem 0; }
 details[open] { background: #fff; }
 details[open] > summary { margin-bottom: 0.4rem; }
+
+.dashboard-shell { margin: 0 0 2rem; padding: 1rem 0 0; }
+.dashboard-shell > h2 { text-align: center; margin: 0 0 0.1rem; padding: 0; border: none; font-family: system-ui, -apple-system, sans-serif; font-size: 1.35rem; font-weight: 750; }
+.dashboard-subtitle { text-align: center; color: var(--muted); margin: 0 0 1.2rem; font-size: 0.92rem; }
+.dashboard-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr) minmax(0, 1.1fr); gap: 1rem; }
+.dashboard-card { min-width: 0; border: 1px solid #e6e8f2; border-radius: 8px; padding: 1.1rem; background: linear-gradient(180deg, #fff 0%, #fdfdff 100%); box-shadow: 0 10px 28px rgba(45, 40, 90, 0.06); }
+.dashboard-card h3 { margin: 0; font-family: system-ui, -apple-system, sans-serif; font-size: 1.08rem; line-height: 1.25; }
+.dashboard-card h4 { margin: 0 0 0.45rem; font-family: system-ui, -apple-system, sans-serif; font-size: 0.9rem; color: #303247; }
+.card-title { display: flex; align-items: flex-start; gap: 0.7rem; margin-bottom: 1rem; }
+.step { flex: 0 0 auto; display: inline-grid; place-items: center; width: 2rem; height: 2rem; border-radius: 6px; color: #fff; background: linear-gradient(135deg, #6d5dfc, #5338e8); font-weight: 800; box-shadow: 0 4px 10px rgba(83, 56, 232, 0.25); }
+.dashboard-badge { display: inline-flex; align-items: center; min-height: 1.7rem; padding: 0.25rem 0.75rem; border-radius: 999px; font-weight: 750; font-size: 0.78rem; white-space: nowrap; }
+.dashboard-badge.positive { background: #dff8e8; color: #15803d; }
+.dashboard-badge.warning { background: #fef3c7; color: #9a5b00; }
+.dashboard-badge.negative { background: #fee2e2; color: #b91c1c; }
+.dashboard-badge.neutral { background: #eef0f7; color: #555b70; }
+.founder-chips { display: grid; gap: 0.55rem; margin: 0.2rem 0 0.85rem; }
+.founder-chip { display: flex; align-items: center; gap: 0.65rem; font-weight: 650; color: #303247; }
+.avatar { display: inline-grid; place-items: center; width: 2.45rem; height: 2.45rem; border-radius: 999px; color: #fff; font-weight: 800; letter-spacing: 0; }
+.avatar-0 { background: #334155; }
+.avatar-1 { background: #4f46e5; }
+.avatar-2 { background: #0f766e; }
+.check-list { list-style: none; padding: 0; margin: 0.2rem 0 1rem; display: grid; gap: 0.35rem; }
+.check-list li { display: flex; align-items: center; gap: 0.55rem; color: #555b70; font-size: 0.92rem; }
+.check-list li span { width: 1rem; height: 1rem; border-radius: 999px; display: inline-block; position: relative; border: 2px solid #bcc2d2; }
+.check-list li.ok span { border-color: #59c98a; }
+.check-list li.ok span::after { content: ""; position: absolute; left: 3px; top: 1px; width: 5px; height: 8px; border: solid #16a34a; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.check-list li.pending span { border-style: dashed; }
+.persona-tabs { display: flex; gap: 0.6rem; margin-bottom: 0.9rem; }
+.persona-tabs span { padding: 0.42rem 0.85rem; border: 1px solid #e2e5ef; border-radius: 6px; color: #686d80; background: #fff; font-weight: 650; }
+.persona-tabs .active { background: linear-gradient(135deg, #7a68ff, #6246ea); color: #fff; border-color: transparent; }
+.pmf-grid { display: grid; grid-template-columns: minmax(0, 1fr) 8rem; gap: 1rem; align-items: start; }
+.pain-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.45rem; }
+.pain-list li { position: relative; padding-left: 1.05rem; color: #555b70; font-size: 0.88rem; line-height: 1.35; }
+.pain-list li::before { content: ""; position: absolute; left: 0; top: 0.55em; width: 0.35rem; height: 0.35rem; border-radius: 999px; background: #6656ec; }
+.score-box { border: 1px solid #e3e6f0; border-radius: 8px; min-height: 7.2rem; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #fff; }
+.score-box span { color: #34384d; font-weight: 650; }
+.score-box strong { color: #16a34a; font-size: 2rem; line-height: 1; margin: 0.35rem 0; }
+.score-box small { color: var(--muted); }
+.audio-wave { display: flex; align-items: center; gap: 0.35rem; margin: 0.4rem 0 1.1rem; color: #8b7dff; }
+.audio-wave .play-dot { display: inline-grid; place-items: center; width: 2rem; height: 2rem; border-radius: 999px; background: #7b6bff; color: #fff; font-size: 0.8rem; }
+.audio-wave span:not(.play-dot) { width: 0.32rem; height: 2.1rem; border-radius: 999px; background: linear-gradient(#c8bfff, #8068f1); transform-origin: center; }
+.audio-wave span:nth-child(3) { height: 1.1rem; }
+.audio-wave span:nth-child(4) { height: 1.8rem; }
+.audio-wave span:nth-child(5) { height: 0.9rem; }
+.audio-wave span:nth-child(6) { height: 2.4rem; }
+.call-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.85rem; }
+.dashboard-metric span { display: block; color: #555b70; font-size: 0.82rem; }
+.dashboard-metric strong { display: block; color: #151827; font-size: 1.45rem; line-height: 1.15; margin-top: 0.1rem; }
+.calls-card blockquote { margin: 0.6rem 0 1rem; border: none; border-radius: 7px; background: #f2efff; color: #5543d8; padding: 0.75rem 0.85rem; font-weight: 600; }
+.stage-card, .market-card { grid-column: span 1; }
+.market-card { grid-column: span 2; }
+.stage-line { display: grid; grid-template-columns: repeat(4, 1fr); align-items: center; gap: 0; margin: 1rem 1rem 0.3rem; position: relative; }
+.stage-line::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 3px; background: #d7d9e5; transform: translateY(-50%); }
+.stage-line span { position: relative; z-index: 1; width: 1.1rem; height: 1.1rem; border-radius: 999px; background: #a5a7b8; justify-self: center; }
+.stage-line span.active { background: #5b46ea; box-shadow: 0 0 0 4px rgba(91, 70, 234, 0.12); }
+.stage-labels { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.35rem; color: #686d80; font-weight: 650; font-size: 0.78rem; text-align: center; margin-bottom: 1rem; }
+.stage-labels span:first-child { color: #5b46ea; }
+.insight-box { display: flex; align-items: flex-start; gap: 0.65rem; background: #f3f0ff; color: #4f46e5; border: 1px solid #e5ddff; border-radius: 7px; padding: 0.75rem; }
+.insight-box p { margin: 0; font-weight: 600; line-height: 1.45; }
+.bulb { display: inline-grid; place-items: center; flex: 0 0 auto; width: 1.45rem; height: 1.45rem; border: 2px solid #604eea; border-radius: 999px; font-weight: 800; }
+.market-grid { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: 1.5rem; align-items: start; }
+.mini-label { display: block; color: #555b70; font-size: 0.8rem; font-weight: 650; margin-top: 0.65rem; }
+.mini-label:first-child { margin-top: 0; }
+.market-grid strong { display: block; color: #222538; margin-top: 0.05rem; }
+.market-grid .green { color: #16a34a; }
+.competitor-bars { list-style: none; padding: 0; margin: 0.45rem 0 0; display: grid; gap: 0.7rem; }
+.competitor-bars li { display: grid; grid-template-columns: minmax(11rem, 1fr) minmax(6rem, 1fr); gap: 0.75rem; align-items: center; margin: 0; }
+.competitor-bars span { color: #303247; font-weight: 650; }
+.competitor-bars em { display: block; height: 0.5rem; border-radius: 999px; background: #eceaf6; position: relative; overflow: hidden; }
+.competitor-bars em::before { content: ""; position: absolute; inset: 0 auto 0 0; width: var(--bar); border-radius: inherit; background: linear-gradient(90deg, #8f7cff, #b7a6ff); }
+.card-footer { margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid #edf0f6; display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; color: #686d80; font-weight: 650; font-size: 0.82rem; }
 
 .chart { margin: 1rem 0; padding: 1rem; border: 1px solid var(--line); border-radius: 6px; background: var(--soft); }
 .chart-title { font-weight: 600; margin-bottom: 0.5rem; font-size: 0.95rem; }
@@ -1084,7 +1111,11 @@ details[open] > summary { margin-bottom: 0.4rem; }
   main { padding: 1.5rem; max-width: 100%; }
   header.report { padding: 1.25rem 1.5rem; }
   pre, table { max-width: 100%; }
-  .recommendation-ribbon, .callout { margin-left: 1.5rem; margin-right: 1.5rem; }
+  .callout { margin-left: 1.5rem; margin-right: 1.5rem; }
+  .dashboard-grid { grid-template-columns: 1fr; }
+  .market-card { grid-column: span 1; }
+  .pmf-grid, .market-grid { grid-template-columns: 1fr; }
+  .competitor-bars li { grid-template-columns: 1fr; gap: 0.3rem; }
 }
 
 @media print {
@@ -1316,11 +1347,10 @@ def _build_header_html(
     slug = manifest.get("slug", deal_dir.name)
     skills = manifest.get("skills_completed", {}) or {}
     pitch_note = manifest.get("pitch_reframe_note")
-    rec = parse_recommendation(memo) if memo else None
 
     generated = _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-    pill_label = rec or ("Diligence in progress" if not memo else "Recommendation")
-    pill_class = rec.lower() if rec else "unknown"
+    pill_label = "Diligence report" if memo else "Diligence in progress"
+    pill_class = "unknown"
 
     dots_html: list[str] = []
     for key in SKILL_ORDER:
@@ -1487,6 +1517,266 @@ def _founder_background_specs(founder_files: list[Path]) -> list[tuple[str, str,
     return specs
 
 
+def _plain_text(md: str | None) -> str:
+    if not md:
+        return ""
+    text = re.sub(r"```.*?```", " ", md, flags=re.S)
+    text = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", text)
+    text = re.sub(r"[*_`>#|]", " ", text)
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def _sentence_snippet(md: str | None, fallback: str, *, max_len: int = 130) -> str:
+    text = _plain_text(md)
+    if not text:
+        return fallback
+    parts = re.split(r"(?<=[.!?])\s+", text)
+    snippet = next((p for p in parts if len(p) > 24), parts[0] if parts else fallback)
+    if len(snippet) > max_len:
+        snippet = snippet[: max_len - 1].rstrip() + "..."
+    return snippet
+
+
+def _extract_first_range(md: str | None, label: str) -> str | None:
+    if not md:
+        return None
+    pat = rf"\*\*{re.escape(label)}:\*\*\s*([^\n]+)"
+    m = re.search(pat, md, re.IGNORECASE)
+    if m:
+        return _plain_text(m.group(1))
+    heading = rf"##\s+{re.escape(label)}\s*\n+\s*([^\n]+)"
+    m = re.search(heading, md, re.IGNORECASE)
+    if m:
+        return _plain_text(m.group(1))
+    return None
+
+
+def _top_competitors(md: str | None, limit: int = 3) -> list[str]:
+    if not md:
+        return []
+    out: list[str] = []
+    for line in md.splitlines():
+        if not line.strip().startswith("|") or "---" in line:
+            continue
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        if len(cells) < 2 or cells[0].lower() in ("competitor", "source"):
+            continue
+        name = _plain_text(cells[0])
+        if name and name not in out:
+            out.append(name)
+        if len(out) >= limit:
+            break
+    return out
+
+
+def _status_badge(label: str, tone: str = "neutral") -> str:
+    return f'<span class="dashboard-badge {tone}">{_esc(label)}</span>'
+
+
+def _dashboard_metric(label: str, value: str) -> str:
+    return (
+        '<div class="dashboard-metric">'
+        f'<span>{_esc(label)}</span><strong>{_esc(value)}</strong>'
+        "</div>"
+    )
+
+
+def _founder_dashboard_card(manifest: dict, founder_files: list[Path]) -> str:
+    founders = manifest.get("founders") or []
+    file_text = "\n".join(_read(p) or "" for p in founder_files)
+    checks = [
+        ("Public profile", bool(file_text.strip())),
+        ("Experience mapped", "experience" in file_text.lower() or "background" in file_text.lower()),
+        ("Track record", "track record" in file_text.lower() or "prior" in file_text.lower()),
+        ("Open questions", "open questions" in file_text.lower()),
+    ]
+    founder_chips = []
+    for idx, name in enumerate(founders[:3]):
+        initials = "".join(part[:1] for part in str(name).split()[:2]).upper() or "?"
+        founder_chips.append(
+            '<div class="founder-chip">'
+            f'<span class="avatar avatar-{idx % 3}">{_esc(initials)}</span>'
+            f'<span>{_esc(str(name))}</span>'
+            "</div>"
+        )
+    check_items = "".join(
+        f'<li class="{ "ok" if ok else "pending" }"><span></span>{_esc(label)}</li>'
+        for label, ok in checks
+    )
+    return (
+        '<article class="dashboard-card founders-card">'
+        '<div class="card-title"><span class="step">1</span><h3>Founders\' Background Check</h3></div>'
+        f'<div class="founder-chips">{"".join(founder_chips)}</div>'
+        f'<ul class="check-list">{check_items}</ul>'
+        '<div class="card-footer">'
+        '<span>Evidence status</span>'
+        f'{_status_badge("Public dossier built" if founder_files else "Pending", "positive" if founder_files else "neutral")}'
+        '</div></article>'
+    )
+
+
+def _pmf_dashboard_card(inputs: PMFInputs, rows: list[dict]) -> str:
+    verdicts = inputs.verdicts or {}
+    patterns = verdicts.get("cluster_patterns") or []
+    persona_rows = [
+        v for v in (verdicts.get("claim_verdicts") or verdicts.get("verdicts") or [])
+        if _normalize_method(v.get("method") or v.get("verification_method")) == "persona-reaction"
+    ]
+    score_values: list[float] = []
+    for row in persona_rows:
+        agree = int(row.get("agree") or 0)
+        partial = int(row.get("partial") or 0)
+        disagree = int(row.get("disagree") or 0)
+        total = agree + partial + disagree
+        if total:
+            score_values.append((agree + 0.5 * partial) / total * 10)
+    score = sum(score_values) / len(score_values) if score_values else None
+    score_text = f"{score:.1f}/10" if score is not None else "pending"
+    if score is None:
+        consensus = ("Awaiting signal", "neutral")
+    elif score >= 7.5:
+        consensus = ("Strong prior", "positive")
+    elif score >= 5.5:
+        consensus = ("Mixed prior", "warning")
+    else:
+        consensus = ("Weak prior", "negative")
+    pain_points = patterns[:3] or [
+        "Buyer urgency not yet validated by customer interviews.",
+        "Claims need triangulation against external evidence.",
+        "Data-room checks remain open.",
+    ]
+    pain_html = "".join(f"<li>{_inline(_esc(_plain_text(p)))}</li>" for p in pain_points)
+    sample = str(verdicts.get("sample_size") or len(rows) or "pending")
+    return (
+        '<article class="dashboard-card pmf-card">'
+        '<div class="card-title"><span class="step">2</span><h3>PMF Persona</h3></div>'
+        '<div class="persona-tabs"><span class="active">Persona 1</span><span>Persona 2</span><span>Persona 3</span></div>'
+        '<div class="pmf-grid">'
+        f'<div><h4>Top Pain Points</h4><ul class="pain-list">{pain_html}</ul></div>'
+        f'<div class="score-box"><span>Fit Score</span><strong>{_esc(score_text)}</strong><small>synthetic prior</small></div>'
+        '</div>'
+        '<div class="card-footer">'
+        f'<span>Sample size: {_esc(sample)}</span>'
+        f'{_status_badge(consensus[0], consensus[1])}'
+        '</div></article>'
+    )
+
+
+def _calls_dashboard_card(deal_dir: Path) -> str:
+    calls_dir = deal_dir / "calls"
+    inputs_dir = deal_dir / "inputs"
+    call_json = sorted(calls_dir.glob("*.json")) if calls_dir.is_dir() else []
+    transcripts: list[Path] = []
+    if inputs_dir.is_dir():
+        transcripts = [
+            p for p in inputs_dir.iterdir()
+            if p.is_file() and p.suffix.lower() in (".md", ".txt", ".vtt")
+            and not p.name.startswith("deck.")
+        ]
+    completed = len(call_json) + len(transcripts)
+    customer_md = _read(deal_dir / "customer-discovery.md")
+    quote = _sentence_snippet(
+        customer_md,
+        "No real interviews recorded yet; use the outreach list to validate buyer urgency.",
+        max_len=115,
+    )
+    tone = "positive" if completed else "neutral"
+    signal = "Available" if completed else "Pending"
+    return (
+        '<article class="dashboard-card calls-card">'
+        '<div class="card-title"><span class="step">3</span><h3>Real Call Insights</h3></div>'
+        '<div class="audio-wave" aria-hidden="true"><span class="play-dot">▶</span><span></span><span></span><span></span><span></span><span></span></div>'
+        '<div class="call-metrics">'
+        f'{_dashboard_metric("Calls / transcripts", str(completed))}'
+        f'{_dashboard_metric("Customer signal", signal)}'
+        '</div>'
+        f'<blockquote>{_inline(_esc(quote))}</blockquote>'
+        '<div class="card-footer">'
+        '<span>Interview evidence</span>'
+        f'{_status_badge("Recorded" if completed else "Pending", tone)}'
+        '</div></article>'
+    )
+
+
+def _stage_dashboard_card(manifest: dict, inputs: PMFInputs) -> str:
+    pitch = inputs.pitch or {}
+    category = (pitch.get("product") or {}).get("category") or manifest.get("pitch") or "Category not specified"
+    claim_count = len(pitch.get("claims") or [])
+    skills = manifest.get("skills_completed", {}) or {}
+    completed = sum(1 for v in skills.values() if v)
+    total = max(1, len(skills))
+    stage = "Regulatory pre-launch" if "regulated" in str(category).lower() else "Early diligence"
+    dots = "".join(
+        f'<span class="{ "active" if i == 0 else "" }"></span>'
+        for i in range(4)
+    )
+    return (
+        '<article class="dashboard-card stage-card">'
+        '<div class="card-title"><span class="step">4</span><h3>Stage of Startup</h3></div>'
+        f'<div class="stage-line">{dots}</div>'
+        '<div class="stage-labels"><span>Pre-Revenue</span><span>Pre-Seed</span><span>Seed</span><span>Series A+</span></div>'
+        '<div class="insight-box">'
+        '<span class="bulb">i</span>'
+        f'<p>{_esc(stage)} company. Diligence artifacts complete: {completed}/{total}. Claim ledger contains {claim_count} claims.</p>'
+        '</div></article>'
+    )
+
+
+def _market_dashboard_card(deal_dir: Path, inputs: PMFInputs) -> str:
+    ms = _read(deal_dir / "market-sizing.md")
+    cl = _read(deal_dir / "competitive-landscape.md")
+    pitch = inputs.pitch or {}
+    industry = (pitch.get("product") or {}).get("category") or "Not specified"
+    wedge = _extract_first_range(ms, "Wedge TAM") or "Not quantified"
+    expansion = _extract_first_range(ms, "Total addressable (wedge + expansion)") or _extract_first_range(ms, "Wedge TAM") or "Not quantified"
+    competitors = _top_competitors(cl)
+    bars = [88, 62, 48]
+    comp_rows = "".join(
+        f'<li><span>{idx + 1}. {_esc(name)}</span><em style="--bar:{bars[idx]}%"></em></li>'
+        for idx, name in enumerate(competitors[:3])
+    )
+    if not comp_rows:
+        comp_rows = '<li><span>No direct competitors parsed</span><em style="--bar:20%"></em></li>'
+    return (
+        '<article class="dashboard-card market-card">'
+        '<div class="card-title"><span class="step">5</span><h3>Market Check & Industry</h3></div>'
+        '<div class="market-grid">'
+        '<div>'
+        f'<span class="mini-label">Industry</span><strong>{_esc(str(industry))}</strong>'
+        f'<span class="mini-label">Wedge TAM</span><strong class="green">{_esc(wedge)}</strong>'
+        f'<span class="mini-label">Expansion pool</span><strong class="green">{_esc(expansion)}</strong>'
+        '</div>'
+        f'<div><span class="mini-label">Top Competitors</span><ol class="competitor-bars">{comp_rows}</ol></div>'
+        '</div>'
+        '<div class="card-footer">'
+        '<span>Market evidence</span>'
+        f'{_status_badge("Large, validation-dependent", "warning")}'
+        '</div></article>'
+    )
+
+
+def _dashboard_html(
+    deal_dir: Path,
+    manifest: dict,
+    inputs: PMFInputs,
+    rows: list[dict],
+    founder_files: list[Path],
+) -> str:
+    company = manifest.get("company") or manifest.get("slug", deal_dir.name)
+    return (
+        '<section id="dashboard" class="dashboard-shell report-section">'
+        f'<h2>Final Output: AI Due Diligence Report</h2>'
+        f'<p class="dashboard-subtitle">{_esc(company)} evidence dashboard</p>'
+        '<div class="dashboard-grid">'
+        f'{_founder_dashboard_card(manifest, founder_files)}'
+        f'{_pmf_dashboard_card(inputs, rows)}'
+        f'{_calls_dashboard_card(deal_dir)}'
+        f'{_stage_dashboard_card(manifest, inputs)}'
+        f'{_market_dashboard_card(deal_dir, inputs)}'
+        '</div></section>'
+    )
+
+
 # ---------- legacy branch -------------------------------------------------
 
 
@@ -1610,12 +1900,6 @@ def render_legacy(deal_dir: Path) -> str:
         )
         toc.append(("synthesis", "Cross-artifact Synthesis"))
 
-    if "recommendation" in memo_sections:
-        sections_html.append(
-            _details_section("recommendation", "Recommendation", render_markdown(memo_sections["recommendation"], heading_offset=OFFSET))
-        )
-        toc.append(("recommendation", "Recommendation"))
-
     persona_html, persona_toc = _personas_block(deal_dir, all_closed=False)
     if persona_html:
         sections_html.append(_details_section("personas", "Personas", persona_html))
@@ -1733,7 +2017,6 @@ def render_pmf_led(deal_dir: Path, inputs: PMFInputs, *, branch: str = "full") -
     memo = _read(deal_dir / "MEMO.md")
     memo_sections = _split_memo_sections(memo) if memo else {}
     header_html, callout, _, _, company = _build_header_html(deal_dir, manifest, memo)
-    ribbon = render_recommendation_ribbon(memo)
 
     rows = sort_ledger_rows(
         inputs.pitch,
@@ -1747,6 +2030,9 @@ def render_pmf_led(deal_dir: Path, inputs: PMFInputs, *, branch: str = "full") -
     # First visible section: founder background dossiers, including the
     # Prior managers / partners table from founder-check when available.
     founder_files = sorted(deal_dir.glob("founder-*.md"))
+    sections_html.append(_dashboard_html(deal_dir, manifest, inputs, rows, founder_files))
+    toc.append(("dashboard", "Dashboard"))
+
     for html_id, label, body_html in _founder_background_specs(founder_files):
         sections_html.append(_section(html_id, label, body_html))
         toc.append((html_id, label))
@@ -1811,7 +2097,7 @@ def render_pmf_led(deal_dir: Path, inputs: PMFInputs, *, branch: str = "full") -
         toc.append(("artifacts", "Source artifacts"))
 
     toc_html = _build_toc(toc, persona_toc)
-    pre_main = callout + ribbon
+    pre_main = callout
     title = f"{company} — diligence report"
     return _build_html_skeleton(
         title=title,
@@ -1839,7 +2125,6 @@ def render_markdown_fallback(deal_dir: Path, inputs: PMFInputs) -> str:
     memo = _read(deal_dir / "MEMO.md")
     memo_sections = _split_memo_sections(memo) if memo else {}
     header_html, callout, _, _, company = _build_header_html(deal_dir, manifest, memo)
-    ribbon = render_recommendation_ribbon(memo)
 
     sections_html: list[str] = []
     toc: list[tuple[str, str]] = []
@@ -1880,7 +2165,7 @@ def render_markdown_fallback(deal_dir: Path, inputs: PMFInputs) -> str:
         toc.append(("artifacts", "Source artifacts"))
 
     toc_html = _build_toc(toc, persona_toc)
-    pre_main = callout + ribbon
+    pre_main = callout
     title = f"{company} — diligence report"
     return _build_html_skeleton(
         title=title,

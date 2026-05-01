@@ -4,7 +4,7 @@
 TBD - created by archiving change pmf-led-report. Update Purpose after archive.
 ## Requirements
 ### Requirement: Renderer reads pmf-signal yaml artifacts as the canonical structural input
-The system SHALL load `deals/<slug>/pitch.yaml`, `deals/<slug>/personas/verdicts.yaml`, `deals/<slug>/personas/aggregates.yaml`, and `deals/<slug>/outreach.md` as the canonical input for the per-deal HTML report's headline structure. The system SHALL also load `deals/<slug>/manifest.json` for skill-completion metadata. The renderer SHALL NOT parse `pmf-signal.md` markdown to recover structured ledger data when the yaml artifacts are present. `MEMO.md` SHALL contribute only the recommendation ribbon and a cross-artifact synthesis drill-down section, not the report's section ordering.
+The system SHALL load `deals/<slug>/pitch.yaml`, `deals/<slug>/personas/verdicts.yaml`, `deals/<slug>/personas/aggregates.yaml`, and `deals/<slug>/outreach.md` as the canonical input for the per-deal HTML report's headline structure. The system SHALL also load `deals/<slug>/manifest.json` for skill-completion metadata. The renderer SHALL NOT parse `pmf-signal.md` markdown to recover structured ledger data when the yaml artifacts are present. `MEMO.md` SHALL contribute only the cross-artifact synthesis drill-down section, not the report's section ordering or investment decision.
 
 #### Scenario: Renderer prefers yaml over markdown when both exist
 - **WHEN** `scripts/render-report.py --slug <slug>` runs on a deal that has `pitch.yaml`, `verdicts.yaml`, `aggregates.yaml`, AND `pmf-signal.md`
@@ -13,17 +13,17 @@ The system SHALL load `deals/<slug>/pitch.yaml`, `deals/<slug>/personas/verdicts
 - **AND** the rendered HTML lists `pmf-signal.md` only in the "Source artifacts" section as a link
 
 #### Scenario: Renderer ignores MEMO sections that duplicate per-artifact files
-- **WHEN** the renderer runs on a deal where MEMO.md contains `## TL;DR`, `## Founders`, `## Problem and Product`, `## Customer Signal`, `## Competitive Landscape`, `## Market Sizing`, `## Cross-artifact Synthesis`, and `## Recommendation`
-- **THEN** the rendered HTML uses MEMO only for the recommendation ribbon and the cross-artifact synthesis drill-down
+- **WHEN** the renderer runs on a deal where MEMO.md contains `## TL;DR`, `## Founders`, `## Problem and Product`, `## Customer Signal`, `## Competitive Landscape`, `## Market Sizing`, `## Cross-artifact Synthesis`, and `## Decision inputs`
+- **THEN** the rendered HTML uses MEMO only for the cross-artifact synthesis drill-down
 - **AND** the other MEMO sections are not rendered as their own report sections
 - **AND** the per-artifact files (`founder-*.md`, `market-problem.md` or `market-context.md`, `customer-discovery.md`, `competitive-landscape.md`, `market-sizing.md`) drive the corresponding drill-down sections
 
 ### Requirement: Report layout leads with the calibrated claim ledger × verdict matrix
-The system SHALL render the per-deal HTML in this top-to-bottom order when `pitch.yaml` and `verdicts.yaml` are both present: (1) header with company name and generated timestamp, (2) recommendation ribbon, (3) ★ claim ledger × verdict matrix, (4) ★ cross-artifact contradictions, (5) ★ warm-path outreach top-N, (6) drill-down (collapsed by default), (7) source artifacts. The drill-down SHALL contain founders, problem & product, customer signal, competitive landscape, market sizing, personas, and cross-artifact synthesis sub-sections, in that order.
+The system SHALL render the per-deal HTML in this top-to-bottom order when `pitch.yaml` and `verdicts.yaml` are both present: (1) header with company name and generated timestamp, (2) ★ claim ledger × verdict matrix, (3) ★ cross-artifact contradictions, (4) ★ warm-path outreach top-N, (5) drill-down (collapsed by default), (6) source artifacts. The drill-down SHALL contain founders, problem & product, customer signal, competitive landscape, market sizing, personas, and cross-artifact synthesis sub-sections, in that order.
 
 #### Scenario: Full PMF input renders ★-led layout
 - **WHEN** the renderer runs on a deal with `pitch.yaml`, `verdicts.yaml`, `aggregates.yaml`, `outreach.md`, and the legacy artifact files all present
-- **THEN** the rendered HTML's first major section after the header and recommendation ribbon is the claim ledger × verdict matrix
+- **THEN** the rendered HTML's first major section after the header is the claim ledger × verdict matrix
 - **AND** cross-artifact contradictions appears second
 - **AND** warm-path outreach top-N appears third
 - **AND** drill-down sections (founders, problem & product, customer signal, competitive landscape, market sizing, personas, cross-artifact synthesis) appear after the ★ sections
@@ -130,13 +130,13 @@ The system SHALL detect the input shape and select one of four rendering branche
 - **AND** the renderer does not crash
 
 ### Requirement: Renderer preserves backward compatibility for legacy deals
-The system SHALL render legacy deals (deals predating pmf-signal, with no `pitch.yaml`, `verdicts.yaml`, or `pmf-signal.md`) using the legacy artifact-by-artifact layout that matches today's renderer output. The legacy branch SHALL render the existing sections (TL;DR, founders, problem & product, customer signal, competitive landscape, market sizing, cross-artifact synthesis, recommendation, personas, source artifacts) sourced from MEMO.md and per-artifact files, with the same ordering and expansion behavior the renderer produces today. `deals/ledgerloop/`, `deals/callagent/`, and `deals/tiny/` SHALL continue to render under this branch without on-disk modification.
+The system SHALL render legacy deals (deals predating pmf-signal, with no `pitch.yaml`, `verdicts.yaml`, or `pmf-signal.md`) using the legacy artifact-by-artifact layout. The legacy branch SHALL render the existing evidence sections (TL;DR, founders, problem & product, customer signal, competitive landscape, market sizing, cross-artifact synthesis, personas, source artifacts) sourced from MEMO.md and per-artifact files. It SHALL NOT render recommendation sections from legacy MEMO files. `deals/ledgerloop/`, `deals/callagent/`, and `deals/tiny/` SHALL continue to render under this branch without on-disk modification.
 
 #### Scenario: Legacy deal renders today's layout
 - **WHEN** the renderer runs on `deals/ledgerloop/` (which has no pmf-signal artifacts)
 - **THEN** the rendered HTML uses the legacy artifact-by-artifact layout
 - **AND** no ★ sections appear
-- **AND** no recommendation ribbon appears unless MEMO.md provides one
+- **AND** no recommendation ribbon appears
 - **AND** the section ordering matches the renderer's prior behavior
 
 #### Scenario: Legacy deal needs no on-disk migration
@@ -144,18 +144,13 @@ The system SHALL render legacy deals (deals predating pmf-signal, with no `pitch
 - **THEN** no file under those deal directories is created, modified, or deleted by the renderer
 - **AND** the rendered HTML is produced successfully
 
-### Requirement: Recommendation ribbon is rendered from MEMO.md when present
-The system SHALL render a recommendation ribbon (pass / watch / pursue plus a one-line why) immediately under the page header when `MEMO.md` contains a `## Recommendation` section (case-insensitive heading match). The ribbon SHALL be omitted when MEMO.md is absent or contains no recommendation section. The recommendation text SHALL be rendered as inline HTML, not as a separate section.
+### Requirement: Report does not recommend an investment decision
+The system SHALL NOT render a recommendation ribbon, investment decision, or pass/watch/pursue instruction from `MEMO.md`. Diligence reports SHALL present gathered evidence, contradictions, information gaps, and source artifacts so users can make their own decision.
 
-#### Scenario: MEMO with recommendation produces a ribbon
-- **WHEN** MEMO.md contains a `## Recommendation` section whose body is "Pursue. Calibrated prior matches founder claims; warm-path 1st-degree exists."
-- **THEN** the rendered HTML shows a ribbon under the header containing that text
-- **AND** the ribbon is visually distinct from the page header (e.g., styled callout)
-
-#### Scenario: Missing MEMO recommendation omits the ribbon
-- **WHEN** MEMO.md is absent OR contains no recommendation heading
+#### Scenario: MEMO with legacy recommendation is neutralized
+- **WHEN** MEMO.md contains a `## Recommendation` section
 - **THEN** the rendered HTML contains no recommendation ribbon
-- **AND** no placeholder is rendered
+- **AND** the recommendation section is not rendered as a report section
 
 ### Requirement: Renderer output remains self-contained with stdlib + PyYAML only
 The system SHALL produce a single self-contained HTML file with all CSS inline in a `<style>` block and no external network assets, no external CSS files, no JS frameworks, and no inline `<script>` blocks beyond what the existing renderer already emits. The renderer SHALL use only Python standard library plus PyYAML (already a transitive dependency of other scripts in this repo) for parsing.
@@ -171,4 +166,3 @@ The system SHALL produce a single self-contained HTML file with all CSS inline i
 - **WHEN** `scripts/render-report.py` is invoked
 - **THEN** the only third-party import is `yaml`
 - **AND** all other imports are Python standard library
-
