@@ -1486,6 +1486,104 @@ def _personas_block(deal_dir: Path, *, all_closed: bool) -> tuple[str, list[tupl
     return "\n".join(blocks), persona_toc
 
 
+# ---------- dashboard cards ----------------------------------------------
+
+
+_FOUNDER_AVATAR_PALETTE = ["#7c5cff", "#16a34a", "#f59e0b", "#06b6d4", "#dc2626", "#64748b"]
+
+
+def _founder_initials(name: str) -> str:
+    parts = [p for p in re.split(r"[\s\-]+", name.strip()) if p]
+    if not parts:
+        return "?"
+    if len(parts) == 1:
+        return parts[0][:2].upper()
+    return (parts[0][0] + parts[-1][0]).upper()
+
+
+def _founder_avatar_color(name: str) -> str:
+    h = sum(ord(c) for c in name) if name else 0
+    return _FOUNDER_AVATAR_PALETTE[h % len(_FOUNDER_AVATAR_PALETTE)]
+
+
+def _founder_risk_count(body: str) -> int:
+    """Count bullet items under Risks/Open questions/Controversies headings."""
+    count = 0
+    in_risk_section = False
+    for line in body.split("\n"):
+        h = re.match(r"^##\s+(.*)$", line)
+        if h:
+            title = h.group(1).strip().lower()
+            in_risk_section = title in ("risks", "open questions", "controversies", "concerns")
+            continue
+        if in_risk_section and re.match(r"^\s*[-*]\s+\S", line):
+            count += 1
+    return count
+
+
+def _card_founders(deal_dir: Path) -> str | None:
+    files = sorted(deal_dir.glob("founder-*.md"))
+    if not files:
+        return None
+
+    rows: list[str] = []
+    total_risks = 0
+    for fpath in files:
+        body = _read(fpath) or ""
+        name = fpath.stem.removeprefix("founder-").replace("-", " ").title()
+        slug = _slug(fpath.stem.removeprefix("founder-"))
+        anchor = f"founder-{slug}"
+
+        has_linkedin = "linkedin.com/in/" in body.lower()
+        has_experience = bool(re.search(r"^##\s+(experience|background|career)\b", body, re.M | re.I))
+        has_track = bool(re.search(r"^##\s+(prior ventures|prior partner contacts|track record)\b", body, re.M | re.I))
+        has_connections = bool(re.search(r"^##\s+(network|references|prior partner contacts)\b", body, re.M | re.I))
+        total_risks += _founder_risk_count(body)
+
+        badges = []
+        for ok, key, label in (
+            (has_linkedin, "linkedin", "LinkedIn"),
+            (has_experience, "experience", "Experience"),
+            (has_track, "track-record", "Track Record"),
+            (has_connections, "connections", "Connections"),
+        ):
+            cls = "dash-badge ok" if ok else "dash-badge muted"
+            mark = "✓" if ok else "—"
+            badges.append(f'<li class="{cls}" data-badge="{key}"><span class="dash-mark">{mark}</span> {label}</li>')
+
+        initials = _founder_initials(name)
+        color = _founder_avatar_color(name)
+        rows.append(
+            f'<a class="dash-founder-row" href="#{_esc(anchor)}">'
+            f'<span class="dash-avatar" style="background:{color}">{_esc(initials)}</span>'
+            f'<span class="dash-founder-name">{_esc(name)}</span>'
+            f'</a>'
+            f'<ul class="dash-badges">{"".join(badges)}</ul>'
+        )
+
+    if total_risks <= 0:
+        risk_level = "LOW"
+    elif total_risks <= 3:
+        risk_level = "MED"
+    else:
+        risk_level = "HIGH"
+    risk_cls = {"LOW": "ok", "MED": "watch", "HIGH": "risk"}[risk_level]
+    first_anchor = f"founder-{_slug(files[0].stem.removeprefix('founder-'))}"
+
+    return (
+        f'<article class="dash-card dash-card-founders">'
+        f'<header class="dash-card-head"><span class="dash-num">1</span>'
+        f'<h3>Founders\' Background</h3></header>'
+        f'<div class="dash-card-body">{"".join(rows)}</div>'
+        f'<footer class="dash-card-foot">'
+        f'<span class="dash-label">Risk Level</span>'
+        f'<span class="dash-pill {risk_cls}" data-risk="{risk_level}">{risk_level}</span>'
+        f'<a class="dash-more" href="#{_esc(first_anchor)}">Read more →</a>'
+        f'</footer>'
+        f'</article>'
+    )
+
+
 def _source_artifacts_html(
     deal_dir: Path,
     founder_files: list[Path],
@@ -1686,7 +1784,7 @@ def render_legacy(deal_dir: Path) -> str:
     return _build_html_skeleton(
         title=title,
         header_html=header_html,
-        pre_main_html=callout,
+        pre_main_html=callout + (_card_founders(deal_dir) or ""),
         main_body_html="\n".join(sections_html),
         toc_html=toc_html,
     )
@@ -1866,7 +1964,7 @@ def render_pmf_led(deal_dir: Path, inputs: PMFInputs, *, branch: str = "full") -
         toc.append(("artifacts", "Source artifacts"))
 
     toc_html = _build_toc(toc, persona_toc)
-    pre_main = callout + ribbon
+    pre_main = callout + ribbon + (_card_founders(deal_dir) or "")
     title = f"{company} — diligence report"
     return _build_html_skeleton(
         title=title,
@@ -1935,7 +2033,7 @@ def render_markdown_fallback(deal_dir: Path, inputs: PMFInputs) -> str:
         toc.append(("artifacts", "Source artifacts"))
 
     toc_html = _build_toc(toc, persona_toc)
-    pre_main = callout + ribbon
+    pre_main = callout + ribbon + (_card_founders(deal_dir) or "")
     title = f"{company} — diligence report"
     return _build_html_skeleton(
         title=title,

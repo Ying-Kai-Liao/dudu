@@ -70,6 +70,22 @@ with tempfile.TemporaryDirectory() as td:
 ")"
 run_unit_test "cache hit returns local file" "hit" "$out"
 
+echo "[card-founders] renders for founders-only fixture"
+python3 "$renderer" "$script_dir/founders-only" >/dev/null 2>&1
+out="$(cat "$script_dir/founders-only/report.html")"
+assert_contains "founders card present" 'class="dash-card dash-card-founders"' "$out"
+assert_contains "founder name shown" "Jane Doe" "$out"
+assert_contains "linkedin badge" 'data-badge="linkedin"' "$out"
+assert_contains "experience badge" 'data-badge="experience"' "$out"
+assert_contains "track record badge" 'data-badge="track-record"' "$out"
+assert_contains "risk pill MED" 'data-risk="MED"' "$out"
+assert_contains "read more anchor" 'href="#founder-jane-doe"' "$out"
+
+echo "[card-founders] absent when no founder files"
+python3 "$renderer" "$script_dir/calls-only" >/dev/null 2>&1
+out="$(cat "$script_dir/calls-only/report.html")"
+assert_not_contains "no founders card" 'dash-card-founders' "$out"
+
 echo
 if [[ $fail -eq 0 ]]; then
     echo "OK — all dashboard fixtures pass"
