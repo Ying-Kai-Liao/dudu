@@ -1924,6 +1924,91 @@ def _card_market(deal_dir: Path, memo_text: str | None) -> str | None:
     )
 
 
+def _parse_competitors(comp_md: str) -> list[str]:
+    """Extract top 3 competitor names from a markdown table or H2 headings."""
+    names: list[str] = []
+    in_table = False
+    header_cells: list[str] = []
+    for line in comp_md.split("\n"):
+        if line.strip().startswith("|"):
+            cells = _split_pipe_row(line)
+            if not header_cells:
+                header_cells = [c.strip().lower() for c in cells]
+                continue
+            if all(re.fullmatch(r"[\s:\-]+", c or "") for c in cells):
+                in_table = True
+                continue
+            if in_table and "competitor" in header_cells:
+                idx = header_cells.index("competitor")
+                if idx < len(cells):
+                    val = cells[idx].strip()
+                    if val:
+                        names.append(val)
+                        if len(names) >= 3:
+                            return names
+        else:
+            in_table = False
+            header_cells = []
+    if names:
+        return names[:3]
+
+    for line in comp_md.split("\n"):
+        h = re.match(r"^##\s+(.+)$", line)
+        if h:
+            title = h.group(1).strip()
+            if 2 <= len(title.split()) <= 4 and title[0].isupper():
+                names.append(title)
+                if len(names) >= 3:
+                    break
+    return names[:3]
+
+
+def _parse_market_opportunity(memo_text: str | None) -> str:
+    if not memo_text:
+        return "MED"
+    m = re.search(r"market opportunity\s*:\s*\**\s*(HIGH|MED|MEDIUM|LOW)", memo_text, re.I)
+    if m:
+        v = m.group(1).upper()
+        return "MED" if v == "MEDIUM" else v
+    return "MED"
+
+
+def _card_competitors(deal_dir: Path, memo_text: str | None) -> str | None:
+    comp_md = _read(deal_dir / "competitive-landscape.md")
+    if not comp_md:
+        return None
+    names = _parse_competitors(comp_md)
+    if not names:
+        return None
+
+    bar_widths = [100, 75, 50]
+    rows = "".join(
+        f'<li class="dash-bar-row">'
+        f'<span class="dash-bar-label">{idx + 1}. {_esc(name)}</span>'
+        f'<span class="dash-bar"><span class="dash-bar-fill" style="width:{bar_widths[idx]}%"></span></span>'
+        f'</li>'
+        for idx, name in enumerate(names)
+    )
+
+    opportunity = _parse_market_opportunity(memo_text)
+    opp_cls = {"HIGH": "ok", "MED": "watch", "LOW": "risk"}.get(opportunity, "muted")
+
+    return (
+        f'<article class="dash-card dash-card-competitors">'
+        f'<header class="dash-card-head"><span class="dash-num">5</span>'
+        f'<h3>Top Competitors</h3></header>'
+        f'<div class="dash-card-body">'
+        f'<ul class="dash-bars">{rows}</ul>'
+        f'</div>'
+        f'<footer class="dash-card-foot">'
+        f'<span class="dash-label">Market Opportunity</span>'
+        f'<span class="dash-pill {opp_cls}" data-opportunity="{opportunity}">{opportunity}</span>'
+        f'<a class="dash-more" href="#competitive-landscape">Read more →</a>'
+        f'</footer>'
+        f'</article>'
+    )
+
+
 def _source_artifacts_html(
     deal_dir: Path,
     founder_files: list[Path],
@@ -2124,7 +2209,7 @@ def render_legacy(deal_dir: Path) -> str:
     return _build_html_skeleton(
         title=title,
         header_html=header_html,
-        pre_main_html=callout + (_card_founders(deal_dir) or "") + (_card_personas(deal_dir, None) or "") + (_card_calls(deal_dir) or "") + (_card_market(deal_dir, memo) or ""),
+        pre_main_html=callout + (_card_founders(deal_dir) or "") + (_card_personas(deal_dir, None) or "") + (_card_calls(deal_dir) or "") + (_card_market(deal_dir, memo) or "") + (_card_competitors(deal_dir, memo) or ""),
         main_body_html="\n".join(sections_html),
         toc_html=toc_html,
     )
@@ -2304,7 +2389,7 @@ def render_pmf_led(deal_dir: Path, inputs: PMFInputs, *, branch: str = "full") -
         toc.append(("artifacts", "Source artifacts"))
 
     toc_html = _build_toc(toc, persona_toc)
-    pre_main = callout + ribbon + (_card_founders(deal_dir) or "") + (_card_personas(deal_dir, inputs) or "") + (_card_calls(deal_dir) or "") + (_card_market(deal_dir, memo) or "")
+    pre_main = callout + ribbon + (_card_founders(deal_dir) or "") + (_card_personas(deal_dir, inputs) or "") + (_card_calls(deal_dir) or "") + (_card_market(deal_dir, memo) or "") + (_card_competitors(deal_dir, memo) or "")
     title = f"{company} — diligence report"
     return _build_html_skeleton(
         title=title,
@@ -2373,7 +2458,7 @@ def render_markdown_fallback(deal_dir: Path, inputs: PMFInputs) -> str:
         toc.append(("artifacts", "Source artifacts"))
 
     toc_html = _build_toc(toc, persona_toc)
-    pre_main = callout + ribbon + (_card_founders(deal_dir) or "") + (_card_personas(deal_dir, inputs) or "") + (_card_calls(deal_dir) or "") + (_card_market(deal_dir, memo) or "")
+    pre_main = callout + ribbon + (_card_founders(deal_dir) or "") + (_card_personas(deal_dir, inputs) or "") + (_card_calls(deal_dir) or "") + (_card_market(deal_dir, memo) or "") + (_card_competitors(deal_dir, memo) or "")
     title = f"{company} — diligence report"
     return _build_html_skeleton(
         title=title,

@@ -115,6 +115,15 @@ assert_contains "TAM upper" 'data-tam="2400"' "$out"
 assert_contains "growth rate" 'data-cagr="18.4"' "$out"
 assert_contains "read more anchor" 'href="#market-sizing"' "$out"
 
+echo "[card-competitors] renders for competitors-only fixture"
+python3 "$renderer" "$script_dir/competitors-only" >/dev/null 2>&1
+out="$(cat "$script_dir/competitors-only/report.html")"
+assert_contains "competitors card present" 'class="dash-card dash-card-competitors"' "$out"
+assert_contains "competitor 1" "Stripe Billing" "$out"
+assert_contains "competitor 2" "Maxio" "$out"
+assert_contains "competitor 3" "Tabs" "$out"
+assert_contains "opportunity HIGH" 'data-opportunity="HIGH"' "$out"
+
 echo
 if [[ $fail -eq 0 ]]; then
     echo "OK — all dashboard fixtures pass"
