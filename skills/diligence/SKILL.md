@@ -48,14 +48,14 @@ Read `lib/deal.md`, `lib/playwright-auth.md`, and `lib/research-protocol.md` bef
 7. **Stitch `MEMO.md`.** Read every artifact under `deals/<slug>/` and produce `deals/<slug>/MEMO.md`:
 
 ```markdown
-# Investment memo: <Company>
+# Due diligence report: <Company>
 
 **Deal:** <slug>
 **Generated:** <ISO timestamp>
 
 ## TL;DR
 
-[3-5 sentences. Founder credibility, problem severity, market size, competitive position, recommendation tilt.]
+[3-5 sentences. Founder credibility, problem severity, market size, competitive position, strongest confirming evidence, strongest contrary evidence, and unresolved information gaps. Do not recommend a decision.]
 
 ## Founders
 
@@ -85,11 +85,9 @@ Read `lib/deal.md`, `lib/playwright-auth.md`, and `lib/research-protocol.md` bef
 
 [Surfaces contradictions ACROSS artifacts. e.g.: "Founder claims engineering teams are the buyer (deck p.3), but customer interviews showed product managers driving the purchase (interview-2)." This is where the orchestrator earns its keep.]
 
-## Recommendation
+## Decision inputs
 
-- **Pass / Watch / Pursue:** <verdict>
-- **Why:** [3 sentences]
-- **What would change my mind:** [2-3 specific things to verify]
+[Neutral synthesis of the evidence gathered. Do not recommend Pass, Watch, Pursue, invest, decline, or any other decision. State the strongest confirming evidence, the strongest contrary evidence, unresolved information gaps, and specific facts the user may want to verify before making their own decision.]
 
 ## Source artifacts
 
