@@ -1,0 +1,17 @@
+schema_version: 1
+n: 12
+grounded: 12
+fabricated: 0
+would_use:
+  "yes": 6
+  "yes-with-caveats": 4
+  "no": 2
+willing_to_pay:
+  "yes": 5
+  "maybe": 5
+  "no": 2
+by_trigger_type:
+  contract-exception: 5
+  billing-reconciliation: 4
+  audit-readiness: 2
+  finance-stack: 1

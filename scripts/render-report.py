@@ -1584,6 +1584,117 @@ def _card_founders(deal_dir: Path) -> str | None:
     )
 
 
+def _personas_consensus(supports: int, contradicts: int, fit_score: float | None) -> str:
+    if fit_score is None:
+        return "LOW"
+    if supports >= 2 * contradicts and fit_score >= 7:
+        return "HIGH"
+    if supports >= contradicts:
+        return "MED"
+    return "LOW"
+
+
+def _card_personas(deal_dir: Path, inputs: "PMFInputs | None") -> str | None:
+    aggregates = None
+    verdicts = None
+    if inputs is not None:
+        aggregates = inputs.aggregates
+        verdicts = inputs.verdicts
+    if aggregates is None:
+        agg_path = deal_dir / "personas" / "aggregates.yaml"
+        if agg_path.exists():
+            try:
+                aggregates = yaml.safe_load(agg_path.read_text(encoding="utf-8"))
+            except yaml.YAMLError:
+                aggregates = None
+    if verdicts is None:
+        ver_path = deal_dir / "personas" / "verdicts.yaml"
+        if ver_path.exists():
+            try:
+                verdicts = yaml.safe_load(ver_path.read_text(encoding="utf-8"))
+            except yaml.YAMLError:
+                verdicts = None
+    if not aggregates and not verdicts:
+        return None
+
+    triggers: list[tuple[str, int]] = []
+    fit_score: float | None = None
+    if isinstance(aggregates, dict):
+        bt = aggregates.get("by_trigger_type") or {}
+        if isinstance(bt, dict):
+            triggers = sorted(((k, int(v)) for k, v in bt.items() if isinstance(v, (int, float))),
+                              key=lambda kv: -kv[1])[:3]
+        wu = aggregates.get("would_use") or {}
+        n = aggregates.get("n")
+        if isinstance(wu, dict) and isinstance(n, (int, float)) and n:
+            yes = float(wu.get("yes", 0) or 0)
+            mostly = float(wu.get("yes-with-caveats", 0) or 0)
+            fit_score = round((yes + 0.5 * mostly) / float(n) * 10, 1)
+
+    supports = contradicts = 0
+    if isinstance(verdicts, dict):
+        rows = verdicts.get("verdicts") or []
+        for r in rows:
+            if not isinstance(r, dict):
+                continue
+            v = (r.get("verdict") or "").lower()
+            if v == "supports":
+                supports += 1
+            elif v == "contradicts":
+                contradicts += 1
+
+    consensus = _personas_consensus(supports, contradicts, fit_score) if verdicts is not None else None
+    consensus_cls = {"HIGH": "ok", "MED": "watch", "LOW": "risk"}.get(consensus or "", "muted")
+
+    pills = "".join(
+        f'<span class="dash-pill muted">{_esc(name)}</span>'
+        for name, _ in triggers
+    ) or '<span class="dash-pill muted">—</span>'
+
+    if triggers:
+        max_count = max(c for _, c in triggers) or 1
+        bars = "".join(
+            f'<li class="dash-bar-row">'
+            f'<span class="dash-bar-label">{_esc(name)}</span>'
+            f'<span class="dash-bar"><span class="dash-bar-fill" style="width:{int(c / max_count * 100)}%"></span></span>'
+            f'</li>'
+            for name, c in triggers
+        )
+    else:
+        bars = '<li class="dash-bar-row dash-empty">No trigger data</li>'
+
+    score_html = (
+        f'<div class="dash-score"><span class="dash-score-num" data-fit-score="{fit_score}">{fit_score}</span>'
+        f'<span class="dash-score-denom">/10</span><span class="dash-score-label">Fit Score</span></div>'
+        if fit_score is not None
+        else '<div class="dash-score dash-empty">Fit Score —</div>'
+    )
+
+    consensus_html = (
+        f'<span class="dash-pill {consensus_cls}" data-consensus="{consensus}">{consensus}</span>'
+        if consensus is not None
+        else '<span class="dash-pill muted">N/A</span>'
+    )
+
+    return (
+        f'<article class="dash-card dash-card-personas">'
+        f'<header class="dash-card-head"><span class="dash-num">2</span>'
+        f'<h3>PMF Personas</h3></header>'
+        f'<div class="dash-card-body">'
+        f'<div class="dash-pill-row">{pills}</div>'
+        f'<div class="dash-personas-split">'
+        f'<ul class="dash-bars">{bars}</ul>'
+        f'{score_html}'
+        f'</div></div>'
+        f'<footer class="dash-card-foot">'
+        f'<span class="dash-label">PMF Consensus</span>'
+        f'{consensus_html}'
+        f'<a class="dash-more" href="#ledger">Read more →</a>'
+        f'</footer>'
+        f'</article>'
+    )
+
+
 def _source_artifacts_html(
     deal_dir: Path,
     founder_files: list[Path],
@@ -1784,7 +1895,7 @@ def render_legacy(deal_dir: Path) -> str:
     return _build_html_skeleton(
         title=title,
         header_html=header_html,
-        pre_main_html=callout + (_card_founders(deal_dir) or ""),
+        pre_main_html=callout + (_card_founders(deal_dir) or "") + (_card_personas(deal_dir, None) or ""),
         main_body_html="\n".join(sections_html),
         toc_html=toc_html,
     )
@@ -1964,7 +2075,7 @@ def render_pmf_led(deal_dir: Path, inputs: PMFInputs, *, branch: str = "full") -
         toc.append(("artifacts", "Source artifacts"))
 
     toc_html = _build_toc(toc, persona_toc)
-    pre_main = callout + ribbon + (_card_founders(deal_dir) or "")
+    pre_main = callout + ribbon + (_card_founders(deal_dir) or "") + (_card_personas(deal_dir, inputs) or "")
     title = f"{company} — diligence report"
     return _build_html_skeleton(
         title=title,
@@ -2033,7 +2144,7 @@ def render_markdown_fallback(deal_dir: Path, inputs: PMFInputs) -> str:
         toc.append(("artifacts", "Source artifacts"))
 
     toc_html = _build_toc(toc, persona_toc)
-    pre_main = callout + ribbon + (_card_founders(deal_dir) or "")
+    pre_main = callout + ribbon + (_card_founders(deal_dir) or "") + (_card_personas(deal_dir, inputs) or "")
     title = f"{company} — diligence report"
     return _build_html_skeleton(
         title=title,

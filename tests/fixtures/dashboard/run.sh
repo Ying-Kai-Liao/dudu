@@ -86,6 +86,15 @@ python3 "$renderer" "$script_dir/calls-only" >/dev/null 2>&1
 out="$(cat "$script_dir/calls-only/report.html")"
 assert_not_contains "no founders card" 'dash-card-founders' "$out"
 
+echo "[card-personas] renders for personas-only fixture"
+python3 "$renderer" "$script_dir/personas-only" >/dev/null 2>&1
+out="$(cat "$script_dir/personas-only/report.html")"
+assert_contains "personas card present" 'class="dash-card dash-card-personas"' "$out"
+assert_contains "trigger pill 1" 'contract-exception' "$out"
+assert_contains "trigger pill 2" 'billing-reconciliation' "$out"
+assert_contains "fit score 6.7" 'data-fit-score="6.7"' "$out"
+assert_contains "consensus pill MED" 'data-consensus="MED"' "$out"
+
 echo
 if [[ $fail -eq 0 ]]; then
     echo "OK — all dashboard fixtures pass"

@@ -1,0 +1,12 @@
+schema_version: 1
+verdicts:
+  - claim_id: c1
+    verdict: supports
+  - claim_id: c2
+    verdict: supports
+  - claim_id: c3
+    verdict: supports
+  - claim_id: c4
+    verdict: partial
+  - claim_id: c5
+    verdict: contradicts
