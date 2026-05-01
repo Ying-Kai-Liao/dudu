@@ -124,6 +124,16 @@ assert_contains "competitor 2" "Maxio" "$out"
 assert_contains "competitor 3" "Tabs" "$out"
 assert_contains "opportunity HIGH" 'data-opportunity="HIGH"' "$out"
 
+echo "[dashboard] grid wrapper present when at least one card renders"
+python3 "$renderer" "$script_dir/founders-only" >/dev/null 2>&1
+out="$(cat "$script_dir/founders-only/report.html")"
+assert_contains "dashboard wrapper" 'class="dashboard-grid"' "$out"
+
+echo "[dashboard] no wrapper when zero cards render"
+python3 "$renderer" "$script_dir/empty" >/dev/null 2>&1
+out="$(cat "$script_dir/empty/report.html")"
+assert_not_contains "no dashboard wrapper" 'class="dashboard-grid"' "$out"
+
 echo
 if [[ $fail -eq 0 ]]; then
     echo "OK — all dashboard fixtures pass"

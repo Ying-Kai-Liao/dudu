@@ -1099,6 +1099,67 @@ details[open] > summary { margin-bottom: 0.4rem; }
 """.strip()
 
 
+DASHBOARD_CSS = """
+.dashboard-wrap { margin: 1.25rem 2rem 1rem; padding: 1.5rem; border: 1px solid var(--line); border-radius: 20px; background: linear-gradient(180deg, #ffffff, #fbfbff); }
+.dashboard-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-flow: dense; gap: 16px; }
+.dash-card { background: #ffffff; border-radius: 16px; padding: 1.1rem 1.2rem; box-shadow: 0 1px 2px rgba(15,23,42,0.06), 0 8px 24px rgba(80,72,229,0.06); display: flex; flex-direction: column; min-width: 0; }
+.dash-card-market { grid-column: span 2; }
+.dash-card-head { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.65rem; }
+.dash-card-head h3 { font-family: system-ui, -apple-system, sans-serif; font-size: 0.95rem; margin: 0; padding: 0; border: none; color: #0f172a; }
+.dash-num { display: inline-flex; align-items: center; justify-content: center; width: 1.6rem; height: 1.6rem; background: #7c5cff; color: #fff; font-weight: 700; font-size: 0.85rem; border-radius: 8px; }
+.dash-card-body { flex: 1; font-size: 0.88rem; color: #1f2937; }
+.dash-card-foot { margin-top: 0.85rem; padding-top: 0.65rem; border-top: 1px dashed var(--line); display: flex; align-items: center; gap: 0.55rem; flex-wrap: wrap; font-size: 0.82rem; }
+.dash-card-foot .dash-label { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.dash-more { margin-left: auto; color: #7c5cff; font-weight: 600; }
+.dash-pill { display: inline-block; padding: 0.18rem 0.6rem; border-radius: 999px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; }
+.dash-pill.ok { background: #dcfce7; color: #166534; }
+.dash-pill.watch { background: #fef3c7; color: #92400e; }
+.dash-pill.risk { background: #fee2e2; color: #991b1b; }
+.dash-pill.muted { background: #f3f4f6; color: #4b5563; }
+.dash-pill-row { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.6rem; }
+.dash-personas-split { display: grid; grid-template-columns: 1.4fr 1fr; gap: 0.85rem; align-items: center; }
+.dash-bars { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.35rem; }
+.dash-bar-row { display: grid; grid-template-columns: 1fr; gap: 0.2rem; font-size: 0.78rem; }
+.dash-bar-label { color: #374151; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dash-bar { display: block; height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden; }
+.dash-bar-fill { display: block; height: 100%; background: #7c5cff; border-radius: 3px; }
+.dash-score { text-align: center; font-family: Georgia, serif; }
+.dash-score-num { font-size: 2.1rem; font-weight: 600; color: #16a34a; }
+.dash-score-denom { font-size: 1rem; color: var(--muted); margin-left: 0.15rem; }
+.dash-score-label { display: block; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-top: 0.1rem; }
+.dash-score.dash-empty { font-family: system-ui, sans-serif; color: var(--muted); font-style: italic; }
+.dash-founder-row { display: flex; align-items: center; gap: 0.55rem; text-decoration: none; color: inherit; margin-bottom: 0.35rem; }
+.dash-founder-row:hover { text-decoration: none; }
+.dash-founder-name { font-weight: 600; color: #0f172a; }
+.dash-avatar { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 50%; color: #fff; font-weight: 700; font-size: 0.75rem; }
+.dash-badges { list-style: none; margin: 0 0 0.45rem 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.15rem 0.6rem; font-size: 0.78rem; }
+.dash-badge { display: flex; align-items: center; gap: 0.25rem; }
+.dash-badge.ok { color: #166534; }
+.dash-badge.muted { color: #9ca3af; }
+.dash-badge .dash-mark { font-weight: 700; }
+.dash-row { display: flex; align-items: baseline; justify-content: space-between; gap: 0.6rem; padding: 0.25rem 0; border-bottom: 1px dashed var(--line); }
+.dash-row:last-child { border-bottom: none; }
+.dash-row .dash-label { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.dash-row .dash-value { font-weight: 600; color: #0f172a; }
+.dash-waveform { width: 100%; min-height: 56px; background: #f8fafc; border-radius: 8px; margin-bottom: 0.5rem; }
+.dash-waveform.dash-empty { display: flex; align-items: center; justify-content: center; color: var(--muted); font-style: italic; font-size: 0.85rem; }
+.dash-audio { width: 100%; margin-bottom: 0.6rem; }
+.dash-metrics-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; margin: 0.5rem 0 0.6rem; }
+.dash-metric { display: flex; flex-direction: column; }
+.dash-metric-label { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.dash-metric-num { font-family: Georgia, serif; font-size: 1.5rem; color: #16a34a; font-weight: 600; }
+.dash-quote { margin: 0; padding: 0.5rem 0.7rem; border-left: 3px solid #7c5cff; background: #f5f3ff; border-radius: 4px; font-size: 0.82rem; color: #4c1d95; font-style: italic; }
+.dash-empty { color: var(--muted); font-style: italic; }
+
+@media (max-width: 900px) {
+  .dashboard-wrap { margin: 1rem 1rem; padding: 1rem; }
+  .dashboard-grid { grid-template-columns: 1fr; }
+  .dash-card-market { grid-column: auto; }
+  .dash-personas-split { grid-template-columns: 1fr; }
+}
+""".strip()
+
+
 _VENDOR_DIR = Path(__file__).parent / "vendor"
 
 
@@ -1446,7 +1507,7 @@ def _build_html_skeleton(
         '<meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width,initial-scale=1">'
         f"<title>{_esc(title)}</title>"
-        f"<style>{CSS}</style>"
+        f"<style>{CSS}\n{DASHBOARD_CSS}</style>"
         "</head><body>"
         + header_html
         + pre_main_html
@@ -2009,6 +2070,30 @@ def _card_competitors(deal_dir: Path, memo_text: str | None) -> str | None:
     )
 
 
+def render_dashboard(
+    deal_dir: Path,
+    memo_text: str | None,
+    inputs: "PMFInputs | None",
+) -> str:
+    """Compose the 5-card dashboard. Returns "" if zero cards have data."""
+    cards = [
+        _card_founders(deal_dir),
+        _card_personas(deal_dir, inputs),
+        _card_calls(deal_dir),
+        _card_market(deal_dir, memo_text),
+        _card_competitors(deal_dir, memo_text),
+    ]
+    cards = [c for c in cards if c]
+    if not cards:
+        return ""
+    return (
+        '<section class="dashboard-wrap" aria-label="Executive summary">'
+        '<div class="dashboard-grid">'
+        + "".join(cards)
+        + "</div></section>"
+    )
+
+
 def _source_artifacts_html(
     deal_dir: Path,
     founder_files: list[Path],
@@ -2209,7 +2294,7 @@ def render_legacy(deal_dir: Path) -> str:
     return _build_html_skeleton(
         title=title,
         header_html=header_html,
-        pre_main_html=callout + (_card_founders(deal_dir) or "") + (_card_personas(deal_dir, None) or "") + (_card_calls(deal_dir) or "") + (_card_market(deal_dir, memo) or "") + (_card_competitors(deal_dir, memo) or ""),
+        pre_main_html=callout + render_dashboard(deal_dir, memo, None),
         main_body_html="\n".join(sections_html),
         toc_html=toc_html,
     )
@@ -2389,7 +2474,7 @@ def render_pmf_led(deal_dir: Path, inputs: PMFInputs, *, branch: str = "full") -
         toc.append(("artifacts", "Source artifacts"))
 
     toc_html = _build_toc(toc, persona_toc)
-    pre_main = callout + ribbon + (_card_founders(deal_dir) or "") + (_card_personas(deal_dir, inputs) or "") + (_card_calls(deal_dir) or "") + (_card_market(deal_dir, memo) or "") + (_card_competitors(deal_dir, memo) or "")
+    pre_main = callout + ribbon + render_dashboard(deal_dir, memo, inputs)
     title = f"{company} — diligence report"
     return _build_html_skeleton(
         title=title,
@@ -2458,7 +2543,7 @@ def render_markdown_fallback(deal_dir: Path, inputs: PMFInputs) -> str:
         toc.append(("artifacts", "Source artifacts"))
 
     toc_html = _build_toc(toc, persona_toc)
-    pre_main = callout + ribbon + (_card_founders(deal_dir) or "") + (_card_personas(deal_dir, inputs) or "") + (_card_calls(deal_dir) or "") + (_card_market(deal_dir, memo) or "") + (_card_competitors(deal_dir, memo) or "")
+    pre_main = callout + ribbon + render_dashboard(deal_dir, memo, inputs)
     title = f"{company} — diligence report"
     return _build_html_skeleton(
         title=title,
