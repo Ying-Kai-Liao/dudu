@@ -1850,6 +1850,80 @@ def _card_calls(deal_dir: Path) -> str | None:
     )
 
 
+def _format_money_m(value_m: float) -> str:
+    """Format a value in millions as $X.YB or $XM."""
+    if value_m >= 1000:
+        return f"${value_m / 1000:.1f}B"
+    return f"${int(round(value_m))}M"
+
+
+def _parse_industry_tag(market_md: str, memo_text: str | None) -> str:
+    for src in (market_md, memo_text or ""):
+        m = re.search(r"\*\*\s*(?:Industry|Sector)\s*:\s*\*\*\s*(.+)", src, re.I)
+        if m:
+            return m.group(1).strip().splitlines()[0].rstrip(".")
+    return ""
+
+
+def _parse_cagr(market_md: str) -> float | None:
+    m = re.search(r"(\d+(?:\.\d+)?)\s*%\s*CAGR", market_md, re.I)
+    if m:
+        try:
+            return float(m.group(1))
+        except ValueError:
+            return None
+    return None
+
+
+def _card_market(deal_dir: Path, memo_text: str | None) -> str | None:
+    market_md = _read(deal_dir / "market-sizing.md")
+    if not market_md:
+        return None
+    try:
+        sizing = parse_market_sizing(market_md)
+    except Exception:
+        sizing = None
+    if not sizing:
+        return None
+
+    expansion = sizing.get("expansion") or sizing.get("wedge")
+    if not expansion:
+        return None
+    tam_upper_m = float(expansion[1])
+
+    industry = _parse_industry_tag(market_md, memo_text)
+    cagr = _parse_cagr(market_md)
+    sparkline = _market_chart_svg(sizing) if sizing else ""
+
+    industry_html = (
+        f'<div class="dash-row"><span class="dash-label">Industry</span>'
+        f'<span class="dash-value">{_esc(industry)}</span></div>'
+        if industry else ''
+    )
+    tam_html = (
+        f'<div class="dash-row"><span class="dash-label">Market Size</span>'
+        f'<span class="dash-value" data-tam="{tam_upper_m:g}">{_format_money_m(tam_upper_m)} (TAM)</span></div>'
+    )
+    cagr_html = (
+        f'<div class="dash-row"><span class="dash-label">Growth Rate</span>'
+        f'<span class="dash-value" data-cagr="{cagr:g}">{cagr:g}% CAGR</span></div>'
+        if cagr is not None else ''
+    )
+
+    return (
+        f'<article class="dash-card dash-card-market">'
+        f'<header class="dash-card-head"><span class="dash-num">4</span>'
+        f'<h3>Market Sizing</h3></header>'
+        f'<div class="dash-card-body">'
+        f'{industry_html}{tam_html}{cagr_html}'
+        f'</div>'
+        f'<footer class="dash-card-foot">'
+        f'<a class="dash-more" href="#market-sizing">Read more →</a>'
+        f'</footer>'
+        f'</article>'
+    )
+
+
 def _source_artifacts_html(
     deal_dir: Path,
     founder_files: list[Path],
@@ -2050,7 +2124,7 @@ def render_legacy(deal_dir: Path) -> str:
     return _build_html_skeleton(
         title=title,
         header_html=header_html,
-        pre_main_html=callout + (_card_founders(deal_dir) or "") + (_card_personas(deal_dir, None) or "") + (_card_calls(deal_dir) or ""),
+        pre_main_html=callout + (_card_founders(deal_dir) or "") + (_card_personas(deal_dir, None) or "") + (_card_calls(deal_dir) or "") + (_card_market(deal_dir, memo) or ""),
         main_body_html="\n".join(sections_html),
         toc_html=toc_html,
     )
@@ -2230,7 +2304,7 @@ def render_pmf_led(deal_dir: Path, inputs: PMFInputs, *, branch: str = "full") -
         toc.append(("artifacts", "Source artifacts"))
 
     toc_html = _build_toc(toc, persona_toc)
-    pre_main = callout + ribbon + (_card_founders(deal_dir) or "") + (_card_personas(deal_dir, inputs) or "") + (_card_calls(deal_dir) or "")
+    pre_main = callout + ribbon + (_card_founders(deal_dir) or "") + (_card_personas(deal_dir, inputs) or "") + (_card_calls(deal_dir) or "") + (_card_market(deal_dir, memo) or "")
     title = f"{company} — diligence report"
     return _build_html_skeleton(
         title=title,
@@ -2299,7 +2373,7 @@ def render_markdown_fallback(deal_dir: Path, inputs: PMFInputs) -> str:
         toc.append(("artifacts", "Source artifacts"))
 
     toc_html = _build_toc(toc, persona_toc)
-    pre_main = callout + ribbon + (_card_founders(deal_dir) or "") + (_card_personas(deal_dir, inputs) or "") + (_card_calls(deal_dir) or "")
+    pre_main = callout + ribbon + (_card_founders(deal_dir) or "") + (_card_personas(deal_dir, inputs) or "") + (_card_calls(deal_dir) or "") + (_card_market(deal_dir, memo) or "")
     title = f"{company} — diligence report"
     return _build_html_skeleton(
         title=title,

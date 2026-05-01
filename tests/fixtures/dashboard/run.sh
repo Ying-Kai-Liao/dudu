@@ -106,6 +106,15 @@ assert_contains "wavesurfer init" "WaveSurfer.create" "$out"
 assert_contains "pull-quote present" "3-day close cost" "$out"
 assert_contains "read more anchor" 'href="#demo-call-validation"' "$out"
 
+echo "[card-market] renders for market-only fixture"
+python3 "$renderer" "$script_dir/market-only" >/dev/null 2>&1
+out="$(cat "$script_dir/market-only/report.html")"
+assert_contains "market card present" 'class="dash-card dash-card-market"' "$out"
+assert_contains "industry tag" "Fintech / B2B SaaS" "$out"
+assert_contains "TAM upper" 'data-tam="2400"' "$out"
+assert_contains "growth rate" 'data-cagr="18.4"' "$out"
+assert_contains "read more anchor" 'href="#market-sizing"' "$out"
+
 echo
 if [[ $fail -eq 0 ]]; then
     echo "OK — all dashboard fixtures pass"
