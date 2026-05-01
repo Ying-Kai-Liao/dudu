@@ -1099,6 +1099,21 @@ details[open] > summary { margin-bottom: 0.4rem; }
 """.strip()
 
 
+_VENDOR_DIR = Path(__file__).parent / "vendor"
+
+
+def _load_wavesurfer_js() -> str:
+    """Read vendored wavesurfer.js. Returns empty string if missing."""
+    p = _VENDOR_DIR / "wavesurfer-7.8.0.min.js"
+    try:
+        return p.read_text(encoding="utf-8")
+    except OSError:
+        return ""
+
+
+WAVESURFER_JS = _load_wavesurfer_js()
+
+
 JS = """
 (function () {
   var toggle = document.querySelector('.toc-toggle');
