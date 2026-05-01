@@ -95,6 +95,17 @@ assert_contains "trigger pill 2" 'billing-reconciliation' "$out"
 assert_contains "fit score 6.7" 'data-fit-score="6.7"' "$out"
 assert_contains "consensus pill MED" 'data-consensus="MED"' "$out"
 
+echo "[card-calls] renders for calls-only fixture"
+python3 "$renderer" "$script_dir/calls-only" >/dev/null 2>&1
+out="$(cat "$script_dir/calls-only/report.html")"
+assert_contains "calls card present" 'class="dash-card dash-card-calls"' "$out"
+assert_contains "calls completed = 2" 'data-calls-completed="2"' "$out"
+assert_contains "positive signal = 50" 'data-positive-pct="50"' "$out"
+assert_contains "waveform div" 'class="dash-waveform"' "$out"
+assert_contains "wavesurfer init" "WaveSurfer.create" "$out"
+assert_contains "pull-quote present" "3-day close cost" "$out"
+assert_contains "read more anchor" 'href="#demo-call-validation"' "$out"
+
 echo
 if [[ $fail -eq 0 ]]; then
     echo "OK — all dashboard fixtures pass"

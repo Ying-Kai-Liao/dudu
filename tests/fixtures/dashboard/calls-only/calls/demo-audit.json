@@ -1,0 +1,7 @@
+{
+  "id": "demo-audit-test",
+  "status": "ended",
+  "endedReason": "customer-ended-call",
+  "recording_url": "https://storage.vapi.ai/example2-stereo.wav",
+  "structured_data": {}
+}

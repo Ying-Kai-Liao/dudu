@@ -1155,6 +1155,37 @@ JS = """
 """.strip()
 
 
+DASHBOARD_JS = """
+(function () {
+  if (typeof WaveSurfer === 'undefined') return;
+  document.querySelectorAll('.dash-waveform[data-audio]').forEach(function (el) {
+    var audio = el.getAttribute('data-audio');
+    if (!audio) return;
+    var ws = WaveSurfer.create({
+      container: el,
+      url: audio,
+      waveColor: '#cbd5f5',
+      progressColor: '#7c5cff',
+      cursorColor: '#1e3a8a',
+      height: 56,
+      barWidth: 2,
+      barGap: 1,
+      barRadius: 1,
+      normalize: true,
+      backend: 'WebAudio',
+      mediaControls: false
+    });
+    var sibling = el.parentElement.querySelector('audio.dash-audio');
+    if (sibling) {
+      sibling.addEventListener('play', function () { ws.play(); });
+      sibling.addEventListener('pause', function () { ws.pause(); });
+      ws.on('interaction', function () { sibling.currentTime = ws.getCurrentTime(); });
+    }
+  });
+})();
+""".strip()
+
+
 def _slug(text: str) -> str:
     s = re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
     return s or "section"
@@ -1425,8 +1456,16 @@ def _build_html_skeleton(
         + "<main>"
         + main_body_html
         + "</main></div>"
+        + ("<script>" + WAVESURFER_JS + "</script>"
+           if 'class="dash-card dash-card-calls"' in main_body_html or
+              'class="dash-card dash-card-calls"' in pre_main_html
+           else "")
         + f"<script>{JS}</script>"
-        "</body></html>\n"
+        + ("<script>" + DASHBOARD_JS + "</script>"
+           if 'class="dash-card dash-card-calls"' in main_body_html or
+              'class="dash-card dash-card-calls"' in pre_main_html
+           else "")
+        + "</body></html>\n"
     )
 
 
@@ -1695,6 +1734,122 @@ def _card_personas(deal_dir: Path, inputs: "PMFInputs | None") -> str | None:
     )
 
 
+_POSITIVE_SIGNAL_KEYS = ("pain_described", "current_solution_friction", "wtp_signal")
+
+
+def _is_positive_call(structured_data: dict | None) -> bool:
+    if not isinstance(structured_data, dict):
+        return False
+    for key in _POSITIVE_SIGNAL_KEYS:
+        v = structured_data.get(key)
+        if isinstance(v, str) and v.strip() and v.strip().lower() not in ("no", "none", "n/a"):
+            return True
+        if isinstance(v, (list, dict)) and v:
+            return True
+    return False
+
+
+def _read_pull_quote(deal_dir: Path) -> str:
+    """Longest non-empty cell from the 'Read' column of demo-validation.md table."""
+    md = _read(deal_dir / "calls" / "demo-validation.md") or ""
+    candidates: list[str] = []
+    in_table = False
+    header_cells: list[str] = []
+    for line in md.split("\n"):
+        if line.strip().startswith("|"):
+            cells = _split_pipe_row(line)
+            if not header_cells:
+                header_cells = [c.strip().lower() for c in cells]
+                continue
+            if all(re.fullmatch(r"[\s:\-]+", c or "") for c in cells):
+                in_table = True
+                continue
+            if in_table and "read" in header_cells:
+                idx = header_cells.index("read")
+                if idx < len(cells):
+                    val = cells[idx].strip()
+                    if val:
+                        candidates.append(val)
+        else:
+            in_table = False
+            header_cells = []
+    if not candidates:
+        return ""
+    longest = max(candidates, key=len)
+    if len(longest) > 180:
+        longest = longest[:177].rstrip() + "…"
+    return longest
+
+
+def _card_calls(deal_dir: Path) -> str | None:
+    calls_dir = deal_dir / "calls"
+    if not calls_dir.is_dir():
+        return None
+    call_jsons = sorted(
+        p for p in calls_dir.glob("demo-*.json")
+        if "-rerun-" not in p.stem
+    )
+    if not call_jsons:
+        return None
+
+    total = len(call_jsons)
+    positive = 0
+    hero_path: Path | None = None
+    hero_audio_src: str | None = None
+    for p in call_jsons:
+        try:
+            data = json.loads(p.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        if _is_positive_call(data.get("structured_data")):
+            positive += 1
+        if hero_path is None:
+            local = _ensure_local_recording(deal_dir, p)
+            if local is not None:
+                hero_path = p
+                hero_audio_src = f"calls/recordings/{local.name}"
+            elif data.get("recording_url"):
+                hero_path = p
+                hero_audio_src = data["recording_url"]
+
+    pct = round(positive / total * 100) if total else 0
+    pull_quote = _read_pull_quote(deal_dir)
+
+    if hero_audio_src:
+        wave_id = f"dash-wave-{_slug(hero_path.stem) if hero_path else 'hero'}"
+        waveform_html = (
+            f'<div class="dash-waveform" id="{wave_id}" data-audio="{_esc(hero_audio_src)}"></div>'
+            f'<audio class="dash-audio" controls preload="none" src="{_esc(hero_audio_src)}"></audio>'
+        )
+    else:
+        waveform_html = '<div class="dash-waveform dash-empty">No audio available</div>'
+
+    quote_html = (
+        f'<blockquote class="dash-quote">"{_esc(pull_quote)}"</blockquote>'
+        if pull_quote else ''
+    )
+
+    return (
+        f'<article class="dash-card dash-card-calls" data-has-audio="{"1" if hero_audio_src else "0"}">'
+        f'<header class="dash-card-head"><span class="dash-num">3</span>'
+        f'<h3>Real Call Insights</h3></header>'
+        f'<div class="dash-card-body">'
+        f'{waveform_html}'
+        f'<div class="dash-metrics-row">'
+        f'<div class="dash-metric"><span class="dash-metric-label">Calls Completed</span>'
+        f'<span class="dash-metric-num" data-calls-completed="{total}">{total}</span></div>'
+        f'<div class="dash-metric"><span class="dash-metric-label">Positive Signal</span>'
+        f'<span class="dash-metric-num" data-positive-pct="{pct}">{pct}%</span></div>'
+        f'</div>'
+        f'{quote_html}'
+        f'</div>'
+        f'<footer class="dash-card-foot">'
+        f'<a class="dash-more" href="#demo-call-validation">Read more →</a>'
+        f'</footer>'
+        f'</article>'
+    )
+
+
 def _source_artifacts_html(
     deal_dir: Path,
     founder_files: list[Path],
@@ -1895,7 +2050,7 @@ def render_legacy(deal_dir: Path) -> str:
     return _build_html_skeleton(
         title=title,
         header_html=header_html,
-        pre_main_html=callout + (_card_founders(deal_dir) or "") + (_card_personas(deal_dir, None) or ""),
+        pre_main_html=callout + (_card_founders(deal_dir) or "") + (_card_personas(deal_dir, None) or "") + (_card_calls(deal_dir) or ""),
         main_body_html="\n".join(sections_html),
         toc_html=toc_html,
     )
@@ -2075,7 +2230,7 @@ def render_pmf_led(deal_dir: Path, inputs: PMFInputs, *, branch: str = "full") -
         toc.append(("artifacts", "Source artifacts"))
 
     toc_html = _build_toc(toc, persona_toc)
-    pre_main = callout + ribbon + (_card_founders(deal_dir) or "") + (_card_personas(deal_dir, inputs) or "")
+    pre_main = callout + ribbon + (_card_founders(deal_dir) or "") + (_card_personas(deal_dir, inputs) or "") + (_card_calls(deal_dir) or "")
     title = f"{company} — diligence report"
     return _build_html_skeleton(
         title=title,
@@ -2144,7 +2299,7 @@ def render_markdown_fallback(deal_dir: Path, inputs: PMFInputs) -> str:
         toc.append(("artifacts", "Source artifacts"))
 
     toc_html = _build_toc(toc, persona_toc)
-    pre_main = callout + ribbon + (_card_founders(deal_dir) or "") + (_card_personas(deal_dir, inputs) or "")
+    pre_main = callout + ribbon + (_card_founders(deal_dir) or "") + (_card_personas(deal_dir, inputs) or "") + (_card_calls(deal_dir) or "")
     title = f"{company} — diligence report"
     return _build_html_skeleton(
         title=title,
