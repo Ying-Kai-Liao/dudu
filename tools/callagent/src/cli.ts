@@ -1,5 +1,12 @@
-import "dotenv/config";
+import { config as loadDotenv } from "dotenv";
+import { join } from "path";
 import { Command } from "commander";
+
+// Load .env from the package directory, not process.cwd().
+// In the bundled CJS output, __dirname is .../tools/callagent/dist,
+// so the .env lives one level up at .../tools/callagent/.env.
+// Anything already in process.env (e.g. exported in the shell) wins.
+loadDotenv({ path: join(__dirname, "..", ".env") });
 import { placeCommand } from "./commands/place.js";
 import { statusCommand } from "./commands/status.js";
 import { transcriptCommand } from "./commands/transcript.js";
