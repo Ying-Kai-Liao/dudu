@@ -117,6 +117,13 @@ disclosure_required: true
 
 The `## Disclosure` section is verbatim — `callagent` extracts it and uses it as the agent's `firstMessage`, so the agent always leads with disclosure before the LLM takes over.
 
+**Cross-cutting constraints — apply to every auto-authored brief regardless of purpose:**
+
+- Address the recipient as the actual person picking up the phone, by their real name. Do **not** ask them to roleplay, "answer as if you were", "imagine you are", or pretend to be a specific persona — even when the deal context describes that persona in detail, even when `target.phone` is on the default allowlist. The allowlist gates consent, not call purpose; an allowlisted recipient is still a real human and is treated as one.
+- Do **not** assume the recipient is an internal tester or stand-in. They may be a smoke-testing collaborator, a real prospect on the allowlist by deliberate operator action, or someone in between — the brief cannot tell, and should not try. Assume real.
+- Frame methodology and probes around the recipient's actual past behavior in their actual role. If the deal's `personas/` describe a target persona that the recipient may not match, the brief should ask what the recipient has actually done, not coach them into the persona's vocabulary.
+- Treat persona descriptions in `pmf-signal.md` and `personas/` as **operator-facing context** (helping the brief decide which probes are sharp), not as **recipient-facing instructions** (telling the recipient who to be). Vocabulary, examples, and trigger language from those artifacts MAY appear in the brief's "How to handle this" section as cues for the agent, but MUST NOT appear as expectations placed on the recipient.
+
 - **`reference-check`** — read `deals/<slug>/founder-<kebab>.md` for the founder under evaluation. Body should:
   - Identify the firm (`<FIRM>` placeholder) and the founder (`<FOUNDER_NAME>` placeholder).
   - Include a verbatim disclosure paragraph that names the founder ("`<FOUNDER_NAME>` listed you as a reference").
